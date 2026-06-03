@@ -274,42 +274,6 @@ details[open] .drill-chevron { transform: rotate(90deg); }
 </style>
 </head>
 <body>
-<div id="gate" style="position:fixed;inset:0;background:#f8f9fc;display:flex;align-items:center;justify-content:center;z-index:9999">
-  <div style="background:#fff;border:1px solid #e8ecf0;border-radius:12px;padding:40px 48px;text-align:center;width:320px;box-shadow:0 4px 24px rgba(0,0,0,.06)">
-    <div style="font-size:22px;font-weight:800;color:#1a1a2e;margin-bottom:6px">Nagham 投放日报</div>
-    <div style="font-size:13px;color:#94a3b8;margin-bottom:28px">2026-06-02 · 请输入访问密码</div>
-    <input id="pw" type="password" placeholder="输入密码"
-      style="width:100%;padding:10px 14px;border:1px solid #e8ecf0;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box"
-      onkeydown="if(event.key==='Enter')checkPw()">
-    <div id="pw-err" style="color:#e03131;font-size:12px;margin-top:8px;min-height:18px"></div>
-    <button onclick="checkPw()"
-      style="margin-top:16px;width:100%;padding:11px;background:#3b5bdb;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">
-      进入
-    </button>
-  </div>
-</div>
-<script>
-(function(){
-  // Token 参数方式（URL: ?t=TOKEN 跳过密码输入）
-  var TOKEN = "nagham2026";
-  var sp = new URLSearchParams(location.search);
-  if(sp.get('t') === TOKEN) { document.getElementById('gate').style.display='none'; return; }
-  // 记住本次登录（sessionStorage）
-  if(sessionStorage.getItem('ng_auth') === TOKEN) { document.getElementById('gate').style.display='none'; }
-})();
-function checkPw(){
-  var v = document.getElementById('pw').value;
-  if(v === "nagham2026"){
-    sessionStorage.setItem('ng_auth', 'nagham2026');
-    document.getElementById('gate').style.display='none';
-  } else {
-    document.getElementById('pw-err').textContent = '密码错误，请重试';
-    document.getElementById('pw').value='';
-    document.getElementById('pw').focus();
-  }
-}
-</script>
-
 <div class="page">
 
   <div class="header">
