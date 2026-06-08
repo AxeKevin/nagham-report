@@ -55,7 +55,9 @@ tbody tr:hover td { background: #fafbfd; }
 .m-cell { min-width: 110px; }
 .m-val { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; margin-bottom: 4px; }
 .m-na { color: #cbd5e1; font-weight: 500; }
-.m-delta { font-size: 11px; line-height: 1.6; }
+.m-delta { font-size: 11px; line-height: 1.5; }
+.m-delta-day::before  { content: "日"; font-size: 10px; color: #94a3b8; margin-right: 2px; }
+.m-delta-week::before { content: "周"; font-size: 10px; color: #94a3b8; margin-right: 2px; }
 .d-day, .d-week { margin-right: 6px; }
 .d-up { color: #2f9e44; }
 .d-down { color: #e8590c; }
@@ -310,112 +312,148 @@ details[open] .drill-chevron { transform: rotate(90deg); }
         <div class="section-sub">不含次留 · 异常阈值 ±10pp</div>
         <div class="card"><div class="table-wrap"><table><thead><tr><th>渠道</th><th>新增设备</th><th>登录率</th><th>进房率</th><th>3min渗透</th><th>开口率</th><th>发布率</th></tr></thead><tbody><tr class=""><td class="ch-name"><span class="badge-dot dot-ok"></span>Google Ads</td><td class="m-cell">
         <div class="m-val">740</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -12%</span></span> <span class="d-week"><span class="d-up">↑ +48%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -12%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +48%</span></div>
     </td><td class="m-cell">
         <div class="m-val">84.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.2pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">18.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.9pp</span></span> <span class="d-week"><span class="d-down">↓ 1.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">30.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 7.1pp</span></span> <span class="d-week"><span class="d-up">↑ 8.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 7.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 8.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">15.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.3pp</span></span> <span class="d-week"><span class="d-down">↓ 1.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.4pp</span></span> <span class="d-week"><span class="d-up">↑ 0.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.3pp</span></div>
     </td></tr><tr class="row-alert"><td class="ch-name"><span class="badge-dot dot-bad"></span>TikTok Global</td><td class="m-cell">
         <div class="m-val">183</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -16%</span></span> <span class="d-week"><span class="d-down">↓ -2%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -16%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ -2%</span></div>
     </td><td class="m-cell">
         <div class="m-val">80.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.3pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">16.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.6pp</span></span> <span class="d-week"><span class="d-up">↑ 0.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">33.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 7.2pp</span></span> <span class="d-week"><span class="d-up">↑ 16.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 7.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 16.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">59.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.6pp</span></span> <span class="d-week"><span class="d-down">↓ 0.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 0.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.4pp</span></span> <span class="d-week"><span class="d-up">↑ 1.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.2pp</span></div>
     </td></tr><tr class=""><td class="ch-name"><span class="badge-dot dot-ok"></span>Organic</td><td class="m-cell">
         <div class="m-val">161</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +8%</span></span> <span class="d-week"><span class="d-down">↓ -5%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +8%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ -5%</span></div>
     </td><td class="m-cell">
         <div class="m-val">72.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 7.6pp</span></span> <span class="d-week"><span class="d-up">↑ 2.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 7.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 2.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">21.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 5.0pp</span></span> <span class="d-week"><span class="d-up">↑ 4.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 5.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 4.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">29.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.2pp</span></span> <span class="d-week"><span class="d-down">↓ 1.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">41.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.3pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 5.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 5.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">1.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.8pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 4.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 4.1pp</span></div>
     </td></tr><tr class="row-alert"><td class="ch-name"><span class="badge-dot dot-bad"></span>Snapchat</td><td class="m-cell">
         <div class="m-val">122</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +3%</span></span> <span class="d-week"><span class="d-up">↑ +21%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +3%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +21%</span></div>
     </td><td class="m-cell">
         <div class="m-val">79.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.7pp</span></span> <span class="d-week"><span class="d-up">↑ 9.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 9.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">22.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.8pp</span></span> <span class="d-week"><span class="d-up">↑ 11.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 11.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">22.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 22.2pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 14.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 22.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 14.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">52.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.9pp</span></span> <span class="d-week"><span class="d-up">↑ 7.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 7.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">3.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.1pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.7pp</span></div>
     </td></tr><tr class="row-alert"><td class="ch-name"><span class="badge-dot dot-bad"></span>Apple Search Ads</td><td class="m-cell">
         <div class="m-val">13</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -50%</span></span> <span class="d-week"><span class="d-up">↑ +8%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -50%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +8%</span></div>
     </td><td class="m-cell">
         <div class="m-val">92.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.8pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 7.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 7.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">23.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-zero">→ 0.0pp</span></span> <span class="d-week"><span class="d-up">↑ 6.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-zero">→ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 6.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">33.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 16.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 16.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 16.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 16.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">53.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 11.5pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 29.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 11.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 29.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 7.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 8.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 7.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 8.3pp</span></div>
     </td></tr><tr class="total-row"><td class="ch-name total-row-label"><strong>汇总</strong></td><td class="m-cell">
         <div class="m-val">1,219</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -10%</span></span> <span class="d-week"><span class="d-up">↑ +26%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -10%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +26%</span></div>
     </td><td class="m-cell">
         <div class="m-val">81.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.5pp</span></span> <span class="d-week"><span class="d-down">↓ 0.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 0.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">18.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.0pp</span></span> <span class="d-week"><span class="d-up">↑ 1.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">30.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.0pp</span></span> <span class="d-week"><span class="d-up">↑ 5.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 5.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">29.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 4.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 4.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">1.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.0pp</span></span> <span class="d-week"><span class="d-down">↓ 1.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.1pp</span></div>
     </td></tr></tbody></table></div></div>
       </div>
       
@@ -424,202 +462,268 @@ details[open] .drill-chevron { transform: rotate(90deg); }
   <div class="card-note">消耗数据暂无 platform 拆分，不在此表展示。</div>
   <div class="table-wrap"><table><thead><tr><th>渠道</th><th>新增设备</th><th>登录率</th><th>进房率</th><th>3min渗透</th><th>开口率</th><th>发布率</th></tr></thead><tbody><tr class="plat-group-header"><td colspan="7">ANDROID_PHONE</td></tr><tr class=""><td class="ch-name drill-src-name">Google Ads</td><td class="m-cell">
         <div class="m-val">740</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -12%</span></span> <span class="d-week"><span class="d-up">↑ +48%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -12%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +48%</span></div>
     </td><td class="m-cell">
         <div class="m-val">84.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.2pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">18.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.9pp</span></span> <span class="d-week"><span class="d-down">↓ 1.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">30.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 7.1pp</span></span> <span class="d-week"><span class="d-up">↑ 8.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 7.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 8.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">15.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.3pp</span></span> <span class="d-week"><span class="d-down">↓ 1.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.4pp</span></span> <span class="d-week"><span class="d-up">↑ 0.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.3pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">TikTok Global</td><td class="m-cell">
         <div class="m-val">134</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -16%</span></span> <span class="d-week"><span class="d-up">↑ +14%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -16%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +14%</span></div>
     </td><td class="m-cell">
         <div class="m-val">76.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 5.1pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 6.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 5.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 6.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">12.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.8pp</span></span> <span class="d-week"><span class="d-up">↑ 0.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">35.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 11.1pp</span></span> <span class="d-week"><span class="d-up">↑ 28.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 11.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 28.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">50.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.4pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 8.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 8.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.0pp</span></span> <span class="d-week"><span class="d-up">↑ 0.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.9pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Organic</td><td class="m-cell">
         <div class="m-val">61</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +9%</span></span> <span class="d-week"><span class="d-down">↓ -2%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +9%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ -2%</span></div>
     </td><td class="m-cell">
         <div class="m-val">50.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.5pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 10.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 10.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">13.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.2pp</span></span> <span class="d-week"><span class="d-up">↑ 3.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 3.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">37.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 12.5pp</span></span> <span class="d-week"><span class="d-up">↑ 4.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 12.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 4.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">13.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 13.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 20.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 13.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 20.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 5.4pp</span></span> <span class="d-week"><span class="d-down">↓ 1.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 5.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.6pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Snapchat</td><td class="m-cell">
         <div class="m-val">43</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +2%</span></span> <span class="d-week"><span class="d-down-bad">↓ -43%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +2%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ -43%</span></div>
     </td><td class="m-cell">
         <div class="m-val">76.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.9pp</span></span> <span class="d-week"><span class="d-up">↑ 8.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 8.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">16.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 4.4pp</span></span> <span class="d-week"><span class="d-up">↑ 8.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 4.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 8.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">28.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 31.4pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 38.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 31.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 38.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">41.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 6.1pp</span></span> <span class="d-week"><span class="d-up">↑ 1.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 6.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">2.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.3pp</span></span> <span class="d-week"><span class="d-up">↑ 1.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.0pp</span></div>
     </td></tr><tr class="subtotal-row"><td class="ch-name drill-subtotal-label"><strong>ANDROID_PHONE 小计</strong></td><td class="m-cell">
         <div class="m-val">978</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -11%</span></span> <span class="d-week"><span class="d-up">↑ +29%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -11%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +29%</span></div>
     </td><td class="m-cell">
         <div class="m-val">80.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.4pp</span></span> <span class="d-week"><span class="d-down">↓ 1.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.1pp</span></span> <span class="d-week"><span class="d-up">↑ 0.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">31.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.4pp</span></span> <span class="d-week"><span class="d-up">↑ 8.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 8.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">21.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.9pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 6.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 6.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">1.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.2pp</span></span> <span class="d-week"><span class="d-up">↑ 0.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.1pp</span></div>
     </td></tr><tr class="plat-group-header"><td colspan="7">IPHONE</td></tr><tr class="row-alert "><td class="ch-name drill-src-name">TikTok Global</td><td class="m-cell">
         <div class="m-val">49</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -16%</span></span> <span class="d-week"><span class="d-down-bad">↓ -29%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -16%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ -29%</span></div>
     </td><td class="m-cell">
         <div class="m-val">91.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 9.1pp</span></span> <span class="d-week"><span class="d-up">↑ 4.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 9.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 4.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">26.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 11.0pp</span></span> <span class="d-week"><span class="d-up">↑ 3.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 11.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 3.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">30.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 8.5pp</span></span> <span class="d-week"><span class="d-up">↑ 5.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 8.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 5.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">81.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 16.1pp</span></span> <span class="d-week"><span class="d-up">↑ 20.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 16.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 20.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.7pp</span></span> <span class="d-week"><span class="d-up">↑ 1.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.8pp</span></div>
     </td></tr><tr class=""><td class="ch-name drill-src-name">Organic</td><td class="m-cell">
         <div class="m-val">100</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +8%</span></span> <span class="d-week"><span class="d-down">↓ -7%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +8%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ -7%</span></div>
     </td><td class="m-cell">
         <div class="m-val">85.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 15.1pp</span></span> <span class="d-week"><span class="d-up">↑ 10.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 15.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 10.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">26.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 8.8pp</span></span> <span class="d-week"><span class="d-up">↑ 4.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 8.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 4.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">26.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.3pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">59.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 10.6pp</span></span> <span class="d-week"><span class="d-up">↑ 4.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 10.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 4.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">2.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.2pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 5.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 5.4pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Snapchat</td><td class="m-cell">
         <div class="m-val">79</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +4%</span></span> <span class="d-week"><span class="d-up">↑ +216%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +4%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +216%</span></div>
     </td><td class="m-cell">
         <div class="m-val">81.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 5.8pp</span></span> <span class="d-week"><span class="d-up">↑ 5.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 5.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 5.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">25.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.6pp</span></span> <span class="d-week"><span class="d-up">↑ 5.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 5.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">20.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 20.9pp</span></span> <span class="d-week"><span class="d-up">↑ 20.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 20.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 20.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">58.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.9pp</span></span> <span class="d-week"><span class="d-up">↑ 2.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 2.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">3.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.5pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 20.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 20.2pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Apple Search Ads</td><td class="m-cell">
         <div class="m-val">13</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -50%</span></span> <span class="d-week"><span class="d-up">↑ +8%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -50%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +8%</span></div>
     </td><td class="m-cell">
         <div class="m-val">92.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.8pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 7.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 7.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">23.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-zero">→ 0.0pp</span></span> <span class="d-week"><span class="d-up">↑ 6.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-zero">→ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 6.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">33.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 16.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 16.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 16.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 16.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">53.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 11.5pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 29.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 11.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 29.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 7.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 8.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 7.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 8.3pp</span></div>
     </td></tr><tr class="subtotal-row"><td class="ch-name drill-subtotal-label"><strong>IPHONE 小计</strong></td><td class="m-cell">
         <div class="m-val">241</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -5%</span></span> <span class="d-week"><span class="d-up">↑ +12%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -5%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +12%</span></div>
     </td><td class="m-cell">
         <div class="m-val">85.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 5.6pp</span></span> <span class="d-week"><span class="d-up">↑ 5.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 5.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 5.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">25.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 4.8pp</span></span> <span class="d-week"><span class="d-up">↑ 4.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 4.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 4.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">25.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 6.3pp</span></span> <span class="d-week"><span class="d-down">↓ 0.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 6.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 0.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">63.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 4.6pp</span></span> <span class="d-week"><span class="d-up">↑ 4.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 4.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 4.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">3.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.0pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 5.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 5.1pp</span></div>
     </td></tr><tr class="total-row"><td class="ch-name total-row-label"><strong>全部汇总</strong></td><td class="m-cell">
         <div class="m-val">1,219</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -10%</span></span> <span class="d-week"><span class="d-up">↑ +25%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -10%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +25%</span></div>
     </td><td class="m-cell">
         <div class="m-val">81.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.4pp</span></span> <span class="d-week"><span class="d-down">↓ 0.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 0.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">18.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.1pp</span></span> <span class="d-week"><span class="d-up">↑ 1.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">30.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.0pp</span></span> <span class="d-week"><span class="d-up">↑ 5.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 5.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">29.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.5pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 4.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 4.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">1.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.0pp</span></span> <span class="d-week"><span class="d-down">↓ 1.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.1pp</span></div>
     </td></tr></tbody></table></div>
 </div>
     </div>
@@ -631,148 +735,196 @@ details[open] .drill-chevron { transform: rotate(90deg); }
         <div class="section-sub">T-2 口径：前天新增用户，次日是否回访</div>
         <div class="card"><div class="table-wrap"><table><thead><tr><th>渠道</th><th>新增设备</th><th>登录率</th><th>进房率</th><th>3min渗透</th><th>开口率</th><th>发布率</th><th>次留率</th></tr></thead><tbody><tr class=""><td class="ch-name"><span class="badge-dot dot-ok"></span>Google Ads</td><td class="m-cell">
         <div class="m-val">839</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +7%</span></span> <span class="d-week"><span class="d-up">↑ +61%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +7%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +61%</span></div>
     </td><td class="m-cell">
         <div class="m-val">81.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.6pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 5.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 5.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 7.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 7.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">23.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.3pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">14.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.2pp</span></span> <span class="d-week"><span class="d-up">↑ 1.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.7pp</span></span> <span class="d-week"><span class="d-down">↓ 1.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">5.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.9pp</span></span> <span class="d-week"><span class="d-down">↓ 1.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.0pp</span></div>
     </td></tr><tr class=""><td class="ch-name"><span class="badge-dot dot-ok"></span>TikTok Global</td><td class="m-cell">
         <div class="m-val">218</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +8%</span></span> <span class="d-week"><span class="d-up">↑ +40%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +8%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +40%</span></div>
     </td><td class="m-cell">
         <div class="m-val">81.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.6pp</span></span> <span class="d-week"><span class="d-down">↓ 1.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 5.0pp</span></span> <span class="d-week"><span class="d-up">↑ 2.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 5.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 2.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">40.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 7.2pp</span></span> <span class="d-week"><span class="d-down">↓ 2.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 7.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">56.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.2pp</span></span> <span class="d-week"><span class="d-up">↑ 0.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">4.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.1pp</span></span> <span class="d-week"><span class="d-down">↓ 1.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">11.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.0pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 6.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 6.5pp</span></div>
     </td></tr><tr class="row-alert"><td class="ch-name"><span class="badge-dot dot-bad"></span>Organic</td><td class="m-cell">
         <div class="m-val">149</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +2%</span></span> <span class="d-week"><span class="d-up">↑ +1%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +2%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +1%</span></div>
     </td><td class="m-cell">
         <div class="m-val">64.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">16.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.0pp</span></span> <span class="d-week"><span class="d-up">↑ 3.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 3.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">29.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 14.8pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 18.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 14.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 18.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">40.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.1pp</span></span> <span class="d-week"><span class="d-up">↑ 0.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">4.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.6pp</span></span> <span class="d-week"><span class="d-down">↓ 0.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 0.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">14.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 4.5pp</span></span> <span class="d-week"><span class="d-up">↑ 0.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 4.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.6pp</span></div>
     </td></tr><tr class="row-alert"><td class="ch-name"><span class="badge-dot dot-bad"></span>Snapchat</td><td class="m-cell">
         <div class="m-val">118</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -24%</span></span> <span class="d-week"><span class="d-up">↑ +31%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -24%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +31%</span></div>
     </td><td class="m-cell">
         <div class="m-val">82.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.5pp</span></span> <span class="d-week"><span class="d-up">↑ 2.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 2.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">22.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 5.6pp</span></span> <span class="d-week"><span class="d-up">↑ 11.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 5.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 11.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">44.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 5.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 5.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">53.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.7pp</span></span> <span class="d-week"><span class="d-up">↑ 12.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 12.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">3.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 4.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 4.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 6.0pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 9.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 6.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 9.9pp</span></div>
     </td></tr><tr class="row-alert"><td class="ch-name"><span class="badge-dot dot-bad"></span>Apple Search Ads</td><td class="m-cell">
         <div class="m-val">26</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +53%</span></span> <span class="d-week"><span class="d-down">→ +0%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +53%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">→ +0%</span></div>
     </td><td class="m-cell">
         <div class="m-val">88.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 5.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 5.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">23.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 11.3pp</span></span> <span class="d-week"><span class="d-up">↑ 11.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 11.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 11.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">16.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 33.3pp</span></span> <span class="d-week"><span class="d-up">↑ 16.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 33.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 16.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">65.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 11.1pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 11.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 11.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 11.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">7.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.1pp</span></span> <span class="d-week"><span class="d-up">↑ 3.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 3.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">7.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.1pp</span></span> <span class="d-week"><span class="d-zero">→ 0.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-zero">→ 0.0pp</span></div>
     </td></tr><tr class="row-alert"><td class="ch-name"><span class="badge-dot dot-bad"></span>Facebook Ads</td><td class="m-cell">
         <div class="m-val">3</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +200%</span></span> <span class="d-week"><span class="d-down-bad">↓ -40%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +200%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ -40%</span></div>
     </td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-zero">→ 0.0pp</span></span> <span class="d-week"><span class="d-up">↑ 40.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-zero">→ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 40.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-zero">→ 0.0pp</span></span> <span class="d-week"><span class="d-zero">→ 0.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-zero">→ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-zero">→ 0.0pp</span></div>
     </td><td class="m-cell"><div class="m-val">—</div></td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 100.0pp</span></span> <span class="d-week"><span class="d-up">↑ 40.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 100.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 40.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">33.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 33.3pp</span></span> <span class="d-week"><span class="d-up">↑ 33.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 33.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 33.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">33.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 66.7pp</span></span> <span class="d-week"><span class="d-up">↑ 13.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 66.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 13.3pp</span></div>
     </td></tr><tr class="total-row"><td class="ch-name total-row-label"><strong>汇总</strong></td><td class="m-cell">
         <div class="m-val">1,353</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +4%</span></span> <span class="d-week"><span class="d-up">↑ +43%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +4%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +43%</span></div>
     </td><td class="m-cell">
         <div class="m-val">80.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.7pp</span></span> <span class="d-week"><span class="d-down">↓ 2.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.9pp</span></span> <span class="d-week"><span class="d-down">↓ 1.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">29.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.6pp</span></span> <span class="d-week"><span class="d-down">↓ 2.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">28.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.4pp</span></span> <span class="d-week"><span class="d-down">↓ 0.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 0.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">1.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.8pp</span></span> <span class="d-week"><span class="d-down">↓ 1.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">7.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.7pp</span></span> <span class="d-week"><span class="d-down">↓ 3.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 3.0pp</span></div>
     </td></tr></tbody></table></div></div>
         
 <div class="card" style="padding: 16px 20px;">
@@ -780,256 +932,340 @@ details[open] .drill-chevron { transform: rotate(90deg); }
   <div class="card-note">消耗数据暂无 platform 拆分，不在此表展示。</div>
   <div class="table-wrap"><table><thead><tr><th>渠道</th><th>新增设备</th><th>登录率</th><th>进房率</th><th>3min渗透</th><th>开口率</th><th>发布率</th><th>次留率</th></tr></thead><tbody><tr class="plat-group-header"><td colspan="8">ANDROID_PHONE</td></tr><tr class=""><td class="ch-name drill-src-name">Google Ads</td><td class="m-cell">
         <div class="m-val">839</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +7%</span></span> <span class="d-week"><span class="d-up">↑ +62%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +7%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +62%</span></div>
     </td><td class="m-cell">
         <div class="m-val">81.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.6pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 5.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 5.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 7.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 7.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">23.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.3pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">14.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.2pp</span></span> <span class="d-week"><span class="d-up">↑ 1.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.7pp</span></span> <span class="d-week"><span class="d-down">↓ 1.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">5.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.9pp</span></span> <span class="d-week"><span class="d-down">↓ 1.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.0pp</span></div>
     </td></tr><tr class=""><td class="ch-name drill-src-name">TikTok Global</td><td class="m-cell">
         <div class="m-val">160</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +39%</span></span> <span class="d-week"><span class="d-up">↑ +42%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +39%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +42%</span></div>
     </td><td class="m-cell">
         <div class="m-val">81.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 8.2pp</span></span> <span class="d-week"><span class="d-up">↑ 2.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 8.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 2.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 5.3pp</span></span> <span class="d-week"><span class="d-up">↑ 4.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 5.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 4.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">46.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.6pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 6.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 6.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">53.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 9.6pp</span></span> <span class="d-week"><span class="d-up">↑ 2.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 9.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 2.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">5.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.7pp</span></span> <span class="d-week"><span class="d-down">↓ 1.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">13.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.1pp</span></span> <span class="d-week"><span class="d-down">↓ 2.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.8pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Organic</td><td class="m-cell">
         <div class="m-val">56</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">→ +0%</span></span> <span class="d-week"><span class="d-up">↑ +2%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">→ +0%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +2%</span></div>
     </td><td class="m-cell">
         <div class="m-val">55.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-zero">→ 0.0pp</span></span> <span class="d-week"><span class="d-up">↑ 4.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-zero">→ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 4.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">14.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-zero">→ 0.0pp</span></span> <span class="d-week"><span class="d-up">↑ 7.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-zero">→ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 7.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">25.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 50.0pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 25.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 50.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 25.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">26.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 7.1pp</span></span> <span class="d-week"><span class="d-up">↑ 3.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 7.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 3.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">5.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.6pp</span></span> <span class="d-week"><span class="d-up">↑ 3.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 3.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">8.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-zero">→ 0.0pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-zero">→ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.8pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Snapchat</td><td class="m-cell">
         <div class="m-val">42</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -36%</span></span> <span class="d-week"><span class="d-down-bad">↓ -37%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -36%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ -37%</span></div>
     </td><td class="m-cell">
         <div class="m-val">73.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 9.5pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 9.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">11.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 7.8pp</span></span> <span class="d-week"><span class="d-up">↑ 1.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 7.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">60.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 13.8pp</span></span> <span class="d-week"><span class="d-up">↑ 17.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 13.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 17.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">35.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 12.8pp</span></span> <span class="d-week"><span class="d-down">↓ 1.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 12.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.5pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 4.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 4.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">7.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.9pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 7.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 7.8pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Facebook Ads</td><td class="m-cell">
         <div class="m-val">3</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +200%</span></span> <span class="d-week"><span class="d-down-bad">↓ -40%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +200%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ -40%</span></div>
     </td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-zero">→ 0.0pp</span></span> <span class="d-week"><span class="d-up">↑ 40.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-zero">→ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 40.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-zero">→ 0.0pp</span></span> <span class="d-week"><span class="d-zero">→ 0.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-zero">→ 0.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-zero">→ 0.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 100.0pp</span></span> <span class="d-week"><span class="d-up">↑ 40.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 100.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 40.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">33.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 33.3pp</span></span> <span class="d-week"><span class="d-up">↑ 33.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 33.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 33.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">33.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 66.7pp</span></span> <span class="d-week"><span class="d-up">↑ 13.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 66.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 13.3pp</span></div>
     </td></tr><tr class="subtotal-row"><td class="ch-name drill-subtotal-label"><strong>ANDROID_PHONE 小计</strong></td><td class="m-cell">
         <div class="m-val">1,100</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +7%</span></span> <span class="d-week"><span class="d-up">↑ +45%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +7%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +45%</span></div>
     </td><td class="m-cell">
         <div class="m-val">80.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.1pp</span></span> <span class="d-week"><span class="d-down">↓ 2.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.6pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">28.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.5pp</span></span> <span class="d-week"><span class="d-down">↓ 2.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">21.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.8pp</span></span> <span class="d-week"><span class="d-up">↑ 0.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">1.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.3pp</span></span> <span class="d-week"><span class="d-down">↓ 1.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">7.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.4pp</span></span> <span class="d-week"><span class="d-down">↓ 2.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.3pp</span></div>
     </td></tr><tr class="plat-group-header"><td colspan="8">IPHONE</td></tr><tr class="row-alert "><td class="ch-name drill-src-name">TikTok Global</td><td class="m-cell">
         <div class="m-val">58</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -33%</span></span> <span class="d-week"><span class="d-up">↑ +35%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -33%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +35%</span></div>
     </td><td class="m-cell">
         <div class="m-val">82.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 9.1pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 10.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 9.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 10.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">15.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.9pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">22.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 12.2pp</span></span> <span class="d-week"><span class="d-down">↓ 2.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 12.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">65.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.1pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 4.3pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 4.3pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">3.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.2pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 7.1pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 16.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 7.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 16.4pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Organic</td><td class="m-cell">
         <div class="m-val">93</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +3%</span></span> <span class="d-week"><span class="d-down">→ +0%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +3%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">→ +0%</span></div>
     </td><td class="m-cell">
         <div class="m-val">69.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 7.9pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 8.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 7.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 8.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.7pp</span></span> <span class="d-week"><span class="d-up">↑ 1.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 1.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">31.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.8pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 15.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 15.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">48.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.9pp</span></span> <span class="d-week"><span class="d-down">↓ 1.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">3.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.2pp</span></span> <span class="d-week"><span class="d-down">↓ 2.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.2pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">18.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 7.2pp</span></span> <span class="d-week"><span class="d-up">↑ 3.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 7.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 3.2pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Snapchat</td><td class="m-cell">
         <div class="m-val">76</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -16%</span></span> <span class="d-week"><span class="d-up">↑ +230%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -16%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +230%</span></div>
     </td><td class="m-cell">
         <div class="m-val">86.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 4.6pp</span></span> <span class="d-week"><span class="d-down">↓ 0.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 4.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 0.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">28.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 13.4pp</span></span> <span class="d-week"><span class="d-up">↑ 15.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 13.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 15.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">40.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 9.1pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 25.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 9.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 25.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">63.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.2pp</span></span> <span class="d-week"><span class="d-up">↑ 11.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 11.0pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">5.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.6pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 12.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 12.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 9.0pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 15.2pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 9.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 15.2pp</span></div>
     </td></tr><tr class="row-alert "><td class="ch-name drill-src-name">Apple Search Ads</td><td class="m-cell">
         <div class="m-val">26</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +53%</span></span> <span class="d-week"><span class="d-down">→ +0%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +53%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">→ +0%</span></div>
     </td><td class="m-cell">
         <div class="m-val">88.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 5.7pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 3.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 5.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 3.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">23.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 11.3pp</span></span> <span class="d-week"><span class="d-up">↑ 11.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 11.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 11.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">16.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 33.3pp</span></span> <span class="d-week"><span class="d-up">↑ 16.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 33.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 16.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">65.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 11.1pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 11.5pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 11.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 11.5pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">7.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.1pp</span></span> <span class="d-week"><span class="d-up">↑ 3.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 3.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">7.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.1pp</span></span> <span class="d-week"><span class="d-zero">→ 0.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-zero">→ 0.0pp</span></div>
     </td></tr><tr class="subtotal-row"><td class="ch-name drill-subtotal-label"><strong>IPHONE 小计</strong></td><td class="m-cell">
         <div class="m-val">253</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -11%</span></span> <span class="d-week"><span class="d-up">↑ +36%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -11%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +36%</span></div>
     </td><td class="m-cell">
         <div class="m-val">79.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.6pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 4.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 4.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">20.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 5.8pp</span></span> <span class="d-week"><span class="d-up">↑ 5.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 5.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 5.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">32.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.5pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 5.9pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 5.9pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">58.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 3.0pp</span></span> <span class="d-week"><span class="d-up">↑ 0.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 3.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ 0.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">4.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.0pp</span></span> <span class="d-week"><span class="d-down">↓ 2.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.6pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">11.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.4pp</span></span> <span class="d-week"><span class="d-down-bad">↓ 5.6pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down-bad">↓ 5.6pp</span></div>
     </td></tr><tr class="total-row"><td class="ch-name total-row-label"><strong>全部汇总</strong></td><td class="m-cell">
         <div class="m-val">1,353</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +4%</span></span> <span class="d-week"><span class="d-up">↑ +43%</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +4%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-up">↑ +43%</span></div>
     </td><td class="m-cell">
         <div class="m-val">80.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.7pp</span></span> <span class="d-week"><span class="d-down">↓ 2.7pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.7pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.9pp</span></span> <span class="d-week"><span class="d-down">↓ 1.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">29.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.6pp</span></span> <span class="d-week"><span class="d-down">↓ 2.8pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 2.8pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">28.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.4pp</span></span> <span class="d-week"><span class="d-down">↓ 0.1pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 0.1pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">1.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.8pp</span></span> <span class="d-week"><span class="d-down">↓ 1.4pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 1.4pp</span></div>
     </td><td class="m-cell">
         <div class="m-val">7.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.7pp</span></span> <span class="d-week"><span class="d-down">↓ 3.0pp</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-down">↓ 3.0pp</span></div>
     </td></tr></tbody></table></div>
 </div>
       </div>
@@ -1045,358 +1281,476 @@ details[open] .drill-chevron { transform: rotate(90deg); }
     <div class="table-wrap">
       <table><thead><tr><th>渠道</th><th>日均设备</th><th>登录率</th><th>进房率</th><th>3min渗透</th><th>开口率</th><th>发布率</th><th>次留率</th></tr></thead><tbody><tr class="row-src"><td class="ch-name"><span class="badge-dot dot-ok"></span><b>Google Ads</b> <span style="font-size:10px;color:#94a3b8">7d均</span></td><td class="m-cell">
         <div class="m-val">683</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -8%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -8%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">85.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.5pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">19.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.2pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">29.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.9pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">16.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.6pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.1pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ Android</td><td class="m-cell">
         <div class="m-val">683</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -8%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -8%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">85.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.5pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">19.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.2pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">29.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.9pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">16.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.6pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.1pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ iOS</td><td class="m-cell">
         <div class="m-val">1</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell"><div class="m-val">—</div></td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-src"><td class="ch-name"><span class="badge-dot dot-ok"></span><b>TikTok Global</b> <span style="font-size:10px;color:#94a3b8">7d均</span></td><td class="m-cell">
         <div class="m-val">209</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +14%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +14%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">82.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">15.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.2pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">29.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.6pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">58.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.2pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">5.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.5pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">13.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ Android</td><td class="m-cell">
         <div class="m-val">131</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -2%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -2%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">78.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.5pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">13.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.1pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">38.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.6pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">53.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.1pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">5.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.3pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">13.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ iOS</td><td class="m-cell">
         <div class="m-val">78</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +59%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +59%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">88.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 8.9pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 8.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 13.1pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 13.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">67.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 14.6pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 14.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">5.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">13.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-src"><td class="ch-name"><span class="badge-dot dot-ok"></span><b>Organic</b> <span style="font-size:10px;color:#94a3b8">7d均</span></td><td class="m-cell">
         <div class="m-val">141</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -12%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -12%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">69.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.1pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">16.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">36.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 6.6pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 6.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">42.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.4pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">4.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.9pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">14.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ iOS</td><td class="m-cell">
         <div class="m-val">89</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -11%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -11%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">74.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 10.5pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 10.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 8.5pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 8.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">33.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 6.1pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 6.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">51.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 7.7pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 7.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">5.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.0pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">16.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ Android</td><td class="m-cell">
         <div class="m-val">52</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -15%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -15%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">62.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 11.3pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 11.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">14.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.2pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">42.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 4.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 4.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">26.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 13.0pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 13.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">2.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.7pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">11.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-src"><td class="ch-name"><span class="badge-dot dot-ok"></span><b>Snapchat</b> <span style="font-size:10px;color:#94a3b8">7d均</span></td><td class="m-cell">
         <div class="m-val">119</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ -2%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ -2%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">78.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">17.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.3pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">36.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 14.3pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 14.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">52.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 0.5pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 0.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">4.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.7pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.7pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">12.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ Android</td><td class="m-cell">
         <div class="m-val">63</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +47%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +47%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">74.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 2.2pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 2.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">14.4%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down">↓ 1.9pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down">↓ 1.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">40.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 12.1pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 12.1pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">43.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 1.2pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 1.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">3.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">10.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ iOS</td><td class="m-cell">
         <div class="m-val">55</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ -30%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ -30%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">83.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 2.4pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 2.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">21.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 3.6pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 3.6pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">33.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 13.3pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 13.3pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">62.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 4.0pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 4.0pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">7.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 3.2pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 3.2pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">14.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-src"><td class="ch-name"><span class="badge-dot dot-ok"></span><b>Facebook Ads</b> <span style="font-size:10px;color:#94a3b8">7d均</span></td><td class="m-cell">
         <div class="m-val">3</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">93.8%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">25.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">25.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">50.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">25.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ Android</td><td class="m-cell">
         <div class="m-val">2</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">93.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">20.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">53.3%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.7%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">20.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ iOS</td><td class="m-cell">
         <div class="m-val">1</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">0.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">100.0%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-src"><td class="ch-name"><span class="badge-dot dot-ok"></span><b>Apple Search Ads</b> <span style="font-size:10px;color:#94a3b8">7d均</span></td><td class="m-cell">
         <div class="m-val">21</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +62%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +62%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">93.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">18.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.5pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">18.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 14.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 14.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">66.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 12.4pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 12.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 6.9pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 6.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">15.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr><tr class="row-plat"><td class="ch-name ch-sub">↳ iOS</td><td class="m-cell">
         <div class="m-val">21</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ +62%</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ +62%</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">93.1%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 0.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 0.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">18.6%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 4.5pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 4.5pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">18.5%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-down-bad">↓ 14.8pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-down-bad">↓ 14.8pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">66.2%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 12.4pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 12.4pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">6.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-up">↑ 6.9pp</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-up">↑ 6.9pp</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td><td class="m-cell">
         <div class="m-val">15.9%</div>
-        <div class="m-delta"><span class="d-day"><span class="d-na">—</span></span> <span class="d-week"><span class="d-na">—</span></span></div>
+        <div class="m-delta m-delta-day"><span class="d-na">—</span></div>
+        <div class="m-delta m-delta-week"><span class="d-na">—</span></div>
     </td></tr></tbody></table>
     </div>
   </div>
