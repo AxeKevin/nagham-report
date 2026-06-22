@@ -65,12 +65,12 @@ tbody tr:hover td { background: #fafbfd; }
 .ar-table td { padding: 8px 10px; border-bottom: 1px solid #f1f3f6; vertical-align: middle; }
 .ar-table tr.tr-win td { background: #f0faf0; } .ar-table tr.tr-lose td { background: #fff5f5; }
 .ar-table tr:last-child td { border-bottom: none; }
-.ar-name { vertical-align: top; min-width: 200px; max-width: 500px; white-space: normal; padding: 8px 10px !important; }
-.ar-row1 { display: flex; align-items: flex-start; gap: 5px; flex-wrap: nowrap; }
-.ar-adname { font-weight: 600; font-size: 12px; color: #1a1a2e; line-height: 1.5; word-break: break-word; }
-.ar-meta-row { display: flex; align-items: center; gap: 5px; margin-top: 3px; flex-wrap: nowrap; min-width: 0; }
-.ar-meta-label { font-size: 9px; font-weight: 700; color: #fff; background: #adb5bd; border-radius: 3px; padding: 1px 5px; white-space: nowrap; flex-shrink: 0; }
-.ar-meta-val { font-size: 11px; color: #495057; white-space: normal; min-width: 0; }
+.ar-name { vertical-align: top; min-width: 180px; max-width: 380px; width: 380px; white-space: normal; padding: 8px 10px !important; }
+.ar-row1 { display: flex; align-items: flex-start; gap: 5px; flex-wrap: wrap; }
+.ar-adname { font-weight: 600; font-size: 12px; color: #1a1a2e; line-height: 1.5; word-break: break-all; max-width: 300px; }
+.ar-meta-row { display: flex; align-items: flex-start; gap: 5px; margin-top: 3px; flex-wrap: wrap; min-width: 0; max-width: 360px; }
+.ar-meta-label { font-size: 9px; font-weight: 700; color: #fff; background: #adb5bd; border-radius: 3px; padding: 1px 5px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.ar-meta-val { font-size: 11px; color: #495057; white-space: normal; word-break: break-all; min-width: 0; max-width: 280px; }
 .ar-dc { text-align: center; font-weight: 700; color: #3b5bdb; white-space: nowrap; }
 .ar-score-cell { text-align: center; white-space: nowrap; }
 .sp-good { color: #2f9e44; font-weight: 700; font-size: 13px; } .sp-ok { color: #f08c00; font-weight: 600; font-size: 13px; }
@@ -4204,7 +4204,7 @@ function checkPw(){
 </div>
 </div></div>
 </div>
-  <div id="tab-music" class="tab-panel"><div class="card" style="padding:32px;text-align:center;color:#94a3b8">⏳ 热门歌曲数据暂无</div></div>
+  <div id="tab-music" class="tab-panel"><div class="card" style="padding:32px;text-align:center;color:#94a3b8">⏳ 热门歌曲数据暂无（数据表待确认，预计近期恢复）</div></div>
   <div id="tab-mena" class="tab-panel">
 <div class="section">
   <div class="section-title">🎵 Spotify 热榜（2026-06-22）</div>
@@ -4217,7 +4217,7 @@ function checkPw(){
           <th style="padding:8px 12px;text-align:left;color:#64748b;font-size:10px;font-weight:700;border-bottom:2px solid #e8ecf0">歌曲</th>
           <th style="padding:8px 12px;text-align:left;color:#64748b;font-size:10px;font-weight:700;border-bottom:2px solid #e8ecf0">歌手</th>
         </tr></thead>
-        <tbody><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#f03e3e;color:#fff">1</span></td><td style="padding:7px 12px">歌曲</td><td style="padding:7px 12px">艺人</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#f03e3e;color:#fff">2</span></td><td style="padding:7px 12px">عفتني</td><td style="padding:7px 12px">Sabah Mahmod</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#f03e3e;color:#fff">3</span></td><td style="padding:7px 12px">Seven</td><td style="padding:7px 12px">Jung Kook</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">4</span></td><td style="padding:7px 12px">طول منا عالي طول منا ناجح</td><td style="padding:7px 12px">حمو المرشدي</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">5</span></td><td style="padding:7px 12px">One Day</td><td style="padding:7px 12px">Arash</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">6</span></td><td style="padding:7px 12px">Billie Jean</td><td style="padding:7px 12px">Michael Jackson</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">7</span></td><td style="padding:7px 12px">Nano</td><td style="padding:7px 12px">TUL8TE</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">8</span></td><td style="padding:7px 12px">Babydoll</td><td style="padding:7px 12px">Dominic Fike</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">9</span></td><td style="padding:7px 12px">Dai Dai</td><td style="padding:7px 12px">Shakira</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">10</span></td><td style="padding:7px 12px">الولا حمو جه</td><td style="padding:7px 12px">حمو المرشدي</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">11</span></td><td style="padding:7px 12px">hate that i made you love me</td><td style="padding:7px 12px">Ariana Grande</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">12</span></td><td style="padding:7px 12px">hate that i made you love me</td><td style="padding:7px 12px">Ariana Grande</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">13</span></td><td style="padding:7px 12px">الحب عيبنا</td><td style="padding:7px 12px">Ramy Sabry</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">14</span></td><td style="padding:7px 12px">ارجع علينا</td><td style="padding:7px 12px">علي حاتم</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">15</span></td><td style="padding:7px 12px">Janice STFU</td><td style="padding:7px 12px">Drake</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">16</span></td><td style="padding:7px 12px">الغابة ليها بابا ( هو الديب لما يغيب )</td><td style="padding:7px 12px">مصطفي الجن و هادي الصغير - تيم الابداع</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">17</span></td><td style="padding:7px 12px">Billie Jean</td><td style="padding:7px 12px">Michael Jackson</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">18</span></td><td style="padding:7px 12px">Earrings</td><td style="padding:7px 12px">Malcolm Todd</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">19</span></td><td style="padding:7px 12px">تباعاً تباعاً</td><td style="padding:7px 12px">Sherine</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">20</span></td><td style="padding:7px 12px">Beauty And A Beat</td><td style="padding:7px 12px">Justin Bieber</td></tr></tbody>
+        <tbody><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#f03e3e;color:#fff">1</span></td><td style="padding:7px 12px">عفتني</td><td style="padding:7px 12px">Sabah Mahmod</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#f03e3e;color:#fff">2</span></td><td style="padding:7px 12px">Seven</td><td style="padding:7px 12px">Jung Kook</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#f03e3e;color:#fff">3</span></td><td style="padding:7px 12px">طول منا عالي طول منا ناجح</td><td style="padding:7px 12px">حمو المرشدي</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">4</span></td><td style="padding:7px 12px">One Day</td><td style="padding:7px 12px">Arash</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">5</span></td><td style="padding:7px 12px">Billie Jean</td><td style="padding:7px 12px">Michael Jackson</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">6</span></td><td style="padding:7px 12px">Nano</td><td style="padding:7px 12px">TUL8TE</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">7</span></td><td style="padding:7px 12px">Babydoll</td><td style="padding:7px 12px">Dominic Fike</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">8</span></td><td style="padding:7px 12px">Dai Dai</td><td style="padding:7px 12px">Shakira</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">9</span></td><td style="padding:7px 12px">الولا حمو جه</td><td style="padding:7px 12px">حمو المرشدي</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">10</span></td><td style="padding:7px 12px">hate that i made you love me</td><td style="padding:7px 12px">Ariana Grande</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">11</span></td><td style="padding:7px 12px">hate that i made you love me</td><td style="padding:7px 12px">Ariana Grande</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">12</span></td><td style="padding:7px 12px">الحب عيبنا</td><td style="padding:7px 12px">Ramy Sabry</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">13</span></td><td style="padding:7px 12px">ارجع علينا</td><td style="padding:7px 12px">علي حاتم</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">14</span></td><td style="padding:7px 12px">Janice STFU</td><td style="padding:7px 12px">Drake</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">15</span></td><td style="padding:7px 12px">الغابة ليها بابا ( هو الديب لما يغيب )</td><td style="padding:7px 12px">مصطفي الجن و هادي الصغير - تيم الابداع</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">16</span></td><td style="padding:7px 12px">Billie Jean</td><td style="padding:7px 12px">Michael Jackson</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">17</span></td><td style="padding:7px 12px">Earrings</td><td style="padding:7px 12px">Malcolm Todd</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">18</span></td><td style="padding:7px 12px">تباعاً تباعاً</td><td style="padding:7px 12px">Sherine</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">19</span></td><td style="padding:7px 12px">Beauty And A Beat</td><td style="padding:7px 12px">Justin Bieber</td></tr><tr><td style="padding:7px 10px;text-align:center"><span style="display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;font-size:10px;font-weight:700;background:#dee2e6;color:#495057">20</span></td><td style="padding:7px 12px">Beauty And A Beat</td><td style="padding:7px 12px">Justin Bieber</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -4272,20 +4272,68 @@ function exportExcel() {
 </script>
 </div>
   <div id="tab-guide" class="tab-panel">
-<div style="max-width:780px;padding:0 0 40px">
+<div style="max-width:820px;padding:0 0 40px">
 <div style="background:#f0f4ff;border:1px solid #c5d0fa;border-radius:10px;padding:18px 22px;margin-bottom:28px">
   <div style="font-size:16px;font-weight:800;color:#1a1a2e;margin-bottom:6px">📖 Nagham 投放日报 · 使用说明</div>
-  <div style="font-size:13px;color:#64748b">每天 9:30 自动推送 · 数据源 KSIB 海外数仓</div>
+  <div style="font-size:13px;color:#64748b">每天 08:50 自动生成 · 数据源 KSIB 海外数仓 · 两个版本同步推送</div>
 </div>
+
 <div style="margin-bottom:28px">
-  <div style="font-size:15px;font-weight:700;color:#3b5bdb;border-top:3px solid #3b5bdb;padding-top:8px;margin-bottom:12px">日常使用 SOP（每天 &lt;10 分钟）</div>
-  <div style="font-size:13px;color:#495057;line-height:2">
-    <b>1</b> 看 Kim 摘要 → 有 🔴 则继续，无异常当天无需操作<br>
-    <b>2</b> 渠道概览 · 昨日 Tab → 确认哪个渠道变红，量级多大<br>
-    <b>3</b> 看诊断结论区 → 参考系统给出的行动建议<br>
-    <b>4</b> 素材下钻 → 低分素材看「阶段诊断」列，复制素材名去广告平台查找<br>
-    <b>5</b> 决策：低分+S1断裂=暂停素材 · 低分+S2断裂=查落地页 · 高分=放量
+  <div style="font-size:15px;font-weight:700;color:#3b5bdb;border-top:3px solid #3b5bdb;padding-top:8px;margin-bottom:14px">📊 模块说明</div>
+  <table style="width:100%;border-collapse:collapse;font-size:13px">
+    <thead><tr style="background:#f8fafc">
+      <th style="padding:8px 12px;text-align:left;color:#64748b;font-weight:700;border-bottom:1px solid #e2e8f0;width:120px">模块</th>
+      <th style="padding:8px 12px;text-align:left;color:#64748b;font-weight:700;border-bottom:1px solid #e2e8f0">内容</th>
+      <th style="padding:8px 12px;text-align:left;color:#64748b;font-weight:700;border-bottom:1px solid #e2e8f0;width:150px">数据范围</th>
+    </tr></thead>
+    <tbody>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:9px 12px;font-weight:700">📊 渠道概览</td><td style="padding:9px 12px;color:#495057">分渠道（Google/TikTok/Snapchat/Facebook/Organic）的新增设备、登录率、进房率、3min渗透、开口率、发布率、次留率，含日环比和周同比。子 Tab 还有分平台（iOS/Android）和分代理商明细表。</td><td style="padding:9px 12px;color:#64748b">昨日 T-1 / 前天 T-2 / 7天日均</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:9px 12px;font-weight:700">🎯 素材下钻</td><td style="padding:9px 12px;color:#495057">Campaign / Adset / Ad Name 三层钻取，含 CTR、CPM、CPC、CAC（内部版）、行为指标、综合评分和阶段诊断。评分 ≥70 放量，&lt;30 暂停。</td><td style="padding:9px 12px;color:#64748b">昨日 / 前天(含次留) / 7天聚合</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:9px 12px;font-weight:700">🎵 热门歌曲</td><td style="padding:9px 12px;color:#495057">Nagham 站内过去7天阿语热门点唱 TOP 50。数据表暂时失效，恢复后自动展示。</td><td style="padding:9px 12px;color:#64748b">T-7 ～ T-1</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:9px 12px;font-weight:700">🔥 中东热点</td><td style="padding:9px 12px;color:#495057">Spotify SA/AE/EG 三区热榜（每日自动采集）。</td><td style="padding:9px 12px;color:#64748b">当日</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:9px 12px;font-weight:700">📥 数据导出</td><td style="padding:9px 12px;color:#495057">素材级原始数据下载，含日期/平台/渠道/Partner/Campaign/Adset/Ad Name/新增设备/登录/进房/3min/次留/开口/发布设备数。</td><td style="padding:9px 12px;color:#64748b">T-8 ～ T-1（8天）</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="margin-bottom:28px">
+  <div style="font-size:15px;font-weight:700;color:#3b5bdb;border-top:3px solid #3b5bdb;padding-top:8px;margin-bottom:12px">📋 日常使用 SOP（每天 &lt;10 分钟）</div>
+  <div style="font-size:13px;color:#495057;line-height:2.2">
+    <b>1</b>　看 Kim 摘要 → 有 🔴 则继续，无异常当天无需操作<br>
+    <b>2</b>　渠道概览 · 昨日 Tab → 确认哪个渠道变红，量级多大<br>
+    <b>3</b>　同渠道下看「分平台」和「分代理商」明细 → 锁定是 iOS 还是 Android，哪个代理在拖<br>
+    <b>4</b>　素材下钻 → 切到对应渠道，找低分素材，看「阶段诊断」，复制素材名去广告平台核查<br>
+    <b>5</b>　决策：评分&lt;30+S1断裂 → 暂停；评分&lt;30+S2断裂 → 查落地页；评分≥70 → 放量
   </div>
+</div>
+
+<div style="margin-bottom:28px">
+  <div style="font-size:15px;font-weight:700;color:#3b5bdb;border-top:3px solid #3b5bdb;padding-top:8px;margin-bottom:12px">⚙️ 自动化说明</div>
+  <div style="font-size:13px;color:#495057;line-height:2">
+    • 每天 <b>08:50</b>（北京时间）自动执行，SQL 并行拉取（~5min），全程无需手动干预<br>
+    • 内部版（含消耗/CAC）：<code>nagham-daily-report.frontend-cloud.corp.kuaishou.com</code><br>
+    • 外部版（代理商，隐藏消耗）：<code>axekevin.github.io/nagham-report</code>（密码：nagham2026）<br>
+    • 异常时 Kim 会推送告警，可找 wangbin28 排查
+  </div>
+</div>
+
+<div>
+  <div style="font-size:15px;font-weight:700;color:#3b5bdb;border-top:3px solid #3b5bdb;padding-top:8px;margin-bottom:12px">📐 指标口径</div>
+  <table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead><tr style="background:#f8fafc">
+      <th style="padding:7px 12px;text-align:left;color:#64748b;font-weight:700;border-bottom:1px solid #e2e8f0;width:110px">指标</th>
+      <th style="padding:7px 12px;text-align:left;color:#64748b;font-weight:700;border-bottom:1px solid #e2e8f0">口径说明</th>
+    </tr></thead>
+    <tbody>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:7px 12px;font-weight:700">登录率</td><td style="padding:7px 12px;color:#495057">登录设备数 / 新增设备数</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:7px 12px;font-weight:700">进房率</td><td style="padding:7px 12px;color:#495057">进入过任意直播间的设备数 / 新增设备数</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:7px 12px;font-weight:700">3min渗透</td><td style="padding:7px 12px;color:#495057">在房间停留 ≥180 秒的设备数 / 进房设备数</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:7px 12px;font-weight:700">开口率</td><td style="padding:7px 12px;color:#495057">发起独唱录音的设备数 / 新增设备数</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:7px 12px;font-weight:700">发布率</td><td style="padding:7px 12px;color:#495057">发布至少一首独唱的设备数 / 新增设备数</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:7px 12px;font-weight:700">次留率</td><td style="padding:7px 12px;color:#495057">T-2 口径：前天新增设备，次日（昨日）是否有活跃记录</td></tr>
+      <tr style="border-bottom:1px solid #f1f3f6"><td style="padding:7px 12px;font-weight:700">异常阈值</td><td style="padding:7px 12px;color:#495057">日环比或周同比变化 &gt; ±10pp 标红；设备量变化 &gt; ±15% 标红</td></tr>
+    </tbody>
+  </table>
 </div>
 </div>
 </div>
