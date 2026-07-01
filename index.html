@@ -155,6 +155,7 @@ function checkPw(){
     <button class="tab-btn" onclick="switchTab('music', this)">🎵 热门歌曲</button>
     <button class="tab-btn" onclick="switchTab('mena', this)">🔥 中东热点</button>
     <button class="tab-btn" onclick="switchTab('export', this)">📥 数据导出</button>
+    <button class="tab-btn" onclick="switchTab('sql', this)">🔍 SQL 查询</button>
     <button class="tab-btn" onclick="switchTab('guide', this)">📖 使用说明</button>
   </div>
   <div id="tab-overview" class="tab-panel active">
@@ -3638,6 +3639,285 @@ function exportExcel() {
   }, 100);
 }
 
+</script>
+</div>
+  <div id="tab-sql" class="tab-panel">
+<div class="section-title">🔍 SQL 查询一览 — 数据日期 2026/06/30</div>
+<div class="card" style="padding:16px 20px 8px">
+  <p style="color:#64748b;font-size:13px;margin:0 0 12px">
+    以下是日报每次执行的所有 SQL，日期变量已替换为当天实际值。点击右上角「复制」可直接粘贴到
+    <a href="https://tc-sgp.corp.kuaishou.com/data-agent?agentId=29" target="_blank" style="color:#3b5bdb">KSIB Data Agent</a> 执行验证。
+  </p>
+</div>
+
+<div class="sql-card" id="sql1">
+  <div class="sql-card-header">
+    <span class="sql-id-badge">SQL1</span>
+    <span class="sql-title">SQL1 · 渠道概览 — 新增设备行为指标</span>
+    <button class="copy-btn" onclick="copySql('sql1')" style="margin-left:auto;opacity:1">复制</button>
+  </div>
+  <div class="sql-meta-row">
+    <span class="sql-meta-item">📋 表：<code>nova.dws_hib_usr_device_active_1d</code></span>
+    <span class="sql-meta-item">📅 范围：近 14 天（START_14D ~ T1）</span>
+  </div>
+  <p class="sql-desc">按日期 × 渠道 × 平台 × 代理商聚合新增设备的登录率、进房率、3min渗透率、开口率、发布率。</p>
+  <ul class="sql-notes"><li>分母统一为 device_cnt（新增设备数）</li><li>3min渗透分母为 room_device_cnt（进房设备数）</li><li>增量表，可跨天扫描</li></ul>
+  <pre class="sql-code" id="sqlcode-sql1">SELECT b.p_date, b.af_media_source, b.platform, b.partner_name,
+       COUNT(DISTINCT b.device_id)                                                    AS device_cnt,
+       COUNT(DISTINCT CASE WHEN b.user_id > 0               THEN b.device_id END)    AS login_device_cnt,
+       COUNT(DISTINCT CASE WHEN b.is_room_active > 0        THEN b.device_id END)    AS room_device_cnt,
+       COUNT(DISTINCT CASE WHEN b.room_stay_duration >= 180000
+                                                             THEN b.device_id END)    AS room_3min_cnt,
+       COUNT(DISTINCT CASE WHEN b.recording_prepare_task_cnt > 0
+                                                             THEN b.device_id END)    AS solo_open_cnt,
+       COUNT(DISTINCT CASE WHEN b.new_item_cnt > 0          THEN b.device_id END)    AS solo_publish_cnt
+FROM nova.dws_hib_usr_device_active_1d b
+WHERE b.p_date BETWEEN '20260617' AND '20260630'
+  AND b.is_new_device = 1
+GROUP BY b.p_date, b.af_media_source, b.platform, b.partner_name
+ORDER BY b.p_date DESC, device_cnt DESC</pre>
+</div>
+
+<div class="sql-card" id="sql2">
+  <div class="sql-card-header">
+    <span class="sql-id-badge">SQL2</span>
+    <span class="sql-title">SQL2 · 次日留存（T-2 口径）</span>
+    <button class="copy-btn" onclick="copySql('sql2')" style="margin-left:auto;opacity:1">复制</button>
+  </div>
+  <div class="sql-meta-row">
+    <span class="sql-meta-item">📋 表：<code>nova.dws_hib_usr_device_active_1d</code></span>
+    <span class="sql-meta-item">📅 范围：base = T-2（前天），next_day = T-1（昨天）</span>
+  </div>
+  <p class="sql-desc">次留只查 T-2 单天，避免多天 self-JOIN 超时。T-1 的次留由次日 cron 通过 patch_retention 写回 GitHub JSON。</p>
+  <ul class="sql-notes"><li>T-2 = 前天，T-1 = 昨天（已完整入仓）</li><li>当日 JSON 写入时 T-1 次留 = 0，次日 cron patch_retention 补写</li><li>单天查询，执行约 30s</li></ul>
+  <pre class="sql-code" id="sqlcode-sql2">WITH base AS (
+    SELECT p_date, af_media_source, platform, partner_name, device_id
+    FROM nova.dws_hib_usr_device_active_1d
+    WHERE p_date = '20260629'       -- T-2 新增设备
+      AND is_new_device = 1
+),
+next_day_active AS (
+    SELECT DISTINCT device_id
+    FROM nova.dws_hib_usr_device_active_1d
+    WHERE p_date = '20260630'        -- T-1 活跃（今日入仓后即可用）
+)
+SELECT b.p_date, b.af_media_source, b.platform, b.partner_name,
+       COUNT(DISTINCT b.device_id)                                              AS device_cnt,
+       COUNT(DISTINCT CASE WHEN n.device_id IS NOT NULL THEN b.device_id END)  AS retention_1d_cnt
+FROM base b
+LEFT JOIN next_day_active n ON n.device_id = b.device_id
+GROUP BY b.p_date, b.af_media_source, b.platform, b.partner_name
+ORDER BY device_cnt DESC</pre>
+</div>
+
+<div class="sql-card" id="sql3">
+  <div class="sql-card-header">
+    <span class="sql-id-badge">SQL3</span>
+    <span class="sql-title">SQL3 · 广告消耗（4渠道 UNION）</span>
+    <button class="copy-btn" onclick="copySql('sql3')" style="margin-left:auto;opacity:1">复制</button>
+  </div>
+  <div class="sql-meta-row">
+    <span class="sql-meta-item">📋 表：<code>ks_origin_nova_sync_db.s_hib_{tiktok/facebook/google/snapchat}_advertise_daily_report</code></span>
+    <span class="sql-meta-item">📅 范围：近 14 天（全量表，dt 只取最新分区）</span>
+  </div>
+  <p class="sql-desc">合并 TikTok / Facebook / Google / Snapchat 四渠道的每日广告消耗（USD）。</p>
+  <ul class="sql-notes"><li>全量表（snapshot），dt 只取最新分区，date_num 才是数据日期</li><li>TikTok date_num 格式 YYYY-MM-DD（string）</li><li>Facebook/Google/Snapchat date_num 格式 yyyyMMdd（bigint）</li><li>Snapchat spend 单位 micro-cents，÷1e6 转 USD</li></ul>
+  <pre class="sql-code" id="sqlcode-sql3">SELECT af_media_source_mapped, p_date, SUM(spend_usd) AS spend_usd FROM (
+  -- TikTok: spend 字段单位 USD（string），date_num 格式 YYYY-MM-DD
+  SELECT 'tiktokglobal_int' AS af_media_source_mapped,
+         date_num AS p_date,
+         SUM(CAST(spend AS DOUBLE)) AS spend_usd
+  FROM ks_origin_nova_sync_db.s_hib_tiktok_advertise_daily_report
+  WHERE dt = '2026-06-30'
+    AND date_num >= '2026-06-17' AND date_num <= '2026-06-30'
+  GROUP BY date_num
+  UNION ALL
+  -- Facebook: spend USD (string), date_num bigint yyyyMMdd
+  SELECT 'Facebook Ads', CAST(date_num AS STRING),
+         SUM(CAST(spend AS DOUBLE))
+  FROM ks_origin_nova_sync_db.s_hib_facebook_advertise_daily_report
+  WHERE dt = '2026-06-30'
+    AND date_num >= 20260617 AND date_num <= 20260630
+  GROUP BY date_num
+  UNION ALL
+  -- Google: cost_micros (string, ÷1e6 = USD), date_num bigint yyyyMMdd
+  SELECT 'googleadwords_int', CAST(date_num AS STRING),
+         SUM(CAST(cost_micros AS DOUBLE) / 1000000.0)
+  FROM ks_origin_nova_sync_db.s_hib_google_advertise_daily_report
+  WHERE dt = '2026-06-30'
+    AND date_num >= 20260617 AND date_num <= 20260630
+  GROUP BY date_num
+  UNION ALL
+  -- Snapchat: spend bigint micro-cents (÷1e6 = USD), date_num bigint yyyyMMdd
+  SELECT 'snapchat_int', CAST(date_num AS STRING),
+         SUM(spend / 1000000.0)
+  FROM ks_origin_nova_sync_db.s_hib_snapchat_creative_daily_report
+  WHERE dt = '2026-06-30'
+    AND date_num >= 20260617 AND date_num <= 20260630
+  GROUP BY date_num
+) t
+GROUP BY af_media_source_mapped, p_date
+ORDER BY p_date DESC, spend_usd DESC</pre>
+</div>
+
+<div class="sql-card" id="sql4">
+  <div class="sql-card-header">
+    <span class="sql-id-badge">SQL4</span>
+    <span class="sql-title">SQL4 · 素材下钻 — 广告组/素材级行为指标</span>
+    <button class="copy-btn" onclick="copySql('sql4')" style="margin-left:auto;opacity:1">复制</button>
+  </div>
+  <div class="sql-meta-row">
+    <span class="sql-meta-item">📋 表：<code>nova.dws_hib_usr_device_active_1d</code></span>
+    <span class="sql-meta-item">📅 范围：T-8 ~ T-1（8天，IN 精确分区列表）</span>
+  </div>
+  <p class="sql-desc">素材级别的新增设备行为指标和次留，支持渠道概览 &gt; 素材下钻 Tab 展示。</p>
+  <ul class="sql-notes"><li>用 IN (list) 而非 BETWEEN，让引擎精确分区裁剪，避免超时</li><li>next_day_active 只 SELECT 两列（最小化扫描量）</li><li>设备数 &lt; 5 的素材在展示时被过滤</li></ul>
+  <pre class="sql-code" id="sqlcode-sql4">WITH base AS (
+    SELECT p_date, af_media_source, platform, partner_name,
+           campaign, af_adset, ad_name, device_id,
+           CASE WHEN user_id > 0                    THEN device_id END AS login_device,
+           CASE WHEN is_room_active > 0             THEN device_id END AS room_device,
+           CASE WHEN room_stay_duration >= 180000   THEN device_id END AS room_3min_device,
+           CASE WHEN recording_prepare_task_cnt > 0 THEN device_id END AS solo_open_device,
+           CASE WHEN new_item_cnt > 0               THEN device_id END AS solo_publish_device
+    FROM nova.dws_hib_usr_device_active_1d
+    WHERE p_date IN (&#x27;20260630&#x27;, ..., (T-8))   -- T-1~T-8，精确分区裁剪
+      AND is_new_device = 1
+),
+next_day_active AS (
+    SELECT DISTINCT
+        DATE_FORMAT(DATE_SUB(FROM_UNIXTIME(UNIX_TIMESTAMP(p_date,'yyyyMMdd')),1),'yyyyMMdd') AS base_date,
+        device_id
+    FROM nova.dws_hib_usr_device_active_1d
+    WHERE p_date IN (&#x27;20260630&#x27;, ..., (T+1~T-6))    -- T-0~T-7，次日范围
+)
+SELECT b.p_date, b.platform, b.af_media_source AS media_source, b.partner_name,
+       b.campaign, b.af_adset AS adset, b.ad_name,
+       COUNT(DISTINCT b.device_id)                                              AS new_device_count,
+       COUNT(DISTINCT b.login_device)                                           AS login_device_count,
+       COUNT(DISTINCT b.room_device)                                            AS room_device_count,
+       COUNT(DISTINCT b.room_3min_device)                                       AS room_3min_device_count,
+       COUNT(DISTINCT CASE WHEN n.device_id IS NOT NULL THEN b.device_id END)  AS next_day_retention_device_count,
+       COUNT(DISTINCT b.solo_open_device)                                       AS solo_open_device_count,
+       COUNT(DISTINCT b.solo_publish_device)                                    AS solo_publish_device_count
+FROM base b
+LEFT JOIN next_day_active n ON n.base_date = b.p_date AND n.device_id = b.device_id
+GROUP BY b.p_date, b.platform, b.af_media_source, b.partner_name,
+         b.campaign, b.af_adset, b.ad_name
+ORDER BY b.p_date, b.platform, b.af_media_source, b.campaign</pre>
+</div>
+
+<div class="sql-card" id="sql5">
+  <div class="sql-card-header">
+    <span class="sql-id-badge">SQL5</span>
+    <span class="sql-title">SQL5 · 广告 CTR / CPM（素材级）</span>
+    <button class="copy-btn" onclick="copySql('sql5')" style="margin-left:auto;opacity:1">复制</button>
+  </div>
+  <div class="sql-meta-row">
+    <span class="sql-meta-item">📋 表：<code>ks_origin_nova_sync_db.s_hib_{tiktok/facebook/google/snapchat}_advertise_daily_report</code></span>
+    <span class="sql-meta-item">📅 范围：近 14 天（全量表）</span>
+  </div>
+  <p class="sql-desc">各渠道广告素材级别的 CTR、CPM，用于素材下钻 Tab 的效果对比。</p>
+  <ul class="sql-notes"><li>全量表，dt 只取最新分区</li><li>CTR = clicks / impressions</li><li>CPM = spend_usd / impressions × 1000</li></ul>
+  <pre class="sql-code" id="sqlcode-sql5">SELECT af_media_source, p_date, campaign_id, campaign_name,
+       adset_id, adset_name, ad_id, ad_name,
+       spend_usd, impressions, clicks, ctr, cpm_usd FROM (
+  SELECT 'tiktokglobal_int' AS af_media_source, date_num AS p_date,
+         campaign_id, campaign_name, adgroup_id AS adset_id, adgroup_name AS adset_name,
+         ad_id, ad_name, CAST(spend AS DOUBLE) AS spend_usd, impressions, clicks,
+         CASE WHEN impressions>0 THEN clicks*1.0/impressions ELSE NULL END AS ctr,
+         CASE WHEN impressions>0 THEN CAST(spend AS DOUBLE)/impressions*1000 ELSE NULL END AS cpm_usd
+  FROM ks_origin_nova_sync_db.s_hib_tiktok_advertise_daily_report
+  WHERE dt='2026-06-30' AND date_num>='2026-06-17' AND date_num<='2026-06-30'
+  UNION ALL
+  -- Facebook / Google / Snapchat 结构相同，date_num 格式为 bigint yyyyMMdd
+  ...（同 SQL3 结构，增加 ad_id/ad_name/impressions/clicks 字段）
+) t
+ORDER BY p_date DESC, spend_usd DESC</pre>
+</div>
+
+<div class="sql-card" id="sql6">
+  <div class="sql-card-header">
+    <span class="sql-id-badge">SQL6</span>
+    <span class="sql-title">SQL6 · 深度行为（历史累积，增量）</span>
+    <button class="copy-btn" onclick="copySql('sql6')" style="margin-left:auto;opacity:1">复制</button>
+  </div>
+  <div class="sql-meta-row">
+    <span class="sql-meta-item">📋 表：<code>nova.dws_hib_usr_device_behavior_1d</code></span>
+    <span class="sql-meta-item">📅 范围：每天追加昨日，历史文件保留（sql6_history.csv）</span>
+  </div>
+  <p class="sql-desc">每日新增用户的送礼、评论、关注等深度行为渗透率，串行执行追加写入历史文件。</p>
+  <ul class="sql-notes"><li>增量表，每天只查昨日单天，执行快</li><li>结果追加写入 sql6_history.csv，不覆盖历史</li><li>深度行为 Tab 已从报告移除，此 SQL 仍保留供后续分析</li></ul>
+  <pre class="sql-code" id="sqlcode-sql6">SELECT p_date, af_media_source AS channel, platform, af_adset AS adset,
+       SUM(new_user_cnt)                AS new_user_cnt,
+       SUM(send_coin_gift_user_cnt)     AS send_coin_gift_user_cnt,
+       SUM(send_diamond_gift_user_cnt)  AS send_diamond_gift_user_cnt,
+       SUM(comment_user_cnt)            AS comment_user_cnt,
+       SUM(follow_user_cnt)             AS follow_user_cnt
+FROM nova.dws_hib_usr_device_behavior_1d
+WHERE p_date = '20260630'
+  AND is_new_device = 1
+GROUP BY p_date, af_media_source, platform, af_adset
+ORDER BY new_user_cnt DESC</pre>
+</div>
+
+<div class="sql-card" id="sql7">
+  <div class="sql-card-header">
+    <span class="sql-id-badge">SQL7</span>
+    <span class="sql-title">SQL7 · 热门阿拉伯语歌曲 Top 50</span>
+    <button class="copy-btn" onclick="copySql('sql7')" style="margin-left:auto;opacity:1">复制</button>
+  </div>
+  <div class="sql-meta-row">
+    <span class="sql-meta-item">📋 表：<code>nova.hib_music_db_metric + ks_origin_nova_sync_db.s_music_info</code></span>
+    <span class="sql-meta-item">📅 范围：T-1 单天（全量表，各取最新分区）</span>
+  </div>
+  <p class="sql-desc">按搜索点唱次数排序的阿拉伯语歌曲 Top 50，JOIN 歌曲信息表获取名称和歌手。</p>
+  <ul class="sql-notes"><li>hib_music_db_metric 分区字段 p_date，格式 yyyyMMdd（非 yyyy-MM-dd）</li><li>s_music_info 分区字段 dt，格式 yyyy-MM-dd</li><li>s_music_info 用子查询先过滤分区，避免 Hive 无法从 JOIN 推导分区裁剪</li><li>language = &#x27;ar&#x27; 过滤阿拉伯语歌曲（字段在 hib_music_db_metric 表上）</li></ul>
+  <pre class="sql-code" id="sqlcode-sql7">SELECT t1.music_id,
+       t2.name   AS music_name,
+       t2.singer AS singer_name,
+       t1.recording_task_cnt       AS recording_cnt,   -- 点唱录制页 PV
+       t1.search_button_sing_cnt   AS search_cnt        -- 搜索点唱按钮 PV
+FROM nova.hib_music_db_metric t1
+LEFT JOIN (
+    SELECT id, name, singer
+    FROM ks_origin_nova_sync_db.s_music_info
+    WHERE dt = '2026-06-30'    -- s_music_info 分区字段 dt，格式 yyyy-MM-dd
+) t2 ON t1.music_id = t2.id
+WHERE t1.p_date = '20260630'      -- hib_music_db_metric 分区字段 p_date，格式 yyyyMMdd
+  AND t1.language = 'ar'
+ORDER BY search_cnt DESC
+LIMIT 50</pre>
+</div>
+
+
+<style>
+.sql-card { background:#fff; border:1px solid #e8ecf0; border-radius:10px; margin-bottom:16px; overflow:hidden; }
+.sql-card-header { display:flex; align-items:center; gap:10px; padding:12px 16px; background:#f8fafc; border-bottom:1px solid #e8ecf0; }
+.sql-id-badge { font-size:10px; font-weight:700; color:#fff; background:#3b5bdb; border-radius:4px; padding:2px 8px; flex-shrink:0; }
+.sql-title { font-size:13px; font-weight:700; color:#1a1a2e; }
+.sql-meta-row { display:flex; flex-wrap:wrap; gap:16px; padding:10px 16px 0; }
+.sql-meta-item { font-size:11px; color:#64748b; }
+.sql-meta-item code { background:#f1f5f9; padding:1px 5px; border-radius:3px; font-size:10px; color:#334155; }
+.sql-desc { font-size:12px; color:#475569; padding:8px 16px 0; margin:0; }
+.sql-notes { font-size:11px; color:#64748b; padding:4px 16px 0 32px; margin:4px 0 0; }
+.sql-notes li { margin-bottom:2px; }
+.sql-code { background:#0f172a; color:#e2e8f0; font-size:11.5px; line-height:1.65; padding:14px 16px; margin:10px 0 0; overflow-x:auto; white-space:pre; tab-size:4; border-top:1px solid #e8ecf0; }
+</style>
+
+<script>
+function copySql(id) {
+  var el = document.getElementById('sqlcode-' + id);
+  if (!el) return;
+  var text = el.innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = el.closest('.sql-card').querySelector('.copy-btn');
+    var old = btn.textContent;
+    btn.textContent = '已复制!';
+    btn.style.background = '#d3f9d8';
+    setTimeout(function(){ btn.textContent = old; btn.style.background = ''; }, 2000);
+  });
+}
 </script>
 </div>
   <div id="tab-guide" class="tab-panel">
