@@ -60,17 +60,17 @@ tbody tr:hover td { background: #fafbfd; }
 .diag-oneliner.ok   { background: #f0faf0; border-left: 3px solid #40c057; color: #2f7d32; }
 .diag-oneliner.warn { background: #fff5f5; border-left: 3px solid #fc8181; color: #c62828; }
 .diag-item-desc { font-size: 12px; color: #475569; line-height: 1.6; }
-.ar-table { border-collapse: collapse; font-size: 12px; table-layout: fixed; width: 100%; }
+.ar-table { border-collapse: collapse; font-size: 12px; table-layout: auto; width: 100%; }
 .ar-table th { text-align: left; padding: 7px 10px; color: #94a3b8; font-weight: 600; font-size: 10px; border-bottom: 1px solid #e8ecf0; white-space: nowrap; text-transform: uppercase; }
 .ar-table td { padding: 8px 10px; border-bottom: 1px solid #f1f3f6; vertical-align: top; white-space: nowrap; }
 .ar-table tr.tr-win td { background: #f0faf0; } .ar-table tr.tr-lose td { background: #fff5f5; }
 .ar-table tr:last-child td { border-bottom: none; }
-.ar-name { vertical-align: top; min-width: 180px; max-width: 380px; width: 380px; white-space: normal; padding: 8px 10px !important; }
+.ar-name { vertical-align: top; min-width: 260px; max-width: 420px; white-space: normal; padding: 8px 10px !important; }
 .ar-row1 { display: flex; align-items: flex-start; gap: 5px; }
-.ar-adname { font-weight: 600; font-size: 12px; color: #1a1a2e; line-height: 1.5; word-break: break-all; max-width: 300px; }
-.ar-meta-row { display: flex; align-items: flex-start; gap: 5px; margin-top: 3px; flex-wrap: wrap; min-width: 0; max-width: 360px; }
+.ar-adname { font-weight: 600; font-size: 12px; color: #1a1a2e; line-height: 1.5; word-break: break-word; flex: 1; min-width: 0; }
+.ar-meta-row { display: flex; align-items: flex-start; gap: 5px; margin-top: 3px; min-width: 0; }
 .ar-meta-label { font-size: 9px; font-weight: 700; color: #fff; background: #adb5bd; border-radius: 3px; padding: 1px 5px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
-.ar-meta-val { font-size: 11px; color: #495057; white-space: normal; word-break: break-all; min-width: 0; max-width: 280px; }
+.ar-meta-val { font-size: 11px; color: #495057; white-space: normal; word-break: break-word; flex: 1; min-width: 0; }
 .ar-dc { text-align: center; font-weight: 700; color: #3b5bdb; white-space: nowrap; }
 .ar-score-cell { text-align: center; white-space: nowrap; }
 .sp-good { color: #2f9e44; font-weight: 700; font-size: 13px; } .sp-ok { color: #f08c00; font-weight: 600; font-size: 13px; }
@@ -3957,43 +3957,6 @@ ORDER BY p_date DESC, spend_usd DESC</pre>
   </div>
 </div>
 
-<div class="sql-card" id="sql6">
-  <div class="sql-card-header">
-    <span class="sql-id-badge">SQL6</span>
-    <span class="sql-title">SQL6 · 深度行为（历史累积，增量）</span>
-    <button class="sql-copy-btn" id="copybtn-sql6" onclick="copySql('sql6')" >复制 SQL</button>
-  </div>
-  <div class="sql-meta-row">
-    <span class="sql-meta-item">📋 表：<code>nova.dws_hib_usr_device_behavior_1d</code></span>
-    <span class="sql-meta-item">📅 范围：每天追加昨日，历史文件保留（sql6_history.csv）</span>
-  </div>
-  <p class="sql-desc">每日新增用户的送礼、评论、关注等深度行为渗透率，串行执行追加写入历史文件。</p>
-  <ul class="sql-notes"><li>增量表，每天只查昨日单天，执行快</li><li>结果追加写入 sql6_history.csv，不覆盖历史</li><li>深度行为 Tab 已从报告移除，此 SQL 仍保留供后续分析</li></ul>
-  <div class="sql-code-wrap">
-    <pre class="sql-code" id="sqlcode-sql6" data-raw="SELECT p_date, af_media_source AS channel, platform, af_adset AS adset,
-       SUM(new_user_cnt)                AS new_user_cnt,
-       SUM(send_coin_gift_user_cnt)     AS send_coin_gift_user_cnt,
-       SUM(send_diamond_gift_user_cnt)  AS send_diamond_gift_user_cnt,
-       SUM(comment_user_cnt)            AS comment_user_cnt,
-       SUM(follow_user_cnt)             AS follow_user_cnt
-FROM nova.dws_hib_usr_device_behavior_1d
-WHERE p_date = &#x27;{T1}&#x27;
-  AND is_new_device = 1
-GROUP BY p_date, af_media_source, platform, af_adset
-ORDER BY new_user_cnt DESC">SELECT p_date, af_media_source AS channel, platform, af_adset AS adset,
-       SUM(new_user_cnt)                AS new_user_cnt,
-       SUM(send_coin_gift_user_cnt)     AS send_coin_gift_user_cnt,
-       SUM(send_diamond_gift_user_cnt)  AS send_diamond_gift_user_cnt,
-       SUM(comment_user_cnt)            AS comment_user_cnt,
-       SUM(follow_user_cnt)             AS follow_user_cnt
-FROM nova.dws_hib_usr_device_behavior_1d
-WHERE p_date = &#x27;{T1}&#x27;
-  AND is_new_device = 1
-GROUP BY p_date, af_media_source, platform, af_adset
-ORDER BY new_user_cnt DESC</pre>
-  </div>
-</div>
-
 <div class="sql-card" id="sql7">
   <div class="sql-card-header">
     <span class="sql-id-badge">SQL7</span>
@@ -4076,10 +4039,10 @@ LIMIT 50</pre>
 <script>
 (function() {
   // Monokai SQL 高亮（轻量级，客户端渲染）
-  var KW = /(SELECT|FROM|WHERE|GROUP\s+BY|ORDER\s+BY|HAVING|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|AND|OR|NOT|IN|IS|NULL|AS|WITH|UNION|ALL|DISTINCT|CASE|WHEN|THEN|ELSE|END|LIMIT|BETWEEN|BY|DESC|ASC|INTO|SET|UPDATE|INSERT|DELETE|EXISTS|LIKE|INTERVAL|OVER|PARTITION\s+BY|ROWS|RANGE|IF|TRUE|FALSE)/gi;
-  var FN  = /(COUNT|SUM|AVG|MAX|MIN|CAST|COALESCE|NULLIF|IF|IFNULL|DATE_FORMAT|DATE_SUB|DATE_ADD|FROM_UNIXTIME|UNIX_TIMESTAMP|CONCAT|TRIM|LOWER|UPPER|LENGTH|SUBSTR|ROUND|FLOOR|CEIL|ABS|NVL|DATEDIFF|SPLIT|ARRAY_CONTAINS|COLLECT_SET|COLLECT_LIST|PERCENTILE_APPROX|ROW_NUMBER|RANK|DENSE_RANK|LEAD|LAG|FIRST_VALUE|LAST_VALUE|SUM|NTILE)(?=\s*\()/gi;
+  var KW = /\b(SELECT|FROM|WHERE|GROUP\s+BY|ORDER\s+BY|HAVING|JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|ON|AND|OR|NOT|IN|IS|NULL|AS|WITH|UNION|ALL|DISTINCT|CASE|WHEN|THEN|ELSE|END|LIMIT|BETWEEN|BY|DESC|ASC|INTO|SET|UPDATE|INSERT|DELETE|EXISTS|LIKE|INTERVAL|OVER|PARTITION\s+BY|ROWS|RANGE|IF|TRUE|FALSE)\b/gi;
+  var FN  = /\b(COUNT|SUM|AVG|MAX|MIN|CAST|COALESCE|NULLIF|IF|IFNULL|DATE_FORMAT|DATE_SUB|DATE_ADD|FROM_UNIXTIME|UNIX_TIMESTAMP|CONCAT|TRIM|LOWER|UPPER|LENGTH|SUBSTR|ROUND|FLOOR|CEIL|ABS|NVL|DATEDIFF|SPLIT|ARRAY_CONTAINS|COLLECT_SET|COLLECT_LIST|PERCENTILE_APPROX|ROW_NUMBER|RANK|DENSE_RANK|LEAD|LAG|FIRST_VALUE|LAST_VALUE|SUM|NTILE)\b(?=\s*\()/gi;
   var STR = /('(?:[^'\]|\.)*')/g;
-  var NUM = /(\d+(?:\.\d+)?)/g;
+  var NUM = /\b(\d+(?:\.\d+)?)\b/g;
   var CMT = /(--[^
 ]*)/g;
 
@@ -4109,11 +4072,11 @@ LIMIT 50</pre>
     if (!s) return '';
     s = esc(s);
     // 函数名（先于关键字，避免 COUNT 被匹配为 KW）
-    s = s.replace(/(COUNT|SUM|AVG|MAX|MIN|CAST|COALESCE|NULLIF|DATE_FORMAT|DATE_SUB|DATE_ADD|FROM_UNIXTIME|UNIX_TIMESTAMP|CONCAT|TRIM|LOWER|UPPER|LENGTH|SUBSTR|ROUND|FLOOR|CEIL|ABS|NVL|DATEDIFF|SPLIT|ROW_NUMBER|RANK|DENSE_RANK|LEAD|LAG|FIRST_VALUE|LAST_VALUE|NTILE|PERCENTILE_APPROX|ARRAY_CONTAINS|COLLECT_SET|COLLECT_LIST)(?=\s*\()/gi, '<span class="mk-fn">$1</span>');
+    s = s.replace(/\b(COUNT|SUM|AVG|MAX|MIN|CAST|COALESCE|NULLIF|DATE_FORMAT|DATE_SUB|DATE_ADD|FROM_UNIXTIME|UNIX_TIMESTAMP|CONCAT|TRIM|LOWER|UPPER|LENGTH|SUBSTR|ROUND|FLOOR|CEIL|ABS|NVL|DATEDIFF|SPLIT|ROW_NUMBER|RANK|DENSE_RANK|LEAD|LAG|FIRST_VALUE|LAST_VALUE|NTILE|PERCENTILE_APPROX|ARRAY_CONTAINS|COLLECT_SET|COLLECT_LIST)\b(?=\s*\()/gi, '<span class="mk-fn">$1</span>');
     // 关键字
-    s = s.replace(/(SELECT|FROM|WHERE|GROUP\s+BY|ORDER\s+BY|HAVING|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|FULL\s+OUTER\s+JOIN|JOIN|ON|AND|OR|NOT|IN|IS\s+NOT\s+NULL|IS\s+NULL|IS|NULL|AS|WITH|UNION\s+ALL|UNION|ALL|DISTINCT|CASE|WHEN|THEN|ELSE|END|LIMIT|BETWEEN|BY|DESC|ASC|PARTITION\s+BY|TRUE|FALSE|IF|EXISTS|LIKE)/gi, '<span class="mk-kw">$1</span>');
+    s = s.replace(/\b(SELECT|FROM|WHERE|GROUP\s+BY|ORDER\s+BY|HAVING|LEFT\s+JOIN|RIGHT\s+JOIN|INNER\s+JOIN|FULL\s+OUTER\s+JOIN|JOIN|ON|AND|OR|NOT|IN|IS\s+NOT\s+NULL|IS\s+NULL|IS|NULL|AS|WITH|UNION\s+ALL|UNION|ALL|DISTINCT|CASE|WHEN|THEN|ELSE|END|LIMIT|BETWEEN|BY|DESC|ASC|PARTITION\s+BY|TRUE|FALSE|IF|EXISTS|LIKE)\b/gi, '<span class="mk-kw">$1</span>');
     // 数字
-    s = s.replace(/(\d+(?:\.\d+)?(?:e[+-]?\d+)?)/gi, '<span class="mk-num">$1</span>');
+    s = s.replace(/\b(\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/gi, '<span class="mk-num">$1</span>');
     return s;
   }
 
