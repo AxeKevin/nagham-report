@@ -216,13 +216,19 @@ function init(){
   accts.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;fa.appendChild(o);});
 
   // KPI 账户筛选 toggle 按钮，默认选中"代投"
+  window.kpiSelAccts=accts.filter(a=>a.includes('代投'));
   const kpiFilter=document.getElementById('kpiAcctFilter');
   accts.forEach(a=>{
     const btn=document.createElement('button');
     const isDt=a.includes('代投');
     btn.textContent=a; btn.dataset.acct=a;
     btn.className='acct-toggle'+(isDt?' active':'');
-    btn.onclick=function(){this.classList.toggle('active');renderKPI();};
+    btn.onclick=function(){
+      const i=window.kpiSelAccts.indexOf(a);
+      if(i>=0) window.kpiSelAccts.splice(i,1); else window.kpiSelAccts.push(a);
+      this.classList.toggle('active');
+      renderKPI();
+    };
     kpiFilter.appendChild(btn);
   });
 
@@ -248,7 +254,7 @@ function renderKPI(){
   const t2=ydIdx>1?datesSorted[ydIdx-2]:null;
 
   // 读取选中的账户（若无选中则全部）
-  const selAccts=[...document.querySelectorAll('.acct-toggle.active')].map(b=>b.dataset.acct);
+  const selAccts=window.kpiSelAccts||[];
   const acctFilter=arr=>selAccts.length>0?arr.filter(r=>selAccts.includes(r.account)):arr;
 
   const yR=acctFilter(SUMMARY.filter(r=>r.p_date==yd));
@@ -265,7 +271,7 @@ function renderKPI(){
   const yRet=retW(t2R),pRet=retW(t2?SUMMARY.filter(r=>r.p_date==(ydIdx>2?datesSorted[ydIdx-3]:null)):[]); 
 
   const ydS=String(yd);
-  const acctLabel=selAccts.length>0&&selAccts.length<4?selAccts.join('、'):'全账户合计';
+  const acctLabel=(window.kpiSelAccts&&window.kpiSelAccts.length>0&&window.kpiSelAccts.length<4)?window.kpiSelAccts.join('、'):'全账户合计';
   document.getElementById('kpiSub').textContent=`${ydS.slice(0,4)}-${ydS.slice(4,6)}-${ydS.slice(6,8)} 汇总（${acctLabel}）· 次留率口径 T-2`;
   function delt(cur,pre,fmt,lb=false){
     if(pre==null||pre===0)return'<span class="kpi-delta neu">—</span>';
