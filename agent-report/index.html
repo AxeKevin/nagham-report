@@ -137,9 +137,10 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
     <div style="background:#F0F7FF;border:1px solid #BFDBFE;border-radius:8px;padding:14px 18px;margin-bottom:20px">
       <div style="font-size:13px;font-weight:700;color:#1E40AF;margin-bottom:6px">📋 Ad 级别完整明细（过去14天）</div>
       <div style="font-size:12px;color:#3B82F6;margin-bottom:14px">分天 × Campaign × Adset × Ad，含消耗 / CTR / 新增 / CAC / 登录率 / 开口率 / 次留率</div>
-      <a id="csvLink" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#3B82F6;color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none">
+      <button id="csvBtn" onclick="downloadCSV()" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#3B82F6;color:#fff;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer">
         ⬇ 下载 CSV 明细文件
-      </a>
+      </button>
+      <span id="csvStatus" style="font-size:12px;color:#64748B"></span>
       <div style="margin-top:10px;font-size:11px;color:#94A3B8">文件每日 10:10 自动更新 · 数据截至 <span id="csvDate">2026-08-11</span></div>
     </div>
   </div>
@@ -185,12 +186,7 @@ function init(){
 
   renderKPI();renderCharts();renderYtd();
 
-  // CSV 下载链接
-  const csvEl=document.getElementById('csvLink');
-  if(csvEl){
-    csvEl.href='https://raw.githubusercontent.com/AxeKevin/nagham-report/main/agent-report/detail.csv';
-    csvEl.download='nagham_tiktok_detail_'+DATA_DATE+'.csv';
-  }
+
 }
 
 function fmtDate(d){const s=String(d);return s.slice(4,6)+'/'+s.slice(6,8);}
@@ -303,6 +299,31 @@ function renderYtd(){
 }
 
 
+function downloadCSV(){
+  const btn=document.getElementById('csvBtn');
+  const st=document.getElementById('csvStatus');
+  btn.disabled=true; btn.textContent='⏳ 下载中...'; st.textContent='';
+  const url='https://raw.githubusercontent.com/AxeKevin/nagham-report/main/agent-report/detail.csv';
+  fetch(url)
+    .then(r=>{
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.blob();
+    })
+    .then(blob=>{
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='nagham_tiktok_detail_'+DATA_DATE+'.csv';
+      a.click(); URL.revokeObjectURL(a.href);
+      btn.disabled=false; btn.textContent='⬇ 下载 CSV 明细文件';
+      st.textContent='✅ 下载完成';
+    })
+    .catch(e=>{
+      btn.disabled=false; btn.textContent='⬇ 下载 CSV 明细文件';
+      st.textContent='❌ 下载失败，请直接访问链接';
+      // fallback：直接打开
+      window.open(url,'_blank');
+    });
+}
 function switchTab(t,btn){
   document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
