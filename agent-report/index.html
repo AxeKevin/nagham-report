@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nagham · TikTok 投放数据看板</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F7FA;color:#1a1a2e;font-size:14px}
+#gate{position:fixed;inset:0;background:#F5F7FA;display:flex;align-items:center;justify-content:center;z-index:9999}
+.gate-box{background:#fff;border:1px solid #E2E8F0;border-radius:14px;padding:44px 52px;text-align:center;width:340px;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.gate-box h2{font-size:20px;font-weight:800;color:#0F172A;margin-bottom:4px}
+.gate-box p{font-size:13px;color:#94A3B8;margin-bottom:24px}
+.gate-box input{width:100%;padding:10px 14px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:14px;outline:none}
+.gate-box input:focus{border-color:#3B82F6}
+.err{color:#EF4444;font-size:12px;margin-top:8px;min-height:18px}
+.gate-box button{margin-top:14px;width:100%;padding:11px;background:#3B82F6;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
+.gate-box button:hover{background:#2563EB}
+#app{display:none}
+header{background:#fff;border-bottom:1px solid #E8ECF2;padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:#0F172A}
+.logo-icon{width:28px;height:28px;background:#3B82F6;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800}
+.badge{background:#EFF6FF;color:#3B82F6;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;margin-left:2px}
+.tabs{display:flex;gap:2px;background:#F1F5F9;border-radius:8px;padding:3px}
+.tab{padding:5px 18px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;color:#64748B;border:none;background:transparent;transition:.15s}
+.tab.active{background:#fff;color:#3B82F6;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.hdr-r{font-size:12px;color:#94A3B8}
+main{max-width:1440px;margin:0 auto;padding:20px 28px}
+.sec{background:#fff;border-radius:12px;border:1px solid #E8ECF2;padding:22px 24px;margin-bottom:18px}
+.sec-title{font-size:14px;font-weight:700;color:#0F172A;display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.sec-sub{font-size:12px;color:#94A3B8;margin-bottom:16px}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.kpi{border:1px solid #E8ECF2;border-radius:10px;padding:14px 16px;background:#FAFBFC}
+.kpi-label{font-size:11px;color:#94A3B8;margin-bottom:4px;font-weight:500}
+.kpi-val{font-size:24px;font-weight:800;color:#0F172A;line-height:1.1}
+.kpi-delta{font-size:11px;margin-top:5px;font-weight:500}
+.up{color:#10B981}.dn{color:#EF4444}.neu{color:#94A3B8}
+.alert{background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:9px 14px;margin-bottom:10px;font-size:12px;color:#92400E;display:flex;align-items:center;gap:8px}
+.alert-e{background:#FEF2F2;border-color:#FECACA;color:#991B1B}
+.charts-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-box{background:#FAFBFC;border:1px solid #E8ECF2;border-radius:8px;padding:16px}
+.chart-box h4{font-size:12px;font-weight:600;color:#374151;margin-bottom:10px}
+.chart-c{height:230px}
+.ctrl{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+select{border:1px solid #E2E8F0;border-radius:6px;padding:5px 10px;font-size:12px;color:#374151;background:#fff;outline:none}
+select:focus{border-color:#3B82F6}
+.btn{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+.btn-p{background:#3B82F6;color:#fff}.btn-p:hover{background:#2563EB}
+.btn-o{background:#fff;color:#374151;border:1px solid #E2E8F0}.btn-o:hover{background:#F8FAFC}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}
+thead th{background:#F8FAFC;padding:8px 10px;font-weight:600;color:#374151;border-bottom:2px solid #E8ECF2;text-align:right;cursor:pointer;user-select:none}
+thead th:first-child,thead th:nth-child(2),thead th:nth-child(3){text-align:left}
+thead th .si{color:#CBD5E1;margin-left:2px;font-size:10px}
+thead th.srt .si{color:#3B82F6}
+tbody tr{border-bottom:1px solid #F1F5F9}
+tbody tr:hover{background:#F8FAFC}
+tbody td{padding:7px 10px;text-align:right;color:#374151}
+tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left}
+.tag{display:inline-block;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:600}
+.t-lc{background:#FFF7ED;color:#D97706}.t-cc{background:#FDF4FF;color:#9333EA}.t-oth{background:#F1F5F9;color:#64748B}
+.warn{color:#EF4444;font-weight:600}.good{color:#10B981;font-weight:600}.null-c{color:#CBD5E1}
+.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.exp-card{border:1.5px solid #E2E8F0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:.15s;background:#fff}
+.exp-card:hover,.exp-card.sel{border-color:#3B82F6;background:#F0F7FF}
+.exp-card h5{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.exp-card p{font-size:11px;color:#94A3B8}
+.tp{display:none}.tp.active{display:block}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="gate-box">
+    <div style="font-size:28px;margin-bottom:12px">📊</div>
+    <h2>Nagham 投放看板</h2>
+    <p>代理商专属数据页面<br>请输入访问密码</p>
+    <input id="pw" type="password" placeholder="输入密码" onkeydown="if(event.key==='Enter')checkPw()">
+    <div class="err" id="pw-err"></div>
+    <button onclick="checkPw()">进入看板</button>
+  </div>
+</div>
+<div id="app">
+<header>
+  <div class="logo"><div class="logo-icon">N</div>Nagham <span class="badge">代理商投放看板</span></div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('monitor',this)">📊 投放监控</button>
+    <button class="tab" onclick="switchTab('export',this)">📥 数据导出</button>
+  </div>
+  <div class="hdr-r">数据截至 <b id="dataDate">2026-08-11</b></div>
+</header>
+<main>
+<div id="tab-monitor" class="tp active">
+  <div class="sec">
+    <div class="sec-title">📈 昨日整体表现 <span style="font-size:12px;font-weight:400;color:#94A3B8">vs 前日环比</span></div>
+    <div class="sec-sub" id="kpiSub"></div>
+    <div id="alerts"></div>
+    <div class="kpi-row" id="kpiRow"></div>
+  </div>
+  <div class="sec">
+    <div class="sec-title">📉 过去30天趋势</div>
+    <div class="sec-sub">消耗与 CAC 走势，按账户分线，快速识别拐点</div>
+    <div class="charts-2">
+      <div class="chart-box"><h4>账户日消耗（USD）</h4><div id="cCost" class="chart-c"></div></div>
+      <div class="chart-box"><h4>综合 CAC（USD）</h4><div id="cCAC" class="chart-c"></div></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-title">🔍 昨日明细 — 异常定位</div>
+    <div class="sec-sub">前链路（消耗/CTR/CAC）+ 后链路（登录率/开口率/次留率）· 红色=超阈值 · 点击列名排序</div>
+    <div class="ctrl">
+      <select id="fAcct" onchange="renderYtd()"><option value="">全部账户</option></select>
+      <select id="fBid" onchange="renderYtd()">
+        <option value="">全部出价</option><option>LC</option><option>CC</option><option>OTHER</option>
+      </select>
+      <select id="fObj" onchange="renderYtd()">
+        <option value="">全部目标</option><option>Login</option><option>Registration</option><option>Install</option><option>OTHER</option>
+      </select>
+    </div>
+    <div class="tw" id="ytdWrap"></div>
+  </div>
+</div>
+<div id="tab-export" class="tp">
+  <div class="sec">
+    <div class="sec-title">📥 导出过去14天明细数据</div>
+    <div class="sec-sub">选择维度后下载 CSV，可在 Excel 中进行广告计划/素材级别下钻分析</div>
+    <div class="exp-grid">
+      <div class="exp-card sel" onclick="selExp(this,'summary')">
+        <h5>📊 账户汇总</h5><p>分天 × 账户，所有指标</p>
+      </div>
+      <div class="exp-card" onclick="selExp(this,'bid')">
+        <h5>⚖️ 出价类型明细</h5><p>分天 × 账户 × LC / CC / OTHER</p>
+      </div>
+      <div class="exp-card" onclick="selExp(this,'detail')">
+        <h5>🎯 Ad 级别明细</h5><p>分天 × Campaign × Adset × Ad（完整下钻）</p>
+      </div>
+    </div>
+    <div class="ctrl">
+      <label style="font-size:12px;color:#374151">时间范围：</label>
+      <select id="expDays"><option value="3">最近3天</option><option value="7">最近7天</option><option value="14" selected>最近14天</option></select>
+      <select id="expAcct"><option value="">全部账户</option></select>
+      <button class="btn btn-p" onclick="doExport()">⬇ 下载 CSV</button>
+      <button class="btn btn-o" onclick="doPreview()">👁 预览</button>
+    </div>
+    <div class="tw" id="expPrev" style="margin-top:12px"></div>
+  </div>
+</div>
+</main>
+</div>
+<script>
+const GATE_PWD="nagham2026",DATA_DATE="2026-08-11";
+const SUMMARY=[{"p_date": 20260811, "account": "代投-iOS", "platform": "iOS", "bid_type": "LC", "obj_type": "Login", "cost_usd": 423.5, "ctr_pct": 0.28, "clicks": 1820, "new_dev": 52, "cac_usd": 8.15, "login_rate_pct": 76.9, "solo_open_rate_pct": 55.8, "pub_rate_pct": 3.8, "avg_dur_min": 9.2, "obs_dev": 40, "ret1d_rate_pct": null}, {"p_date": 20260811, "account": "代投-安卓", "platform": "Android", "bid_type": "LC", "obj_type": "Login", "cost_usd": 185.0, "ctr_pct": 0.45, "clicks": 890, "new_dev": 38, "cac_usd": 4.87, "login_rate_pct": 81.6, "solo_open_rate_pct": 48.7, "pub_rate_pct": 5.3, "avg_dur_min": 7.8, "obs_dev": 32, "ret1d_rate_pct": null}, {"p_date": 20260810, "account": "代投-iOS", "platform": "iOS", "bid_type": "LC", "obj_type": "Login", "cost_usd": 390.2, "ctr_pct": 0.31, "clicks": 1700, "new_dev": 48, "cac_usd": 8.13, "login_rate_pct": 79.2, "solo_open_rate_pct": 57.1, "pub_rate_pct": 4.0, "avg_dur_min": 9.5, "obs_dev": 38, "ret1d_rate_pct": null}, {"p_date": 20260810, "account": "代投-安卓", "platform": "Android", "bid_type": "LC", "obj_type": "Login", "cost_usd": 160.0, "ctr_pct": 0.48, "clicks": 750, "new_dev": 33, "cac_usd": 4.85, "login_rate_pct": 84.8, "solo_open_rate_pct": 51.5, "pub_rate_pct": 6.1, "avg_dur_min": 8.1, "obs_dev": 27, "ret1d_rate_pct": null}];
+const DETAIL=[{"p_date": 20260811, "account": "代投-iOS", "platform": "iOS", "bid_type": "LC", "obj_type": "Login", "cost_usd": 423.5, "ctr_pct": 0.28, "clicks": 1820, "new_dev": 52, "cac_usd": 8.15, "login_rate_pct": 76.9, "solo_open_rate_pct": 55.8, "pub_rate_pct": 3.8, "avg_dur_min": 9.2, "obs_dev": 40, "ret1d_rate_pct": null}, {"p_date": 20260811, "account": "代投-安卓", "platform": "Android", "bid_type": "LC", "obj_type": "Login", "cost_usd": 185.0, "ctr_pct": 0.45, "clicks": 890, "new_dev": 38, "cac_usd": 4.87, "login_rate_pct": 81.6, "solo_open_rate_pct": 48.7, "pub_rate_pct": 5.3, "avg_dur_min": 7.8, "obs_dev": 32, "ret1d_rate_pct": null}];
+
+function checkPw(){const v=document.getElementById('pw').value;if(v===GATE_PWD)unlock();else document.getElementById('pw-err').textContent='密码不正确';}
+function unlock(){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';sessionStorage.setItem('ng_auth',GATE_PWD);init();}
+(function(){const sp=new URLSearchParams(location.search);if(sp.get('t')===GATE_PWD||sessionStorage.getItem('ng_auth')===GATE_PWD)unlock();})();
+
+const ACCTS=['自投-iOS','自投-安卓','代投-iOS','代投-安卓'];
+const COLORS=['#3B82F6','#10B981','#F59E0B','#8B5CF6'];
+function uniq(arr,k){return[...new Set(arr.map(r=>r[k]))].filter(Boolean).sort();}
+function sumF(arr,f){return arr.reduce((s,r)=>s+(+r[f]||0),0);}
+
+function init(){
+  const accts=uniq(SUMMARY,'account');
+  ['fAcct','expAcct'].forEach(id=>{const el=document.getElementById(id);accts.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;el.appendChild(o);});});
+  renderKPI();renderCharts();renderYtd();
+}
+
+function renderKPI(){
+  const dates=uniq(SUMMARY,'p_date');
+  if(!dates.length)return;
+  const yd=dates[dates.length-1],pd=dates.length>1?dates[dates.length-2]:null;
+  const yR=SUMMARY.filter(r=>r.p_date==yd),pR=pd?SUMMARY.filter(r=>r.p_date==pd):[];
+  const yC=sumF(yR,'cost_usd'),pC=sumF(pR,'cost_usd');
+  const yN=sumF(yR,'new_dev'), pN=sumF(pR,'new_dev');
+  const yCAC=yN>0?yC/yN:0, pCAC=pN>0?pC/pN:0;
+  const ctrA=arr=>arr.length?arr.reduce((s,r)=>s+(+r.ctr_pct||0),0)/arr.length:null;
+  const retW=arr=>{const n=sumF(arr,'obs_dev'),s=arr.reduce((t,r)=>t+(+r.obs_dev||0)*(+r.ret1d_rate_pct||0),0);return n>=50?s/n:null;};
+  const yCTR=ctrA(yR),pCTR=ctrA(pR),yRet=retW(yR),pRet=retW(pR);
+  document.getElementById('kpiSub').textContent=`${yd.slice(0,4)}-${yd.slice(4,6)}-${yd.slice(6,8)} 汇总（全账户合计）`;
+  function delt(cur,pre,fmt,lb=false){
+    if(pre==null||pre===0)return'<span class="kpi-delta neu">—</span>';
+    const d=cur-pre,cls=(d>0)!=lb?'up':'dn',s=d>0?'▲':'▼';
+    return`<span class="kpi-delta ${cls}">${s} ${fmt(Math.abs(d))} (${(Math.abs(d)/Math.abs(pre)*100).toFixed(1)}%)</span>`;
+  }
+  const kpis=[
+    {l:'总消耗 (USD)', v:`$${yC.toFixed(0)}`,  d:delt(yC,pC,v=>`$${v.toFixed(0)}`)},
+    {l:'新增设备',      v:yN,                   d:delt(yN,pN,v=>v.toFixed(0))},
+    {l:'综合 CAC',     v:`$${yCAC.toFixed(2)}`, d:delt(yCAC,pCAC,v=>`$${v.toFixed(2)}`,true)},
+    {l:'平均 CTR',     v:yCTR!=null?`${yCTR.toFixed(2)}%`:'—', d:delt(yCTR,pCTR,v=>`${v.toFixed(2)}pp`)},
+    {l:'次留率',        v:yRet!=null?`${yRet.toFixed(1)}%`:'—', d:yRet&&pRet?delt(yRet,pRet,v=>`${v.toFixed(1)}pp`):'<span class="kpi-delta neu">—</span>'},
+  ];
+  document.getElementById('kpiRow').innerHTML=kpis.map(k=>`<div class="kpi"><div class="kpi-label">${k.l}</div><div class="kpi-val">${k.v}</div>${k.d}</div>`).join('');
+  const al=[];
+  if(pC>0&&yCAC/pCAC>1.15)al.push({e:0,m:`综合CAC较昨日上升 ${((yCAC/pCAC-1)*100).toFixed(0)}%，请检查各账户出价`});
+  if(pC>0&&yC/pC>1.2)al.push({e:0,m:`总消耗较昨日增长 ${((yC/pC-1)*100).toFixed(0)}%`});
+  if(pC>0&&yC/pC<0.8)al.push({e:1,m:`总消耗较昨日下降 ${((1-yC/pC)*100).toFixed(0)}%，可能有计划暂停`});
+  document.getElementById('alerts').innerHTML=al.map(a=>`<div class="alert ${a.e?'alert-e':''}">⚠️ ${a.m}</div>`).join('');
+}
+
+function renderCharts(){
+  const dates=uniq(SUMMARY,'p_date');
+  const bD=SUMMARY.reduce((m,r)=>{(m[r.p_date]=m[r.p_date]||[]).push(r);return m},{});
+  function ser(field){
+    return ACCTS.map((ac,i)=>({name:ac,type:'line',smooth:true,symbol:'circle',symbolSize:4,
+      lineStyle:{width:2,color:COLORS[i]},itemStyle:{color:COLORS[i]},connectNulls:true,
+      data:dates.map(d=>{const rows=(bD[d]||[]).filter(r=>r.account===ac);if(!rows.length)return null;
+        if(field==='cac'){const c=sumF(rows,'cost_usd'),n=sumF(rows,'new_dev');return n>0?+(c/n).toFixed(2):null;}
+        return+sumF(rows,'cost_usd').toFixed(2);})}));
+  }
+  const base={
+    xAxis:{type:'category',data:dates.map(d=>`${d.slice(4,6)}-${d.slice(6,8)}`),axisLabel:{fontSize:11,rotate:35},axisLine:{lineStyle:{color:'#E2E8F0'}}},
+    yAxis:{type:'value',axisLabel:{fontSize:11},splitLine:{lineStyle:{color:'#F1F5F9'}}},
+    grid:{top:12,bottom:68,left:54,right:12},
+    legend:{bottom:0,itemWidth:12,itemHeight:4,textStyle:{fontSize:11}},
+    tooltip:{trigger:'axis',valueFormatter:v=>v!=null?`$${v}`:'—'}
+  };
+  echarts.init(document.getElementById('cCost')).setOption({...base,series:ser('cost')});
+  echarts.init(document.getElementById('cCAC')).setOption({...base,series:ser('cac')});
+}
+
+let sCol='cost_usd',sAsc=false;
+function setSort(k){if(sCol===k)sAsc=!sAsc;else{sCol=k;sAsc=false;}renderYtd();}
+function renderYtd(){
+  const dates=uniq(SUMMARY,'p_date');if(!dates.length)return;
+  const yd=dates[dates.length-1];
+  const fA=document.getElementById('fAcct').value,fB=document.getElementById('fBid').value,fO=document.getElementById('fObj').value;
+  let rows=SUMMARY.filter(r=>r.p_date==yd);
+  if(fA)rows=rows.filter(r=>r.account===fA);
+  if(fB)rows=rows.filter(r=>r.bid_type===fB);
+  if(fO)rows=rows.filter(r=>r.obj_type===fO);
+  rows.sort((a,b)=>sAsc?(a[sCol]??-1e9)-(b[sCol]??-1e9):(b[sCol]??-1e9)-(a[sCol]??-1e9));
+  const cols=[{k:'account',l:'账户'},{k:'bid_type',l:'出价类型'},{k:'obj_type',l:'优化目标'},
+    {k:'cost_usd',l:'消耗(USD)'},{k:'ctr_pct',l:'CTR%'},{k:'new_dev',l:'新增'},{k:'cac_usd',l:'CAC'},
+    {k:'login_rate_pct',l:'登录率%'},{k:'solo_open_rate_pct',l:'开口率%'},{k:'pub_rate_pct',l:'发布率%'},
+    {k:'avg_dur_min',l:'人均时长'},{k:'ret1d_rate_pct',l:'次留率%'}];
+  const hds=cols.map(c=>`<th onclick="setSort('${c.k}')" class="${sCol===c.k?'srt':''}">${c.l}<span class="si">${sCol===c.k?(sAsc?'↑':'↓'):'↕'}</span></th>`).join('');
+  function fc(k,v){
+    if(v===null||v===undefined)return'<td class="null-c">—</td>';
+    if(k==='account')return`<td><b>${v}</b></td>`;
+    if(k==='bid_type'){const c=v==='LC'?'t-lc':v==='CC'?'t-cc':'t-oth';return`<td><span class="tag ${c}">${v}</span></td>`;}
+    if(k==='obj_type')return`<td><span class="tag t-oth">${v}</span></td>`;
+    if(k==='cost_usd')return`<td>$${(+v).toFixed(2)}</td>`;
+    if(k==='cac_usd'){const cl=+v>10?'warn':+v<5?'good':'';return`<td class="${cl}">$${(+v).toFixed(2)}</td>`;}
+    if(k==='ctr_pct')return`<td>${(+v).toFixed(2)}%</td>`;
+    if(k==='new_dev')return`<td>${v}</td>`;
+    if(k==='avg_dur_min')return`<td>${(+v).toFixed(1)}min</td>`;
+    if(k.endsWith('_pct')){const bad=(k==='login_rate_pct'&&+v<60)||(k==='ret1d_rate_pct'&&+v<10);return`<td class="${bad?'warn':''}">${(+v).toFixed(1)}%</td>`;}
+    return`<td>${v}</td>`;
+  }
+  const body=rows.length?rows.map(r=>`<tr>${cols.map(c=>fc(c.k,r[c.k])).join('')}</tr>`).join(''):`<tr><td colspan="${cols.length}" style="text-align:center;padding:20px;color:#94A3B8">无匹配数据</td></tr>`;
+  document.getElementById('ytdWrap').innerHTML=`<table><thead><tr>${hds}</tr></thead><tbody>${body}</tbody></table><div style="font-size:11px;color:#94A3B8;margin-top:6px">共 ${rows.length} 条 · 红色=超阈值（CAC>10 / 登录率<60% / 次留率<10%）</div>`;
+}
+
+let expType='summary';
+function selExp(el,t){document.querySelectorAll('.exp-card').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');expType=t;}
+function getExpRows(){
+  const days=+document.getElementById('expDays').value;
+  const acct=document.getElementById('expAcct').value;
+  const src=expType==='detail'?DETAIL:SUMMARY;
+  const dates=uniq(src,'p_date').slice(-days);
+  let rows=src.filter(r=>dates.includes(r.p_date));
+  if(acct)rows=rows.filter(r=>r.account===acct);
+  if(expType==='bid'){
+    const agg={};
+    rows.forEach(r=>{const k=`${r.p_date}|${r.account}|${r.bid_type}`;if(!agg[k])agg[k]={p_date:r.p_date,account:r.account,bid_type:r.bid_type,cost:0,new_dev:0};agg[k].cost+=+r.cost_usd||0;agg[k].new_dev+=+r.new_dev||0;});
+    return Object.values(agg).map(a=>({p_date:a.p_date,account:a.account,bid_type:a.bid_type,cost_usd:+a.cost.toFixed(2),new_dev:a.new_dev,cac_usd:a.new_dev>0?+(a.cost/a.new_dev).toFixed(2):null}));
+  }
+  return rows;
+}
+function doPreview(){
+  const rows=getExpRows().slice(0,25);
+  if(!rows.length){document.getElementById('expPrev').innerHTML='<p style="color:#94A3B8">无数据</p>';return;}
+  const keys=Object.keys(rows[0]);
+  document.getElementById('expPrev').innerHTML=`<table><thead><tr>${keys.map(k=>`<th style="background:#F8FAFC">${k}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${keys.map(k=>`<td>${r[k]??'—'}</td>`).join('')}</tr>`).join('')}</tbody></table><div style="font-size:11px;color:#94A3B8;margin-top:6px">预览前25行</div>`;
+}
+function doExport(){
+  const rows=getExpRows();if(!rows.length){alert('无数据');return;}
+  const keys=Object.keys(rows[0]);
+  const csv=[keys.join(','),...rows.map(r=>keys.map(k=>{const v=r[k];return v==null?'':(`${v}`.includes(',')?`"${v}"`:v);}).join(','))].join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download=`nagham_tiktok_${expType}_${DATA_DATE}.csv`;a.click();URL.revokeObjectURL(url);
+}
+function switchTab(t,btn){
+  document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');btn.classList.add('active');
+}
+</script>
+</body>
+</html>
