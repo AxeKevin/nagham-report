@@ -192,7 +192,8 @@ function uniq(arr,k){return[...new Set(arr.map(r=>r[k]))].filter(Boolean).sort()
 function sumF(arr,f){return arr.reduce((s,r)=>s+(+r[f]||0),0);}
 
 function init(){
-  const accts=uniq(SUMMARY,'account');
+  // 只保留可读账户名（过滤未映射的纯数字ID）
+  const accts=uniq(SUMMARY,'account').filter(a=>typeof a==='string'&&isNaN(a));
   const dates=uniq(SUMMARY,'p_date');
 
   // KPI 日期下拉（默认最新日）
@@ -255,7 +256,9 @@ function renderKPI(){
 
   // 读取选中的账户（若无选中则全部）
   const selAccts=window.kpiSelAccts||[];
-  const acctFilter=arr=>selAccts.length>0?arr.filter(r=>selAccts.includes(r.account)):arr;
+  // 过滤掉未映射的数字账户ID行
+  const cleanSummary=r=>typeof r.account==='string'&&isNaN(r.account);
+  const acctFilter=arr=>{const c=arr.filter(cleanSummary);return selAccts.length>0?c.filter(r=>selAccts.includes(r.account)):c;};
 
   const yR=acctFilter(SUMMARY.filter(r=>r.p_date==yd));
   const pR=pd?acctFilter(SUMMARY.filter(r=>r.p_date==pd)):[];
@@ -342,7 +345,135 @@ function renderDiagAccount(){
   if(!active.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无账户数据</p>';return;}
   el.style.cssText='display:grid;grid-template-columns:repeat('+Math.min(active.length,4)+',1fr);gap:10px';
   el.innerHTML=active.map(ac=>{
-    const rows=SUMMARY.filter(r=>d7.includes(r.p_date)&&r.account===ac);
+    const rows=SUMMARY.filter(r=>d7.includes(r.p_date)&&r.account===ac&&typeof r.account==='string'&&isNaN(r.account));
+    const cost=sumF(rows,'cost_usd'),nd=sumF(rows,'new_dev'),obs=sumF(rows,'obs_dev');
+    const cac=nd>0?cost/nd:null;
+    const ret=obs>=30?rows.reduce((s,r)=>s+(+r.obs_dev||0)*(+r.ret1d_rate_pct||0),0)/obs:null;
+    const lgn=nd>0?rows.reduce((s,r)=>s+(+r.new_dev||0)*(+r.login_rate_pct||0),0)/nd:null;
+    const op= nd>0?rows.reduce((s,r)=>s+(+r.new_dev||0)*(+r.solo_open_rate_pct||0),0)/nd:null;
+    const lv=diagLevel(cost,nd,cac,ret,lgn,op,rows.length,null);
+    const detail=`消耗 $${cost.toFixed(0)} · ${nd} 新增`
+      +(cac!=null?` · CAC $${cac.toFixed(1)}`:'')
+      +(ret!=null?` · 次留 ${ret.toFixed(1)}%`:'')
+      +(lgn!=null?` · 登录 ${lgn.toFixed(1)}%`:'');
+    return diagCard(ac,'',{cost,nd,cac,ret,lgn},lv,detail);
+  }).join('');
+}
+
+// ── Campaign 级 ────────────────────────────────────────────
+function renderDiagCampaign(){
+  const el=document.getElementById('diagCampaign'); if(!el) return;
+  if(!DIAG.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无Campaign数据</p>';return;}
+  // 聚合到 account×campaign
+  const agg={};
+  DIAG.forEach(r=>{
+    const k=r.ac+'||'+r.cp;
+    if(!agg[k]) agg[k]={ac:r.ac,cp:r.cp,cost:0,nd:0,obs:0,ret_w:0,lgn_w:0,op_w:0};
+    const a=agg[k];
+    a.cost+=r.cost; a.nd+=r.nd; a.obs+=r.obs;
+    if(r.ret_r!=null) a.ret_w+=r.obs*(r.ret_r||0);
+    if(r.lgn_r!=null) a.lgn_w+=r.nd*(r.lgn_r||0);
+    if(r.op_r!=null)  a.op_w +=r.nd*(r.op_r||0);
+  });
+  const list=Object.values(agg).filter(a=>a.cost>0).sort((a,b)=>b.cost-a.cost).slice(0,12);
+  el.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:10px';
+  el.innerHTML=list.map(a=>{
+    const cac=a.nd>0?a.cost/a.nd:null;
+    const ret=a.obs>=30?a.ret_w/a.obs:null;
+    const lgn=a.nd>0?a.lgn_w/a.nd:null;
+    const op=a.nd>0?a.op_w/a.nd:null;
+    const lv=diagLevel(a.cost,a.nd,cac,ret,lgn,op,1,null);
+    const detail=`消耗 $${a.cost.toFixed(0)} · ${a.nd} 新增`
+      +(cac!=null?` · CAC $${cac.toFixed(1)}`:'')
+      +(ret!=null?` · 次留 ${ret.toFixed(1)}%`:'')
+      +(lgn!=null?` · 登录 ${lgn.toFixed(1)}%`:'');
+    return diagCard(a.ac, a.cp, {}, lv, detail);
+  }).join('');
+}
+
+// ── Adset 级 ───────────────────────────────────────────────
+function renderDiagAdset(){
+  const el=document.getElementById('diagAdset'); if(!el) return;
+  if(!DIAG.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无Adset数据</p>';return;}
+  const agg={};
+  DIAG.forEach(r=>{
+    const k=r.ac+'||'+r.cp+'||'+r.as;
+    if(!agg[k]) agg[k]={ac:r.ac,cp:r.cp,as:r.as,bt:r.bt,ot:r.ot,cost:0,nd:0,obs:0,ret_w:0,lgn_w:0,op_w:0};
+    const a=agg[k];
+    a.cost+=r.cost; a.nd+=r.nd; a.obs+=r.obs;
+    if(r.ret_r!=null) a.ret_w+=r.obs*(r.ret_r||0);
+    if(r.lgn_r!=null) a.lgn_w+=r.nd*(r.lgn_r||0);
+    if(r.op_r!=null)  a.op_w +=r.nd*(r.op_r||0);
+  });
+  const list=Object.values(agg).filter(a=>a.cost>0).sort((a,b)=>b.cost-a.cost).slice(0,12);
+  el.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:10px';
+  el.innerHTML=list.map(a=>{
+    const cac=a.nd>0?a.cost/a.nd:null;
+    const ret=a.obs>=30?a.ret_w/a.obs:null;
+    const lgn=a.nd>0?a.lgn_w/a.nd:null;
+    const op=a.nd>0?a.op_w/a.nd:null;
+    const lv=diagLevel(a.cost,a.nd,cac,ret,lgn,op,1,null);
+    const bt=a.bt==='LC'?`<span class="tag t-lc">${a.bt}</span>`:a.bt==='CC'?`<span class="tag t-cc">${a.bt}</span>`:`<span class="tag t-oth">${a.bt}</span>`;
+    const detail=`${bt} ${a.ot} · 消耗 $${a.cost.toFixed(0)} · ${a.nd} 新增`
+      +(cac!=null?` · CAC $${cac.toFixed(1)}`:'')
+      +(ret!=null?` · 次留 ${ret.toFixed(1)}%`:'')
+      +(lgn!=null?` · 登录 ${lgn.toFixed(1)}%`:'');
+    return diagCard(a.ac, a.as, {}, lv, detail);
+  }).join('');
+}
+
+// ── Ad 素材级 ──────────────────────────────────────────────
+function renderDiagAd(){
+  const el=document.getElementById('diagAd'); if(!el) return;
+  if(!DIAG.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无Ad数据</p>';return;}
+  const list=DIAG.filter(r=>r.cost>0).slice(0,16);
+  el.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:10px';
+  el.innerHTML=list.map(r=>{
+    const lv=diagLevel(r.cost,r.nd,r.cac,r.ret_r,r.lgn_r,r.op_r,r.days,null);
+    const bt=r.bt==='LC'?`<span class="tag t-lc">${r.bt}</span>`:r.bt==='CC'?`<span class="tag t-cc">${r.bt}</span>`:`<span class="tag t-oth">${r.bt}</span>`;
+    const detail=`${bt} · 消耗 $${r.cost.toFixed(0)} · ${r.nd} 新增`
+      +(r.cac!=null?` · CAC $${r.cac.toFixed(1)}`:'')
+      +(r.ret_r!=null?` · 次留 ${r.ret_r.toFixed(1)}%`:'')
+      +(r.lgn_r!=null?` · 登录 ${r.lgn_r.toFixed(1)}%`:'')
+      +(r.sg&&r.sg!=='unknown'?` · 歌曲 ${r.sg}`:'')
+      +` · 近${r.days}天`;
+    return diagCard(r.ac, r.ad, r, lv, detail);
+  }).join('');
+}
+
+// ── 切换诊断 Tab ───────────────────────────────────────────
+function switchDiag(level, btn){
+  ['account','campaign','adset','ad'].forEach(l=>{
+    const el=document.getElementById('diag'+l.charAt(0).toUpperCase()+l.slice(1));
+    if(el) el.style.display=l===level?'':'none';
+  });
+  document.querySelectorAll('.dtab').forEach(b=>{
+    b.style.background='transparent'; b.style.color='#64748B';
+    b.style.fontWeight='500'; b.style.boxShadow='';
+  });
+  btn.style.background='#fff'; btn.style.color='#3B82F6';
+  btn.style.fontWeight='600'; btn.style.boxShadow='0 1px 3px rgba(0,0,0,.08)';
+}
+
+
+function renderDiag(){
+  renderDiagAccount();
+  renderDiagCampaign();
+  renderDiagAdset();
+  renderDiagAd();
+}
+
+// ── 账户级 ─────────────────────────────────────────────────
+function renderDiagAccount(){
+  const dates=uniq(SUMMARY,'p_date').sort();
+  const d7=dates.slice(-7);
+  const ACCTS_ALL=['自投-iOS','自投-安卓','代投-iOS','代投-安卓'];
+  const active=ACCTS_ALL.filter(ac=>SUMMARY.filter(r=>d7.includes(r.p_date)&&r.account===ac).reduce((s,r)=>s+(+r.cost_usd||0),0)>0);
+  const el=document.getElementById('diagAccount'); if(!el) return;
+  if(!active.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无账户数据</p>';return;}
+  el.style.cssText='display:grid;grid-template-columns:repeat('+Math.min(active.length,4)+',1fr);gap:10px';
+  el.innerHTML=active.map(ac=>{
+    const rows=SUMMARY.filter(r=>d7.includes(r.p_date)&&r.account===ac&&typeof r.account==='string'&&isNaN(r.account));
     const cost=sumF(rows,'cost_usd'),nd=sumF(rows,'new_dev'),obs=sumF(rows,'obs_dev');
     const cac=nd>0?cost/nd:null;
     const ret=obs>=30?rows.reduce((s,r)=>s+(+r.obs_dev||0)*(+r.ret1d_rate_pct||0),0)/obs:null;
@@ -457,7 +588,8 @@ function renderCharts(){
   const td=document.getElementById('trendDays');
   const nDays=td?+td.value:30;
   const dates=allDates.slice(-nDays);
-  const bD=SUMMARY.reduce((m,r)=>{(m[r.p_date]=m[r.p_date]||[]).push(r);return m},{});
+  const SMRY=SUMMARY.filter(r=>typeof r.account==='string'&&isNaN(r.account));
+  const bD=SMRY.reduce((m,r)=>{(m[r.p_date]=m[r.p_date]||[]).push(r);return m},{});
   function ser(field){
     return ACCTS.map((ac,i)=>({name:ac,type:'line',smooth:true,symbol:'circle',symbolSize:4,
       lineStyle:{width:2,color:COLORS[i]},itemStyle:{color:COLORS[i]},connectNulls:true,
@@ -483,7 +615,7 @@ function renderYtd(){
   const fdEl=document.getElementById('fDate');
   const yd=fdEl&&fdEl.value?+fdEl.value:dates[dates.length-1];
   const fA=document.getElementById('fAcct').value,fB=document.getElementById('fBid').value,fO=document.getElementById('fObj').value;
-  let rows=SUMMARY.filter(r=>r.p_date==yd && (+r.cost_usd||0)>0);
+  let rows=SUMMARY.filter(r=>r.p_date==yd && (+r.cost_usd||0)>0 && typeof r.account==='string' && isNaN(r.account));
   if(fA)rows=rows.filter(r=>r.account===fA);
   if(fB)rows=rows.filter(r=>r.bid_type===fB);
   if(fO)rows=rows.filter(r=>r.obj_type===fO);
