@@ -63,6 +63,8 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
 .warn{color:#EF4444;font-weight:600}.good{color:#10B981;font-weight:600}.null-c{color:#CBD5E1}
 
 .tp{display:none}.tp.active{display:block}
+.acct-toggle{padding:3px 10px;border-radius:5px;border:1.5px solid #E2E8F0;background:#fff;color:#64748B;font-size:11px;font-weight:500;cursor:pointer;transition:.12s}
+.acct-toggle.active{border-color:#3B82F6;background:#EFF6FF;color:#2563EB;font-weight:700}
 .diag-card{border-radius:10px;padding:14px 16px;border:1px solid #E2E8F0}
 .diag-card h5{font-size:12px;font-weight:700;margin-bottom:6px}
 .diag-card .action{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:700;margin-bottom:6px}
@@ -113,9 +115,12 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
     <div id="diagAd" style="display:none"></div>
   </div>
   <div class="sec">
-    <div class="sec-title" style="justify-content:space-between">
+    <div class="sec-title" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
       <span>📈 整体表现 <span style="font-size:12px;font-weight:400;color:#94A3B8">vs 前日环比 · 次留率取 T-2 口径</span></span>
-      <select id="kpiDate" onchange="renderKPI()" style="font-size:12px"></select>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div id="kpiAcctFilter" style="display:flex;gap:4px;flex-wrap:wrap"></div>
+        <select id="kpiDate" onchange="renderKPI()" style="font-size:12px"></select>
+      </div>
     </div>
     <div class="sec-sub" id="kpiSub"></div>
     <div id="alerts"></div>
@@ -206,9 +211,20 @@ function init(){
     fd.appendChild(o);
   });
 
-  // 账户下拉
+  // 明细表账户下拉
   const fa=document.getElementById('fAcct');
   accts.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;fa.appendChild(o);});
+
+  // KPI 账户筛选 toggle 按钮，默认选中"代投"
+  const kpiFilter=document.getElementById('kpiAcctFilter');
+  accts.forEach(a=>{
+    const btn=document.createElement('button');
+    const isDt=a.includes('代投');
+    btn.textContent=a; btn.dataset.acct=a;
+    btn.className='acct-toggle'+(isDt?' active':'');
+    btn.onclick=function(){this.classList.toggle('active');renderKPI();};
+    kpiFilter.appendChild(btn);
+  });
 
   renderKPI();renderDiag();renderCharts();renderYtd();
 
@@ -231,9 +247,13 @@ function renderKPI(){
   // T-2 用于次留（再往前一天）
   const t2=ydIdx>1?datesSorted[ydIdx-2]:null;
 
-  const yR=SUMMARY.filter(r=>r.p_date==yd);
-  const pR=pd?SUMMARY.filter(r=>r.p_date==pd):[];
-  const t2R=t2?SUMMARY.filter(r=>r.p_date==t2):[];
+  // 读取选中的账户（若无选中则全部）
+  const selAccts=[...document.querySelectorAll('.acct-toggle.active')].map(b=>b.dataset.acct);
+  const acctFilter=arr=>selAccts.length>0?arr.filter(r=>selAccts.includes(r.account)):arr;
+
+  const yR=acctFilter(SUMMARY.filter(r=>r.p_date==yd));
+  const pR=pd?acctFilter(SUMMARY.filter(r=>r.p_date==pd)):[];
+  const t2R=t2?acctFilter(SUMMARY.filter(r=>r.p_date==t2)):[];
 
   const yC=sumF(yR,'cost_usd'),pC=sumF(pR,'cost_usd');
   const yN=sumF(yR,'new_dev'), pN=sumF(pR,'new_dev');
@@ -245,7 +265,8 @@ function renderKPI(){
   const yRet=retW(t2R),pRet=retW(t2?SUMMARY.filter(r=>r.p_date==(ydIdx>2?datesSorted[ydIdx-3]:null)):[]); 
 
   const ydS=String(yd);
-  document.getElementById('kpiSub').textContent=`${ydS.slice(0,4)}-${ydS.slice(4,6)}-${ydS.slice(6,8)} 汇总（全账户合计）· 次留率口径 T-2`;
+  const acctLabel=selAccts.length>0&&selAccts.length<4?selAccts.join('、'):'全账户合计';
+  document.getElementById('kpiSub').textContent=`${ydS.slice(0,4)}-${ydS.slice(4,6)}-${ydS.slice(6,8)} 汇总（${acctLabel}）· 次留率口径 T-2`;
   function delt(cur,pre,fmt,lb=false){
     if(pre==null||pre===0)return'<span class="kpi-delta neu">—</span>';
     const d=cur-pre,cls=(d>0)!=lb?'up':'dn',s=d>0?'▲':'▼';
