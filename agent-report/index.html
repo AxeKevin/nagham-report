@@ -88,13 +88,26 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
 <main>
 <div id="tab-monitor" class="tp active">
   <div class="sec">
-    <div class="sec-title">📈 昨日整体表现 <span style="font-size:12px;font-weight:400;color:#94A3B8">vs 前日环比</span></div>
+    <div class="sec-title" style="justify-content:space-between">
+      <span>📈 整体表现 <span style="font-size:12px;font-weight:400;color:#94A3B8">vs 前日环比 · 次留率取 T-2 口径</span></span>
+      <select id="kpiDate" onchange="renderKPI()" style="font-size:12px"></select>
+    </div>
     <div class="sec-sub" id="kpiSub"></div>
     <div id="alerts"></div>
     <div class="kpi-row" id="kpiRow"></div>
   </div>
   <div class="sec">
-    <div class="sec-title">📉 过去30天趋势</div>
+    <div class="sec-title" style="justify-content:space-between">
+      <span>📉 趋势走势</span>
+      <div style="display:flex;gap:6px;align-items:center">
+        <label style="font-size:12px;color:#94A3B8">展示天数</label>
+        <select id="trendDays" onchange="renderCharts()" style="font-size:12px">
+          <option value="7">近7天</option>
+          <option value="14">近14天</option>
+          <option value="30" selected>近30天</option>
+        </select>
+      </div>
+    </div>
     <div class="sec-sub">消耗与 CAC 走势，按账户分线，快速识别拐点</div>
     <div class="charts-2">
       <div class="chart-box"><h4>账户日消耗（USD）</h4><div id="cCost" class="chart-c"></div></div>
@@ -105,6 +118,7 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
     <div class="sec-title">🔍 昨日明细 — 异常定位</div>
     <div class="sec-sub">前链路（消耗/CTR/CAC）+ 后链路（登录率/开口率/次留率）· 红色=超阈值 · 点击列名排序</div>
     <div class="ctrl">
+      <select id="fDate" onchange="renderYtd()" style="font-weight:600"></select>
       <select id="fAcct" onchange="renderYtd()"><option value="">全部账户</option></select>
       <select id="fBid" onchange="renderYtd()">
         <option value="">全部出价</option><option>LC</option><option>CC</option><option>OTHER</option>
@@ -147,29 +161,69 @@ function sumF(arr,f){return arr.reduce((s,r)=>s+(+r[f]||0),0);}
 
 function init(){
   const accts=uniq(SUMMARY,'account');
-  const fa=document.getElementById('fAcct');accts.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;fa.appendChild(o);});
+  const dates=uniq(SUMMARY,'p_date');
+
+  // KPI 日期下拉（默认最新日）
+  const kd=document.getElementById('kpiDate');
+  [...dates].reverse().forEach((d,i)=>{
+    const o=document.createElement('option');
+    o.value=d; o.textContent=fmtDate(d)+(i===0?' (最新)':'');
+    kd.appendChild(o);
+  });
+
+  // 明细日期下拉
+  const fd=document.getElementById('fDate');
+  [...dates].reverse().forEach((d,i)=>{
+    const o=document.createElement('option');
+    o.value=d; o.textContent=fmtDate(d)+(i===0?' (最新)':'');
+    fd.appendChild(o);
+  });
+
+  // 账户下拉
+  const fa=document.getElementById('fAcct');
+  accts.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;fa.appendChild(o);});
+
   renderKPI();renderCharts();renderYtd();
-  // 设置 CSV 下载链接
+
+  // CSV 下载链接
   const csvEl=document.getElementById('csvLink');
   if(csvEl){
-    const base='https://raw.githubusercontent.com/AxeKevin/nagham-report/main/agent-report/detail.csv';
-    csvEl.href=base;
+    csvEl.href='https://raw.githubusercontent.com/AxeKevin/nagham-report/main/agent-report/detail.csv';
     csvEl.download='nagham_tiktok_detail_'+DATA_DATE+'.csv';
   }
 }
 
+function fmtDate(d){const s=String(d);return s.slice(4,6)+'/'+s.slice(6,8);}
+
 function renderKPI(){
   const dates=uniq(SUMMARY,'p_date');
   if(!dates.length)return;
-  const yd=dates[dates.length-1],pd=dates.length>1?dates[dates.length-2]:null;
-  const yR=SUMMARY.filter(r=>r.p_date==yd),pR=pd?SUMMARY.filter(r=>r.p_date==pd):[];
+
+  // T-1 日期（当前选择）
+  const sel=document.getElementById('kpiDate');
+  const yd=sel&&sel.value?+sel.value:dates[dates.length-1];
+  const datesSorted=dates.slice().sort();
+  const ydIdx=datesSorted.indexOf(yd);
+  const pd=ydIdx>0?datesSorted[ydIdx-1]:null;
+
+  // T-2 用于次留（再往前一天）
+  const t2=ydIdx>1?datesSorted[ydIdx-2]:null;
+
+  const yR=SUMMARY.filter(r=>r.p_date==yd);
+  const pR=pd?SUMMARY.filter(r=>r.p_date==pd):[];
+  const t2R=t2?SUMMARY.filter(r=>r.p_date==t2):[];
+
   const yC=sumF(yR,'cost_usd'),pC=sumF(pR,'cost_usd');
   const yN=sumF(yR,'new_dev'), pN=sumF(pR,'new_dev');
   const yCAC=yN>0?yC/yN:0, pCAC=pN>0?pC/pN:0;
   const ctrA=arr=>arr.length?arr.reduce((s,r)=>s+(+r.ctr_pct||0),0)/arr.length:null;
-  const retW=arr=>{const n=sumF(arr,'obs_dev'),s=arr.reduce((t,r)=>t+(+r.obs_dev||0)*(+r.ret1d_rate_pct||0),0);return n>=50?s/n:null;};
-  const yCTR=ctrA(yR),pCTR=ctrA(pR),yRet=retW(yR),pRet=retW(pR);
-  document.getElementById('kpiSub').textContent=`${String(yd).slice(0,4)}-${String(yd).slice(4,6)}-${String(yd).slice(6,8)} 汇总（全账户合计）`;
+  // 次留用 T-2 数据
+  const retW=arr=>{const n=sumF(arr,'obs_dev'),s=arr.reduce((t,r)=>t+(+r.obs_dev||0)*(+r.ret1d_rate_pct||0),0);return n>=50?+(s/n).toFixed(1):null;};
+  const yCTR=ctrA(yR),pCTR=ctrA(pR);
+  const yRet=retW(t2R),pRet=retW(t2?SUMMARY.filter(r=>r.p_date==(ydIdx>2?datesSorted[ydIdx-3]:null)):[]); 
+
+  const ydS=String(yd);
+  document.getElementById('kpiSub').textContent=`${ydS.slice(0,4)}-${ydS.slice(4,6)}-${ydS.slice(6,8)} 汇总（全账户合计）· 次留率口径 T-2`;
   function delt(cur,pre,fmt,lb=false){
     if(pre==null||pre===0)return'<span class="kpi-delta neu">—</span>';
     const d=cur-pre,cls=(d>0)!=lb?'up':'dn',s=d>0?'▲':'▼';
@@ -180,7 +234,7 @@ function renderKPI(){
     {l:'新增设备',      v:yN,                   d:delt(yN,pN,v=>v.toFixed(0))},
     {l:'综合 CAC',     v:`$${yCAC.toFixed(2)}`, d:delt(yCAC,pCAC,v=>`$${v.toFixed(2)}`,true)},
     {l:'平均 CTR',     v:yCTR!=null?`${yCTR.toFixed(2)}%`:'—', d:delt(yCTR,pCTR,v=>`${v.toFixed(2)}pp`)},
-    {l:'次留率',        v:yRet!=null?`${yRet.toFixed(1)}%`:'—', d:yRet&&pRet?delt(yRet,pRet,v=>`${v.toFixed(1)}pp`):'<span class="kpi-delta neu">—</span>'},
+    {l:'次留率 (T-2)',        v:yRet!=null?`${yRet.toFixed(1)}%`:'—', d:yRet&&pRet?delt(yRet,pRet,v=>`${v.toFixed(1)}pp`):'<span class="kpi-delta neu">—</span>'},
   ];
   document.getElementById('kpiRow').innerHTML=kpis.map(k=>`<div class="kpi"><div class="kpi-label">${k.l}</div><div class="kpi-val">${k.v}</div>${k.d}</div>`).join('');
   const al=[];
@@ -191,7 +245,10 @@ function renderKPI(){
 }
 
 function renderCharts(){
-  const dates=uniq(SUMMARY,'p_date');
+  const allDates=uniq(SUMMARY,'p_date');
+  const td=document.getElementById('trendDays');
+  const nDays=td?+td.value:30;
+  const dates=allDates.slice(-nDays);
   const bD=SUMMARY.reduce((m,r)=>{(m[r.p_date]=m[r.p_date]||[]).push(r);return m},{});
   function ser(field){
     return ACCTS.map((ac,i)=>({name:ac,type:'line',smooth:true,symbol:'circle',symbolSize:4,
@@ -215,7 +272,8 @@ let sCol='cost_usd',sAsc=false;
 function setSort(k){if(sCol===k)sAsc=!sAsc;else{sCol=k;sAsc=false;}renderYtd();}
 function renderYtd(){
   const dates=uniq(SUMMARY,'p_date');if(!dates.length)return;
-  const yd=dates[dates.length-1];
+  const fdEl=document.getElementById('fDate');
+  const yd=fdEl&&fdEl.value?+fdEl.value:dates[dates.length-1];
   const fA=document.getElementById('fAcct').value,fB=document.getElementById('fBid').value,fO=document.getElementById('fObj').value;
   let rows=SUMMARY.filter(r=>r.p_date==yd);
   if(fA)rows=rows.filter(r=>r.account===fA);
