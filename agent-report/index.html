@@ -138,7 +138,7 @@ const SUMMARY=[{"p_date": 20260713, "account": "代投-iOS", "platform": "iOS", 
 const DETAIL=[];
 
 function checkPw(){const v=document.getElementById('pw').value;if(v===GATE_PWD)unlock();else document.getElementById('pw-err').textContent='密码不正确';}
-function unlock(){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';sessionStorage.setItem('ng_auth',GATE_PWD);init();}
+function unlock(){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';sessionStorage.setItem('ng_auth',GATE_PWD);requestAnimationFrame(()=>setTimeout(init,50));}
 (function(){const sp=new URLSearchParams(location.search);if(sp.get('t')===GATE_PWD||sessionStorage.getItem('ng_auth')===GATE_PWD)unlock();})();
 
 const ACCTS=['自投-iOS','自投-安卓','代投-iOS','代投-安卓'];
