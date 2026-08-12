@@ -63,6 +63,16 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
 .warn{color:#EF4444;font-weight:600}.good{color:#10B981;font-weight:600}.null-c{color:#CBD5E1}
 
 .tp{display:none}.tp.active{display:block}
+.diag-card{border-radius:10px;padding:14px 16px;border:1px solid #E2E8F0}
+.diag-card h5{font-size:12px;font-weight:700;margin-bottom:6px}
+.diag-card .action{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:700;margin-bottom:6px}
+.act-pause{background:#FEF2F2;color:#DC2626}
+.act-scale{background:#F0FDF4;color:#15803D}
+.act-new{background:#EFF6FF;color:#2563EB}
+.act-rebuild{background:#FFF7ED;color:#D97706}
+.act-watch{background:#F5F3FF;color:#7C3AED}
+.act-ok{background:#F0FDF4;color:#15803D}
+.diag-card p{font-size:11px;color:#64748B;line-height:1.5}
 </style>
 </head>
 <body>
@@ -87,6 +97,10 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
 </header>
 <main>
 <div id="tab-monitor" class="tp active">
+  <div class="sec" id="diagSec" style="padding:18px 24px">
+    <div class="sec-title" style="margin-bottom:12px">🩺 账户诊断建议</div>
+    <div id="diagCards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"></div>
+  </div>
   <div class="sec">
     <div class="sec-title" style="justify-content:space-between">
       <span>📈 整体表现 <span style="font-size:12px;font-weight:400;color:#94A3B8">vs 前日环比 · 次留率取 T-2 口径</span></span>
@@ -184,7 +198,7 @@ function init(){
   const fa=document.getElementById('fAcct');
   accts.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;fa.appendChild(o);});
 
-  renderKPI();renderCharts();renderYtd();
+  renderKPI();renderDiag();renderCharts();renderYtd();
 
 
 }
@@ -240,6 +254,126 @@ function renderKPI(){
   document.getElementById('alerts').innerHTML=al.map(a=>`<div class="alert ${a.e?'alert-e':''}">⚠️ ${a.m}</div>`).join('');
 }
 
+
+function renderDiag(){
+  const dates=uniq(SUMMARY,'p_date').sort();
+  if(dates.length<2) return;
+
+  const yd=dates[dates.length-1];   // T-1
+  const pd=dates[dates.length-2];   // T-2
+  const d7s=dates.slice(-7);        // 近7天
+
+  // 近7天各账户汇总
+  function acctStats(acct, dList){
+    const rows=SUMMARY.filter(r=>r.account===acct && dList.includes(r.p_date));
+    const cost=sumF(rows,'cost_usd');
+    const nd=sumF(rows,'new_dev');
+    const ob=sumF(rows,'obs_dev');
+    const ret=ob>=50?rows.reduce((s,r)=>s+(+r.obs_dev||0)*(+r.ret1d_rate_pct||0),0)/ob:null;
+    const cac=nd>0?cost/nd:null;
+    const lgn=nd>0?rows.reduce((s,r)=>s+(+r.new_dev||0)*(+r.login_rate_pct||0),0)/nd:null;
+    const ctr=rows.length?rows.reduce((s,r)=>s+(+r.ctr_pct||0),0)/rows.length:null;
+    return {cost,nd,cac,ret,lgn,ctr,days:dList.length};
+  }
+
+  // 日维度：今天 vs 昨天
+  function dayStats(acct, d){
+    const rows=SUMMARY.filter(r=>r.account===acct && r.p_date==d);
+    const cost=sumF(rows,'cost_usd');
+    const nd=sumF(rows,'new_dev');
+    return {cost,nd,cac:nd>0?cost/nd:null};
+  }
+
+  const ACCTS_ALL=['自投-iOS','自投-安卓','代投-iOS','代投-安卓'];
+  // 只展示近7天有消耗的账户
+  const activeAccts=ACCTS_ALL.filter(ac=>acctStats(ac,d7s).cost>0);
+
+  const container=document.getElementById('diagCards');
+  if(!container) return;
+
+  // 列数跟随账户数
+  container.style.gridTemplateColumns=`repeat(${activeAccts.length||1},1fr)`;
+
+  container.innerHTML=activeAccts.map(acct=>{
+    const w7=acctStats(acct,d7s);
+    const ydS=dayStats(acct,yd);
+    const pdS=dayStats(acct,pd);
+
+    // 判断逻辑
+    let action='', actionCls='', reasons=[], advice='';
+
+    const costDrop = pdS.cost>0 && ydS.cost/pdS.cost < 0.5;
+    const costZero  = ydS.cost===0;
+    const cacHigh   = w7.cac!=null && w7.cac > 12;
+    const cacLow    = w7.cac!=null && w7.cac < 4;
+    const retLow    = w7.ret!=null && w7.ret < 8;
+    const retOk     = w7.ret!=null && w7.ret >= 12;
+    const lgnLow    = w7.lgn!=null && w7.lgn < 55;
+    const costSurge = pdS.cost>0 && ydS.cost/pdS.cost > 1.5;
+    const noData    = w7.cost===0;
+
+    if(noData){
+      action='无数据'; actionCls='act-watch';
+      advice='近7天无消耗数据，请确认账户状态';
+    } else if(costZero && w7.cost>0){
+      action='⚠️ 今日暂停'; actionCls='act-pause';
+      reasons.push('今日消耗为0');
+      advice='检查预算/审核状态；如投放策略调整，可忽略';
+    } else if(cacHigh && retLow){
+      action='🔴 建议关停/重建'; actionCls='act-pause';
+      reasons.push(`CAC $${w7.cac.toFixed(1)} 偏高`);
+      if(retLow) reasons.push(`次留率 ${w7.ret.toFixed(1)}% 低`);
+      advice='成本与质量双差，建议暂停并新建广告组测试新素材';
+    } else if(cacHigh && !retLow){
+      action='🟡 成本优化'; actionCls='act-rebuild';
+      reasons.push(`CAC $${w7.cac.toFixed(1)} 偏高`);
+      advice='成本偏高但后链路质量尚可，建议调整出价或更换素材';
+    } else if(costDrop){
+      action='🟡 消耗异常下滑'; actionCls='act-rebuild';
+      reasons.push(`昨日消耗较前日下降 ${((1-ydS.cost/pdS.cost)*100).toFixed(0)}%`);
+      advice='检查广告审核状态或预算上限；可尝试复建相同设置的广告组';
+    } else if(costSurge && cacHigh){
+      action='⚠️ 消耗激增+高成本'; actionCls='act-pause';
+      reasons.push(`消耗较前日增长 ${((ydS.cost/pdS.cost-1)*100).toFixed(0)}%`);
+      reasons.push(`CAC $${w7.cac.toFixed(1)}`);
+      advice='消耗快速放量但成本偏高，建议设置消耗上限并观察';
+    } else if(retOk && cacLow && w7.cost > 0){
+      action='✅ 加量'; actionCls='act-scale';
+      reasons.push(`CAC $${w7.cac.toFixed(1)} 优秀`);
+      if(retOk) reasons.push(`次留率 ${w7.ret.toFixed(1)}% 健康`);
+      advice='各项指标良好，建议提高预算上限或复制广告组扩量';
+    } else if(lgnLow){
+      action='🟡 落地页优化'; actionCls='act-rebuild';
+      reasons.push(`登录率 ${w7.lgn.toFixed(1)}% 偏低`);
+      advice='点击后用户登录意愿低，建议检查落地页相关性或优化引导流程';
+    } else {
+      action='✅ 正常'; actionCls='act-ok';
+      advice='指标正常，持续观察';
+    }
+
+    const reasonHtml=reasons.map(r=>`<span style="font-size:10px;color:#94A3B8">• ${r}</span>`).join('<br>');
+
+    // 平台标识颜色
+    const platColor=acct.includes('iOS')?'#3B82F6':'#10B981';
+
+    return `<div class="diag-card">
+      <h5 style="color:${platColor}">${acct}</h5>
+      <div class="action ${actionCls}">${action}</div><br>
+      ${reasonHtml}
+      ${reasons.length?'<br>':''}
+      <p style="margin-top:4px">${advice}</p>
+      <div style="margin-top:8px;font-size:10px;color:#CBD5E1">
+        近7天：消耗 $${w7.cost.toFixed(0)} · ${w7.nd}设备 
+        ${w7.cac!=null?`· CAC $${w7.cac.toFixed(1)}`:''}
+        ${w7.ret!=null?`· 次留 ${w7.ret.toFixed(1)}%`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  // 更新列数 gridTemplate
+  if(activeAccts.length>0)
+    container.style.gridTemplateColumns=`repeat(${Math.min(activeAccts.length,4)},1fr)`;
+}
 function renderCharts(){
   const allDates=uniq(SUMMARY,'p_date');
   const td=document.getElementById('trendDays');
@@ -271,7 +405,7 @@ function renderYtd(){
   const fdEl=document.getElementById('fDate');
   const yd=fdEl&&fdEl.value?+fdEl.value:dates[dates.length-1];
   const fA=document.getElementById('fAcct').value,fB=document.getElementById('fBid').value,fO=document.getElementById('fObj').value;
-  let rows=SUMMARY.filter(r=>r.p_date==yd);
+  let rows=SUMMARY.filter(r=>r.p_date==yd && (+r.cost_usd||0)>0);
   if(fA)rows=rows.filter(r=>r.account===fA);
   if(fB)rows=rows.filter(r=>r.bid_type===fB);
   if(fO)rows=rows.filter(r=>r.obj_type===fO);
