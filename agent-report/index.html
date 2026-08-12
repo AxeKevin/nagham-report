@@ -61,11 +61,7 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
 .tag{display:inline-block;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:600}
 .t-lc{background:#FFF7ED;color:#D97706}.t-cc{background:#FDF4FF;color:#9333EA}.t-oth{background:#F1F5F9;color:#64748B}
 .warn{color:#EF4444;font-weight:600}.good{color:#10B981;font-weight:600}.null-c{color:#CBD5E1}
-.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
-.exp-card{border:1.5px solid #E2E8F0;border-radius:10px;padding:14px 16px;cursor:pointer;transition:.15s;background:#fff}
-.exp-card:hover,.exp-card.sel{border-color:#3B82F6;background:#F0F7FF}
-.exp-card h5{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
-.exp-card p{font-size:11px;color:#94A3B8}
+
 .tp{display:none}.tp.active{display:block}
 </style>
 </head>
@@ -124,23 +120,15 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
   <div class="sec">
     <div class="sec-title">📥 导出过去14天明细数据</div>
     <div class="sec-sub">选择维度后下载 CSV，可在 Excel 中进行广告计划/素材级别下钻分析</div>
-    <div class="exp-grid">
-      <div class="exp-card sel" onclick="selExp(this,'summary')">
-        <h5>📊 账户汇总</h5><p>分天 × 账户，所有指标</p>
-      </div>
-      <div class="exp-card" onclick="selExp(this,'bid')">
-        <h5>⚖️ 出价类型明细</h5><p>分天 × 账户 × LC / CC / OTHER</p>
-      </div>
-      <div class="exp-card" onclick="selExp(this,'detail')">
-        <h5>🎯 Ad 级别明细</h5><p>分天 × Campaign × Adset × Ad（完整下钻）</p>
-      </div>
+    <div style="background:#F0F7FF;border:1px solid #BFDBFE;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#1E40AF">
+      📋 导出内容：<b>Ad 级别完整明细</b>（分天 × Campaign × Adset × Ad，含消耗/CTR/新增/CAC/登录率/开口率/次留率）
     </div>
     <div class="ctrl">
       <label style="font-size:12px;color:#374151">时间范围：</label>
       <select id="expDays"><option value="3">最近3天</option><option value="7">最近7天</option><option value="14" selected>最近14天</option></select>
       <select id="expAcct"><option value="">全部账户</option></select>
       <button class="btn btn-p" onclick="doExport()">⬇ 下载 CSV</button>
-      <button class="btn btn-o" onclick="doPreview()">👁 预览</button>
+      <button class="btn btn-o" onclick="doPreview()">👁 预览前25行</button>
     </div>
     <div class="tw" id="expPrev" style="margin-top:12px"></div>
   </div>
@@ -253,20 +241,12 @@ function renderYtd(){
   document.getElementById('ytdWrap').innerHTML=`<table><thead><tr>${hds}</tr></thead><tbody>${body}</tbody></table><div style="font-size:11px;color:#94A3B8;margin-top:6px">共 ${rows.length} 条 · 红色=超阈值（CAC>10 / 登录率<60% / 次留率<10%）</div>`;
 }
 
-let expType='summary';
-function selExp(el,t){document.querySelectorAll('.exp-card').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');expType=t;}
 function getExpRows(){
   const days=+document.getElementById('expDays').value;
   const acct=document.getElementById('expAcct').value;
-  const src=expType==='detail'?DETAIL:SUMMARY;
-  const dates=uniq(src,'p_date').slice(-days);
-  let rows=src.filter(r=>dates.includes(r.p_date));
+  const dates=uniq(DETAIL,'p_date').slice(-days);
+  let rows=DETAIL.filter(r=>dates.includes(r.p_date));
   if(acct)rows=rows.filter(r=>r.account===acct);
-  if(expType==='bid'){
-    const agg={};
-    rows.forEach(r=>{const k=`${r.p_date}|${r.account}|${r.bid_type}`;if(!agg[k])agg[k]={p_date:r.p_date,account:r.account,bid_type:r.bid_type,cost:0,new_dev:0};agg[k].cost+=+r.cost_usd||0;agg[k].new_dev+=+r.new_dev||0;});
-    return Object.values(agg).map(a=>({p_date:a.p_date,account:a.account,bid_type:a.bid_type,cost_usd:+a.cost.toFixed(2),new_dev:a.new_dev,cac_usd:a.new_dev>0?+(a.cost/a.new_dev).toFixed(2):null}));
-  }
   return rows;
 }
 function doPreview(){
@@ -281,7 +261,7 @@ function doExport(){
   const csv=[keys.join(','),...rows.map(r=>keys.map(k=>{const v=r[k];return v==null?'':(`${v}`.includes(',')?`"${v}"`:v);}).join(','))].join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);const a=document.createElement('a');
-  a.href=url;a.download=`nagham_tiktok_${expType}_${DATA_DATE}.csv`;a.click();URL.revokeObjectURL(url);
+  a.href=url;a.download=`nagham_tiktok_detail_${DATA_DATE}.csv`;a.click();URL.revokeObjectURL(url);
 }
 function switchTab(t,btn){
   document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
