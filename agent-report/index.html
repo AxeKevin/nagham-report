@@ -65,9 +65,6 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
 .tp{display:none}.tp.active{display:block}
 .acct-toggle{padding:3px 10px;border-radius:5px;border:1.5px solid #E2E8F0;background:#fff;color:#64748B;font-size:11px;font-weight:500;cursor:pointer;transition:.12s}
 .acct-toggle.active{border-color:#3B82F6;background:#EFF6FF;color:#2563EB;font-weight:700}
-.diag-card{border-radius:10px;padding:14px 16px;border:1px solid #E2E8F0}
-.diag-card h5{font-size:12px;font-weight:700;margin-bottom:6px}
-.diag-card .action{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:700;margin-bottom:6px}
 .act-pause{background:#FEF2F2;color:#DC2626}
 .act-scale{background:#F0FDF4;color:#15803D}
 .act-new{background:#EFF6FF;color:#2563EB}
@@ -99,21 +96,6 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
 </header>
 <main>
 <div id="tab-monitor" class="tp active">
-  <div class="sec" id="diagSec" style="padding:18px 24px">
-    <div class="sec-title" style="justify-content:space-between;margin-bottom:14px">
-      <span>🩺 多级诊断建议</span>
-      <div style="display:flex;gap:4px;background:#F1F5F9;border-radius:7px;padding:3px">
-        <button class="dtab active" onclick="switchDiag('account',this)" style="padding:4px 14px;border-radius:5px;border:none;cursor:pointer;font-size:12px;font-weight:600;background:#fff;color:#3B82F6;box-shadow:0 1px 3px rgba(0,0,0,.08)">账户</button>
-        <button class="dtab" onclick="switchDiag('campaign',this)" style="padding:4px 14px;border-radius:5px;border:none;cursor:pointer;font-size:12px;font-weight:500;background:transparent;color:#64748B">Campaign</button>
-        <button class="dtab" onclick="switchDiag('adset',this)" style="padding:4px 14px;border-radius:5px;border:none;cursor:pointer;font-size:12px;font-weight:500;background:transparent;color:#64748B">Adset</button>
-        <button class="dtab" onclick="switchDiag('ad',this)" style="padding:4px 14px;border-radius:5px;border:none;cursor:pointer;font-size:12px;font-weight:500;background:transparent;color:#64748B">Ad 素材</button>
-      </div>
-    </div>
-    <div id="diagAccount"></div>
-    <div id="diagCampaign" style="display:none"></div>
-    <div id="diagAdset" style="display:none"></div>
-    <div id="diagAd" style="display:none"></div>
-  </div>
   <div class="sec">
     <div class="sec-title" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
       <span>📈 整体表现 <span style="font-size:12px;font-weight:400;color:#94A3B8">vs 前日环比 · 次留率取 T-2 口径</span></span>
@@ -173,7 +155,29 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3){text-align:left
       <span id="csvStatus" style="font-size:12px;color:#64748B"></span>
       <div style="margin-top:10px;font-size:11px;color:#94A3B8">文件每日 10:10 自动更新 · 数据截至 <span id="csvDate">2026-08-11</span></div>
     </div>
+  
+<div class="sec" style="padding:18px 24px">
+    <div class="sec-title" style="margin-bottom:14px">🩺 诊断建议</div>
+    <div class="sec-sub" style="margin-bottom:12px">按消耗降序，近7天 Ad 级别聚合 · 只展示有消耗且存在异常或值得关注的条目</div>
+    <table id="diagTable" style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="background:#F8FAFC;color:#64748B;font-weight:600">
+          <th style="padding:8px 10px;text-align:left;border-bottom:1px solid #E2E8F0">账户</th>
+          <th style="padding:8px 10px;text-align:left;border-bottom:1px solid #E2E8F0">Campaign</th>
+          <th style="padding:8px 10px;text-align:left;border-bottom:1px solid #E2E8F0">Ad</th>
+          <th style="padding:8px 10px;text-align:right;border-bottom:1px solid #E2E8F0">消耗</th>
+          <th style="padding:8px 10px;text-align:right;border-bottom:1px solid #E2E8F0">CAC</th>
+          <th style="padding:8px 10px;text-align:right;border-bottom:1px solid #E2E8F0">次留</th>
+          <th style="padding:8px 10px;text-align:right;border-bottom:1px solid #E2E8F0">登录率</th>
+          <th style="padding:8px 10px;text-align:left;border-bottom:1px solid #E2E8F0">诊断</th>
+          <th style="padding:8px 10px;text-align:left;border-bottom:1px solid #E2E8F0">建议操作</th>
+        </tr>
+      </thead>
+      <tbody id="diagBody"></tbody>
+    </table>
   </div>
+  
+</div>
 </div>
 </main>
 </div>
@@ -297,290 +301,62 @@ function renderKPI(){
 }
 
 
-// ── 诊断辅助 ───────────────────────────────────────────────
-function diagLevel(cost,nd,cac,ret_r,lgn_r,op_r,days,costPrev){
-  const costDrop = costPrev!=null && costPrev>0 && cost/costPrev < 0.4;
-  const costZero = cost===0;
-  const cacHigh  = cac!=null && cac>12;
-  const cacLow   = cac!=null && cac<4;
-  const retLow   = ret_r!=null && ret_r<8;
-  const retOk    = ret_r!=null && ret_r>=12;
-  const lgnLow   = lgn_r!=null && lgn_r<55;
-  const surge    = costPrev!=null && costPrev>0 && cost/costPrev>1.8 && cacHigh;
-  if(costZero && days===0) return {a:'无数据',c:'act-watch',t:'暂无投放数据'};
-  if(cacHigh && retLow)    return {a:'🔴 关停/重建',c:'act-pause',t:`CAC $${cac?.toFixed(1)} 偏高 + 次留 ${ret_r?.toFixed(1)}% 低，成本与质量双差`};
-  if(surge)                return {a:'⚠️ 激增预警',c:'act-pause',t:`消耗激增且CAC $${cac?.toFixed(1)} 偏高，建议设消耗上限`};
-  if(cacHigh && !retLow)   return {a:'🟡 成本优化',c:'act-rebuild',t:`CAC $${cac?.toFixed(1)} 偏高，建议调整出价或换素材`};
-  if(costDrop)             return {a:'🟡 消耗异常',c:'act-rebuild',t:`消耗较前期下降>60%，检查审核/预算或考虑复建`};
-  if(retOk && cacLow)      return {a:'✅ 加量',c:'act-scale',t:`CAC $${cac?.toFixed(1)} + 次留 ${ret_r?.toFixed(1)}% 均优秀，建议扩预算或复制`};
-  if(lgnLow)               return {a:'🟡 落地页',c:'act-rebuild',t:`登录率 ${lgn_r?.toFixed(1)}% 低，检查落地页相关性`};
-  return {a:'✅ 正常',c:'act-ok',t:'指标正常，持续观察'};
-}
-
-function diagCard(title, sub, stats, level, detail){
-  const pc=title.includes('iOS')?'#3B82F6':title.includes('安卓')?'#10B981':'#374151';
-  return `<div class="diag-card">
-    <h5 style="color:${pc};margin-bottom:2px">${title}</h5>
-    ${sub?`<div style="font-size:10px;color:#94A3B8;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%" title="${sub}">${sub}</div>`:''}
-    <span class="action ${level.c}">${level.a}</span>
-    <p style="margin-top:5px">${level.t}</p>
-    <div style="margin-top:7px;font-size:10px;color:#94A3B8;line-height:1.6">${detail}</div>
-  </div>`;
+// ── 诊断（简洁行列表）──────────────────────────────────────
+function diagTag(cost,nd,cac,ret_r,lgn_r){
+  if(cac!=null && cac>12 && ret_r!=null && ret_r<8)
+    return {tag:'🔴 关停/重建', cls:'#FEF2F2', color:'#DC2626',
+            tip:'CAC $'+cac.toFixed(1)+' 高 + 次留 '+ret_r.toFixed(1)+'% 低，建议暂停并新建广告组测试新素材'};
+  if(cac!=null && cac>12)
+    return {tag:'🟡 调整出价', cls:'#FFFBEB', color:'#D97706',
+            tip:'CAC $'+cac.toFixed(1)+' 偏高，建议调整出价或更换素材'};
+  if(ret_r!=null && ret_r<8)
+    return {tag:'🟡 质量偏低', cls:'#FFFBEB', color:'#D97706',
+            tip:'次留率 '+ret_r.toFixed(1)+'% 低，检查用户质量或素材方向'};
+  if(lgn_r!=null && lgn_r<55)
+    return {tag:'🟡 落地页', cls:'#FFFBEB', color:'#D97706',
+            tip:'登录率 '+lgn_r.toFixed(1)+'% 低，检查落地页引导流程'};
+  if(cac!=null && cac<4 && ret_r!=null && ret_r>=12)
+    return {tag:'✅ 加量', cls:'#F0FDF4', color:'#15803D',
+            tip:'CAC $'+cac.toFixed(1)+' + 次留 '+ret_r.toFixed(1)+'% 均优，扩预算或复制广告组'};
+  return null; // 正常，不展示
 }
 
 function renderDiag(){
-  renderDiagAccount();
-  renderDiagCampaign();
-  renderDiagAdset();
-  renderDiagAd();
-}
+  const tbody=document.getElementById('diagBody');
+  if(!tbody||!DIAG.length) return;
 
-// ── 账户级 ─────────────────────────────────────────────────
-function renderDiagAccount(){
-  const dates=uniq(SUMMARY,'p_date').sort();
-  const d7=dates.slice(-7);
-  const ACCTS_ALL=['自投-iOS','自投-安卓','代投-iOS','代投-安卓'];
-  const active=ACCTS_ALL.filter(ac=>SUMMARY.filter(r=>d7.includes(r.p_date)&&r.account===ac).reduce((s,r)=>s+(+r.cost_usd||0),0)>0);
-  const el=document.getElementById('diagAccount'); if(!el) return;
-  if(!active.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无账户数据</p>';return;}
-  el.style.cssText='display:grid;grid-template-columns:repeat('+Math.min(active.length,4)+',1fr);gap:10px';
-  el.innerHTML=active.map(ac=>{
-    const rows=SUMMARY.filter(r=>d7.includes(r.p_date)&&r.account===ac&&typeof r.account==='string'&&isNaN(r.account));
-    const cost=sumF(rows,'cost_usd'),nd=sumF(rows,'new_dev'),obs=sumF(rows,'obs_dev');
-    const cac=nd>0?cost/nd:null;
-    const ret=obs>=30?rows.reduce((s,r)=>s+(+r.obs_dev||0)*(+r.ret1d_rate_pct||0),0)/obs:null;
-    const lgn=nd>0?rows.reduce((s,r)=>s+(+r.new_dev||0)*(+r.login_rate_pct||0),0)/nd:null;
-    const op= nd>0?rows.reduce((s,r)=>s+(+r.new_dev||0)*(+r.solo_open_rate_pct||0),0)/nd:null;
-    const lv=diagLevel(cost,nd,cac,ret,lgn,op,rows.length,null);
-    const detail=`消耗 $${cost.toFixed(0)} · ${nd} 新增`
-      +(cac!=null?` · CAC $${cac.toFixed(1)}`:'')
-      +(ret!=null?` · 次留 ${ret.toFixed(1)}%`:'')
-      +(lgn!=null?` · 登录 ${lgn.toFixed(1)}%`:'');
-    return diagCard(ac,'',{cost,nd,cac,ret,lgn},lv,detail);
-  }).join('');
-}
-
-// ── Campaign 级 ────────────────────────────────────────────
-function renderDiagCampaign(){
-  const el=document.getElementById('diagCampaign'); if(!el) return;
-  if(!DIAG.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无Campaign数据</p>';return;}
-  // 聚合到 account×campaign
-  const agg={};
+  const rows=[];
   DIAG.forEach(r=>{
-    const k=r.ac+'||'+r.cp;
-    if(!agg[k]) agg[k]={ac:r.ac,cp:r.cp,cost:0,nd:0,obs:0,ret_w:0,lgn_w:0,op_w:0};
-    const a=agg[k];
-    a.cost+=r.cost; a.nd+=r.nd; a.obs+=r.obs;
-    if(r.ret_r!=null) a.ret_w+=r.obs*(r.ret_r||0);
-    if(r.lgn_r!=null) a.lgn_w+=r.nd*(r.lgn_r||0);
-    if(r.op_r!=null)  a.op_w +=r.nd*(r.op_r||0);
+    const d=diagTag(r.cost,r.nd,r.cac,r.ret_r,r.lgn_r);
+    if(!d) return; // 正常的不展示
+    rows.push({r,d});
   });
-  const list=Object.values(agg).filter(a=>a.cost>0).sort((a,b)=>b.cost-a.cost).slice(0,12);
-  el.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:10px';
-  el.innerHTML=list.map(a=>{
-    const cac=a.nd>0?a.cost/a.nd:null;
-    const ret=a.obs>=30?a.ret_w/a.obs:null;
-    const lgn=a.nd>0?a.lgn_w/a.nd:null;
-    const op=a.nd>0?a.op_w/a.nd:null;
-    const lv=diagLevel(a.cost,a.nd,cac,ret,lgn,op,1,null);
-    const detail=`消耗 $${a.cost.toFixed(0)} · ${a.nd} 新增`
-      +(cac!=null?` · CAC $${cac.toFixed(1)}`:'')
-      +(ret!=null?` · 次留 ${ret.toFixed(1)}%`:'')
-      +(lgn!=null?` · 登录 ${lgn.toFixed(1)}%`:'');
-    return diagCard(a.ac, a.cp, {}, lv, detail);
+
+  if(!rows.length){
+    tbody.innerHTML='<tr><td colspan="9" style="padding:16px;text-align:center;color:#94A3B8">✅ 近7天所有素材指标正常，无需特别操作</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML=rows.map(({r,d},i)=>{
+    const bg=i%2===0?'#fff':'#FAFAFA';
+    const acColor=r.ac.includes('iOS')?'#3B82F6':'#10B981';
+    const cacStr=r.cac!=null?'$'+r.cac.toFixed(1):'—';
+    const retStr=r.ret_r!=null?r.ret_r.toFixed(1)+'%':'—';
+    const lgnStr=r.lgn_r!=null?r.lgn_r.toFixed(1)+'%':'—';
+    const td=(v,align='left',bold=false)=>
+      `<td style="padding:7px 10px;text-align:${align};border-bottom:1px solid #F1F5F9;${bold?'font-weight:600':''}vertical-align:top">${v}</td>`;
+    return `<tr style="background:${bg}">
+      ${td('<span style="color:'+acColor+';font-weight:600">'+r.ac+'</span>')}
+      ${td('<span style="color:#374151;max-width:180px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+r.cp+'">'+r.cp+'</span>')}
+      ${td('<span style="color:#374151;max-width:180px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+r.ad+'">'+r.ad+'</span>')}
+      ${td('$'+r.cost.toFixed(0),'right')}
+      ${td(cacStr,'right',true)}
+      ${td(retStr,'right')}
+      ${td(lgnStr,'right')}
+      ${td('<span style="display:inline-block;padding:2px 7px;border-radius:4px;background:'+d.cls+';color:'+d.color+';font-weight:600;white-space:nowrap">'+d.tag+'</span>')}
+      ${td('<span style="color:#374151">'+d.tip+'</span>')}
+    </tr>`;
   }).join('');
-}
-
-// ── Adset 级 ───────────────────────────────────────────────
-function renderDiagAdset(){
-  const el=document.getElementById('diagAdset'); if(!el) return;
-  if(!DIAG.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无Adset数据</p>';return;}
-  const agg={};
-  DIAG.forEach(r=>{
-    const k=r.ac+'||'+r.cp+'||'+r.as;
-    if(!agg[k]) agg[k]={ac:r.ac,cp:r.cp,as:r.as,bt:r.bt,ot:r.ot,cost:0,nd:0,obs:0,ret_w:0,lgn_w:0,op_w:0};
-    const a=agg[k];
-    a.cost+=r.cost; a.nd+=r.nd; a.obs+=r.obs;
-    if(r.ret_r!=null) a.ret_w+=r.obs*(r.ret_r||0);
-    if(r.lgn_r!=null) a.lgn_w+=r.nd*(r.lgn_r||0);
-    if(r.op_r!=null)  a.op_w +=r.nd*(r.op_r||0);
-  });
-  const list=Object.values(agg).filter(a=>a.cost>0).sort((a,b)=>b.cost-a.cost).slice(0,12);
-  el.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:10px';
-  el.innerHTML=list.map(a=>{
-    const cac=a.nd>0?a.cost/a.nd:null;
-    const ret=a.obs>=30?a.ret_w/a.obs:null;
-    const lgn=a.nd>0?a.lgn_w/a.nd:null;
-    const op=a.nd>0?a.op_w/a.nd:null;
-    const lv=diagLevel(a.cost,a.nd,cac,ret,lgn,op,1,null);
-    const bt=a.bt==='LC'?`<span class="tag t-lc">${a.bt}</span>`:a.bt==='CC'?`<span class="tag t-cc">${a.bt}</span>`:`<span class="tag t-oth">${a.bt}</span>`;
-    const detail=`${bt} ${a.ot} · 消耗 $${a.cost.toFixed(0)} · ${a.nd} 新增`
-      +(cac!=null?` · CAC $${cac.toFixed(1)}`:'')
-      +(ret!=null?` · 次留 ${ret.toFixed(1)}%`:'')
-      +(lgn!=null?` · 登录 ${lgn.toFixed(1)}%`:'');
-    return diagCard(a.ac, a.as, {}, lv, detail);
-  }).join('');
-}
-
-// ── Ad 素材级 ──────────────────────────────────────────────
-function renderDiagAd(){
-  const el=document.getElementById('diagAd'); if(!el) return;
-  if(!DIAG.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无Ad数据</p>';return;}
-  const list=DIAG.filter(r=>r.cost>0).slice(0,16);
-  el.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:10px';
-  el.innerHTML=list.map(r=>{
-    const lv=diagLevel(r.cost,r.nd,r.cac,r.ret_r,r.lgn_r,r.op_r,r.days,null);
-    const bt=r.bt==='LC'?`<span class="tag t-lc">${r.bt}</span>`:r.bt==='CC'?`<span class="tag t-cc">${r.bt}</span>`:`<span class="tag t-oth">${r.bt}</span>`;
-    const detail=`${bt} · 消耗 $${r.cost.toFixed(0)} · ${r.nd} 新增`
-      +(r.cac!=null?` · CAC $${r.cac.toFixed(1)}`:'')
-      +(r.ret_r!=null?` · 次留 ${r.ret_r.toFixed(1)}%`:'')
-      +(r.lgn_r!=null?` · 登录 ${r.lgn_r.toFixed(1)}%`:'')
-      +(r.sg&&r.sg!=='unknown'?` · 歌曲 ${r.sg}`:'')
-      +` · 近${r.days}天`;
-    return diagCard(r.ac, r.ad, r, lv, detail);
-  }).join('');
-}
-
-// ── 切换诊断 Tab ───────────────────────────────────────────
-function switchDiag(level, btn){
-  ['account','campaign','adset','ad'].forEach(l=>{
-    const el=document.getElementById('diag'+l.charAt(0).toUpperCase()+l.slice(1));
-    if(el) el.style.display=l===level?'':'none';
-  });
-  document.querySelectorAll('.dtab').forEach(b=>{
-    b.style.background='transparent'; b.style.color='#64748B';
-    b.style.fontWeight='500'; b.style.boxShadow='';
-  });
-  btn.style.background='#fff'; btn.style.color='#3B82F6';
-  btn.style.fontWeight='600'; btn.style.boxShadow='0 1px 3px rgba(0,0,0,.08)';
-}
-
-
-function renderDiag(){
-  renderDiagAccount();
-  renderDiagCampaign();
-  renderDiagAdset();
-  renderDiagAd();
-}
-
-// ── 账户级 ─────────────────────────────────────────────────
-function renderDiagAccount(){
-  const dates=uniq(SUMMARY,'p_date').sort();
-  const d7=dates.slice(-7);
-  const ACCTS_ALL=['自投-iOS','自投-安卓','代投-iOS','代投-安卓'];
-  const active=ACCTS_ALL.filter(ac=>SUMMARY.filter(r=>d7.includes(r.p_date)&&r.account===ac).reduce((s,r)=>s+(+r.cost_usd||0),0)>0);
-  const el=document.getElementById('diagAccount'); if(!el) return;
-  if(!active.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无账户数据</p>';return;}
-  el.style.cssText='display:grid;grid-template-columns:repeat('+Math.min(active.length,4)+',1fr);gap:10px';
-  el.innerHTML=active.map(ac=>{
-    const rows=SUMMARY.filter(r=>d7.includes(r.p_date)&&r.account===ac&&typeof r.account==='string'&&isNaN(r.account));
-    const cost=sumF(rows,'cost_usd'),nd=sumF(rows,'new_dev'),obs=sumF(rows,'obs_dev');
-    const cac=nd>0?cost/nd:null;
-    const ret=obs>=30?rows.reduce((s,r)=>s+(+r.obs_dev||0)*(+r.ret1d_rate_pct||0),0)/obs:null;
-    const lgn=nd>0?rows.reduce((s,r)=>s+(+r.new_dev||0)*(+r.login_rate_pct||0),0)/nd:null;
-    const op= nd>0?rows.reduce((s,r)=>s+(+r.new_dev||0)*(+r.solo_open_rate_pct||0),0)/nd:null;
-    const lv=diagLevel(cost,nd,cac,ret,lgn,op,rows.length,null);
-    const detail=`消耗 $${cost.toFixed(0)} · ${nd} 新增`
-      +(cac!=null?` · CAC $${cac.toFixed(1)}`:'')
-      +(ret!=null?` · 次留 ${ret.toFixed(1)}%`:'')
-      +(lgn!=null?` · 登录 ${lgn.toFixed(1)}%`:'');
-    return diagCard(ac,'',{cost,nd,cac,ret,lgn},lv,detail);
-  }).join('');
-}
-
-// ── Campaign 级 ────────────────────────────────────────────
-function renderDiagCampaign(){
-  const el=document.getElementById('diagCampaign'); if(!el) return;
-  if(!DIAG.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无Campaign数据</p>';return;}
-  // 聚合到 account×campaign
-  const agg={};
-  DIAG.forEach(r=>{
-    const k=r.ac+'||'+r.cp;
-    if(!agg[k]) agg[k]={ac:r.ac,cp:r.cp,cost:0,nd:0,obs:0,ret_w:0,lgn_w:0,op_w:0};
-    const a=agg[k];
-    a.cost+=r.cost; a.nd+=r.nd; a.obs+=r.obs;
-    if(r.ret_r!=null) a.ret_w+=r.obs*(r.ret_r||0);
-    if(r.lgn_r!=null) a.lgn_w+=r.nd*(r.lgn_r||0);
-    if(r.op_r!=null)  a.op_w +=r.nd*(r.op_r||0);
-  });
-  const list=Object.values(agg).filter(a=>a.cost>0).sort((a,b)=>b.cost-a.cost).slice(0,12);
-  el.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:10px';
-  el.innerHTML=list.map(a=>{
-    const cac=a.nd>0?a.cost/a.nd:null;
-    const ret=a.obs>=30?a.ret_w/a.obs:null;
-    const lgn=a.nd>0?a.lgn_w/a.nd:null;
-    const op=a.nd>0?a.op_w/a.nd:null;
-    const lv=diagLevel(a.cost,a.nd,cac,ret,lgn,op,1,null);
-    const detail=`消耗 $${a.cost.toFixed(0)} · ${a.nd} 新增`
-      +(cac!=null?` · CAC $${cac.toFixed(1)}`:'')
-      +(ret!=null?` · 次留 ${ret.toFixed(1)}%`:'')
-      +(lgn!=null?` · 登录 ${lgn.toFixed(1)}%`:'');
-    return diagCard(a.ac, a.cp, {}, lv, detail);
-  }).join('');
-}
-
-// ── Adset 级 ───────────────────────────────────────────────
-function renderDiagAdset(){
-  const el=document.getElementById('diagAdset'); if(!el) return;
-  if(!DIAG.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无Adset数据</p>';return;}
-  const agg={};
-  DIAG.forEach(r=>{
-    const k=r.ac+'||'+r.cp+'||'+r.as;
-    if(!agg[k]) agg[k]={ac:r.ac,cp:r.cp,as:r.as,bt:r.bt,ot:r.ot,cost:0,nd:0,obs:0,ret_w:0,lgn_w:0,op_w:0};
-    const a=agg[k];
-    a.cost+=r.cost; a.nd+=r.nd; a.obs+=r.obs;
-    if(r.ret_r!=null) a.ret_w+=r.obs*(r.ret_r||0);
-    if(r.lgn_r!=null) a.lgn_w+=r.nd*(r.lgn_r||0);
-    if(r.op_r!=null)  a.op_w +=r.nd*(r.op_r||0);
-  });
-  const list=Object.values(agg).filter(a=>a.cost>0).sort((a,b)=>b.cost-a.cost).slice(0,12);
-  el.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:10px';
-  el.innerHTML=list.map(a=>{
-    const cac=a.nd>0?a.cost/a.nd:null;
-    const ret=a.obs>=30?a.ret_w/a.obs:null;
-    const lgn=a.nd>0?a.lgn_w/a.nd:null;
-    const op=a.nd>0?a.op_w/a.nd:null;
-    const lv=diagLevel(a.cost,a.nd,cac,ret,lgn,op,1,null);
-    const bt=a.bt==='LC'?`<span class="tag t-lc">${a.bt}</span>`:a.bt==='CC'?`<span class="tag t-cc">${a.bt}</span>`:`<span class="tag t-oth">${a.bt}</span>`;
-    const detail=`${bt} ${a.ot} · 消耗 $${a.cost.toFixed(0)} · ${a.nd} 新增`
-      +(cac!=null?` · CAC $${cac.toFixed(1)}`:'')
-      +(ret!=null?` · 次留 ${ret.toFixed(1)}%`:'')
-      +(lgn!=null?` · 登录 ${lgn.toFixed(1)}%`:'');
-    return diagCard(a.ac, a.as, {}, lv, detail);
-  }).join('');
-}
-
-// ── Ad 素材级 ──────────────────────────────────────────────
-function renderDiagAd(){
-  const el=document.getElementById('diagAd'); if(!el) return;
-  if(!DIAG.length){el.innerHTML='<p style="color:#94A3B8;font-size:12px">暂无Ad数据</p>';return;}
-  const list=DIAG.filter(r=>r.cost>0).slice(0,16);
-  el.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:10px';
-  el.innerHTML=list.map(r=>{
-    const lv=diagLevel(r.cost,r.nd,r.cac,r.ret_r,r.lgn_r,r.op_r,r.days,null);
-    const bt=r.bt==='LC'?`<span class="tag t-lc">${r.bt}</span>`:r.bt==='CC'?`<span class="tag t-cc">${r.bt}</span>`:`<span class="tag t-oth">${r.bt}</span>`;
-    const detail=`${bt} · 消耗 $${r.cost.toFixed(0)} · ${r.nd} 新增`
-      +(r.cac!=null?` · CAC $${r.cac.toFixed(1)}`:'')
-      +(r.ret_r!=null?` · 次留 ${r.ret_r.toFixed(1)}%`:'')
-      +(r.lgn_r!=null?` · 登录 ${r.lgn_r.toFixed(1)}%`:'')
-      +(r.sg&&r.sg!=='unknown'?` · 歌曲 ${r.sg}`:'')
-      +` · 近${r.days}天`;
-    return diagCard(r.ac, r.ad, r, lv, detail);
-  }).join('');
-}
-
-// ── 切换诊断 Tab ───────────────────────────────────────────
-function switchDiag(level, btn){
-  ['account','campaign','adset','ad'].forEach(l=>{
-    const el=document.getElementById('diag'+l.charAt(0).toUpperCase()+l.slice(1));
-    if(el) el.style.display=l===level?'':'none';
-  });
-  document.querySelectorAll('.dtab').forEach(b=>{
-    b.style.background='transparent'; b.style.color='#64748B';
-    b.style.fontWeight='500'; b.style.boxShadow='';
-  });
-  btn.style.background='#fff'; btn.style.color='#3B82F6';
-  btn.style.fontWeight='600'; btn.style.boxShadow='0 1px 3px rgba(0,0,0,.08)';
 }
 
 function renderCharts(){
