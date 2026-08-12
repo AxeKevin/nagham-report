@@ -139,7 +139,6 @@ const DETAIL=[];
 
 function checkPw(){const v=document.getElementById('pw').value;if(v===GATE_PWD)unlock();else document.getElementById('pw-err').textContent='密码不正确';}
 function unlock(){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';sessionStorage.setItem('ng_auth',GATE_PWD);requestAnimationFrame(()=>setTimeout(init,50));}
-(function(){const sp=new URLSearchParams(location.search);if(sp.get('t')===GATE_PWD||sessionStorage.getItem('ng_auth')===GATE_PWD)unlock();})();
 
 const ACCTS=['自投-iOS','自投-安卓','代投-iOS','代投-安卓'];
 const COLORS=['#3B82F6','#10B981','#F59E0B','#8B5CF6'];
@@ -251,6 +250,7 @@ function switchTab(t,btn){
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');btn.classList.add('active');
 }
+(function(){const sp=new URLSearchParams(location.search);if(sp.get('t')===GATE_PWD||sessionStorage.getItem('ng_auth')===GATE_PWD)unlock();})();
 </script>
 </body>
 </html>
