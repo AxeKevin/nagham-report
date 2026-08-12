@@ -169,7 +169,7 @@ function renderKPI(){
   const ctrA=arr=>arr.length?arr.reduce((s,r)=>s+(+r.ctr_pct||0),0)/arr.length:null;
   const retW=arr=>{const n=sumF(arr,'obs_dev'),s=arr.reduce((t,r)=>t+(+r.obs_dev||0)*(+r.ret1d_rate_pct||0),0);return n>=50?s/n:null;};
   const yCTR=ctrA(yR),pCTR=ctrA(pR),yRet=retW(yR),pRet=retW(pR);
-  document.getElementById('kpiSub').textContent=`${yd.slice(0,4)}-${yd.slice(4,6)}-${yd.slice(6,8)} 汇总（全账户合计）`;
+  document.getElementById('kpiSub').textContent=`${String(yd).slice(0,4)}-${String(yd).slice(4,6)}-${String(yd).slice(6,8)} 汇总（全账户合计）`;
   function delt(cur,pre,fmt,lb=false){
     if(pre==null||pre===0)return'<span class="kpi-delta neu">—</span>';
     const d=cur-pre,cls=(d>0)!=lb?'up':'dn',s=d>0?'▲':'▼';
@@ -201,7 +201,7 @@ function renderCharts(){
         return+sumF(rows,'cost_usd').toFixed(2);})}));
   }
   const base={
-    xAxis:{type:'category',data:dates.map(d=>`${d.slice(4,6)}-${d.slice(6,8)}`),axisLabel:{fontSize:11,rotate:35},axisLine:{lineStyle:{color:'#E2E8F0'}}},
+    xAxis:{type:'category',data:dates.map(d=>`${String(d).slice(4,6)}-${String(d).slice(6,8)}`),axisLabel:{fontSize:11,rotate:35},axisLine:{lineStyle:{color:'#E2E8F0'}}},
     yAxis:{type:'value',axisLabel:{fontSize:11},splitLine:{lineStyle:{color:'#F1F5F9'}}},
     grid:{top:12,bottom:68,left:54,right:12},
     legend:{bottom:0,itemWidth:12,itemHeight:4,textStyle:{fontSize:11}},
