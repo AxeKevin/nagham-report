@@ -239,6 +239,12 @@ function init(){
 
   renderKPI();renderDiag();renderCharts();renderYtd();
 
+  // 初始化导出区域账户下拉
+  const expAcctEl=document.getElementById('expAcct');
+  if(expAcctEl && expAcctEl.options.length<=1){
+    accts.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;expAcctEl.appendChild(o);});
+  }
+
 
 }
 
@@ -427,27 +433,44 @@ function downloadCSV(){
   fetch(url)
     .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
     .then(text=>{
-      // 过滤 cost_usd=0 的行
       const lines=text.split('\n');
       const header=lines[0];
       const cols=header.split(',');
       const costIdx=cols.indexOf('cost_usd');
+      const dateIdx=cols.indexOf('p_date');
+      const acctIdx=cols.indexOf('account');
+
+      // 读取筛选条件
+      const daysEl=document.getElementById('expDays');
+      const acctEl=document.getElementById('expAcct');
+      const days=daysEl?+daysEl.value:14;
+      const acctFilter=acctEl?acctEl.value:'';
+
+      // 计算日期截止：取 CSV 里最新日期往前 N 天
+      const allDates=[...new Set(lines.slice(1).map(l=>l.split(',')[dateIdx]).filter(d=>d&&/^\d{8}$/.test(d)))].sort();
+      const latestDate=allDates[allDates.length-1]||'';
+      // 按 YYYYMMDD 数字比较，取最近 days 天
+      const cutoffDates=new Set(allDates.slice(-days));
+
       const filtered=[header];
       for(let i=1;i<lines.length;i++){
         const line=lines[i].trim();
         if(!line) continue;
         const vals=line.split(',');
         const cost=parseFloat(vals[costIdx]);
-        if(!isNaN(cost) && cost>0) filtered.push(line);
+        if(isNaN(cost)||cost<=0) continue;
+        if(!cutoffDates.has(vals[dateIdx])) continue;
+        if(acctFilter && vals[acctIdx]!==acctFilter) continue;
+        filtered.push(line);
       }
       const csv=filtered.join('\n');
       const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
       const a=document.createElement('a');
       a.href=URL.createObjectURL(blob);
-      a.download='nagham_tiktok_detail_'+DATA_DATE+'.csv';
+      a.download=`nagham_tiktok_detail_${latestDate}_${days}d.csv`;
       a.click(); URL.revokeObjectURL(a.href);
       btn.disabled=false; btn.textContent='⬇ 下载 CSV 明细文件';
-      st.textContent=`✅ 下载完成（${filtered.length-1} 行，已过滤零消耗）`;
+      st.textContent=`✅ 下载完成（${filtered.length-1} 行 | 近${days}天${acctFilter?' · '+acctFilter:''}）`;
     })
     .catch(e=>{
       btn.disabled=false; btn.textContent='⬇ 下载 CSV 明细文件';
