@@ -819,17 +819,18 @@ function renderRet(){
 
   // 账户级留存表：取每个账户最近一个有成熟 1 日留存的日期
   const accts=[...new Set(rows.map(r=>r.account_id))];
+  // 统一展示日：当前筛选范围内「最新一个有成熟 1 日留存观测」的日期，
+  // 否则各账户各自取最新日，会出现一屏多个统计日（截图里的 10-31/11-08/11-06 混排）
+  const matureDates=[...new Set(rows.filter(r=>(n(r.obs1_dev)||0)>=1).map(r=>r.p_date))].sort();
+  const showDate=matureDates.length? matureDates[matureDates.length-1] : null;
   const list=accts.map(k=>{
     const rs=rows.filter(r=>r.account_id===k);
-    // 用最新有 obs1 的日期作为展示日
-    const withObs=rs.filter(r=>(n(r.obs1_dev)||0)>=1).map(r=>r.p_date).sort();
-    const showDate=withObs[withObs.length-1];
     const at=showDate? rs.filter(r=>r.p_date===showDate) : rs;
     const g=retAgg(at);
     const nd=at.reduce((s,r)=>s+(n(r.new_dev)||0),0);
-    // CAC 取同期行为数据
-    const beh=showDate? agg(filt(SUMMARY,{tz:'',src:'',platform:'',date:showDate})[0]?[]:[]):null;
-    return {k,g,nd,showDate};
+    // 该行真实归属（按 tz 汇总）
+    const tzSet=[...new Set(at.map(r=>r.tz).filter(Boolean))];
+    return {k,g,nd,showDate,tzSet};
   }).filter(x=>x.nd>0||x.g['1d']!=null)
     .sort((a,b)=>b.nd-a.nd);
 
@@ -839,14 +840,14 @@ function renderRet(){
   accts.forEach(k=>{ const g=agg(filt(SUMMARY,{tz:'',src:'',platform:''}).filter(r=>r.account_id===k&&d7.includes(r.p_date))); if(g.new_dev>=10) cac7[k]=g.cac; });
 
   let html=`<table><thead><tr>
-    <th style="text-align:left">账户</th><th style="text-align:left">渠道</th><th style="text-align:left">时区</th>
+    <th style="text-align:left">账户</th><th style="text-align:left">渠道</th><th style="text-align:left">国家归属</th>
     <th>统计日</th><th>新增</th>
     <th>1 日留存</th><th>3 日留存</th><th>7 日留存</th><th>14 日留存</th>
     <th>近7天CAC</th><th>综合判断</th>
   </tr></thead><tbody>`;
   if(!list.length) html+=`<tr><td colspan="11" class="empty">暂无留存数据（reality_zone 分区尚未产出，页面会自动更新）</td></tr>`;
 
-  list.forEach(({k,g,nd,showDate})=>{
+  list.forEach(({k,g,nd,showDate,tzSet})=>{
     const a=acctMeta(k);
     const cac=cac7[k]||null;
     let judge='<span class="null-c">样本不足</span>';
@@ -861,7 +862,7 @@ function renderRet(){
     html+=`<tr>
       <td>${acctName(k)}</td>
       <td><span class="tag">${srcAbbr(a.src||'')}</span></td>
-      <td class="tz" style="font-size:11px">${a.tz||'—'}</td>
+      <td class="tz" style="font-size:11px">${(tzSet&&tzSet.length)?tzSet.map(t=>tzLabel(t)).join('、'):'—'}</td>
       <td>${showDate?fmtD(showDate):'—'}</td>
       <td>${nd.toLocaleString()}</td>
       <td class="${g['1d']!=null&&g['1d']<16?'warn':''}">${rc(g['1d'])}</td>
