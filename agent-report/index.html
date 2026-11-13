@@ -326,7 +326,8 @@ function renderKPI(){
   const cur=agg(filt(SUMMARY,S));
   const pd=prevDate(S.date);
   const prev=agg(filt(SUMMARY,{...S,date:pd}));
-  const d=(c,p)=> (c==null||p==null)?null:(c-p);
+  // 前一日不存在时（首日）不给环比，避免显示成“净值即增量”
+  const d=(c,p)=> (c==null||p==null||p===undefined)?null:(c-p);
   const it=[];
   it.push({label:'总消耗（USD）',v:cur.cost,dl:d(cur.cost,prev.cost),f:v=>'$'+v.toFixed(0),note:'vs 前日',unit:'usd',neutral:true});
   it.push({label:'新增设备',v:cur.new_dev,dl:d(cur.new_dev,prev.new_dev),f:v=>v.toLocaleString(),note:'vs 前日',unit:'num'});
