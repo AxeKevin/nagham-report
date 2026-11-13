@@ -1,4 +1,4 @@
-p_date,tz,src,account_id,country_iso,new_dev,ret1_dev,ret3_dev,ret7_dev,ret14_dev,obs1_dev,obs3_dev,obs7_dev,obs14_dev
+p_date,nature_timezone,src,account_id,country_iso,new_dev,ret1_dev,ret3_dev,ret7_dev,ret14_dev,obs1_dev,obs3_dev,obs7_dev,obs14_dev
 20261029,Asia_Riyadh,UNKNOWN,UNKNOWN,IR,1,0,0,0,0,1,1,1,1
 20261029,Asia_Riyadh,UNKNOWN,UNKNOWN,QA,1,0,0,0,0,1,1,1,1
 20261029,Asia_Riyadh,UNKNOWN,UNKNOWN,SA,40,0,2,0,0,40,40,40,40
