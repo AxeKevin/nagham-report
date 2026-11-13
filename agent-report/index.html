@@ -260,6 +260,9 @@ function wavg(pairs){ // [[rate, weight],...]
 // ── 聚合行为指标 ──
 function agg(rows){
   const a={cost:0,imp:0,clk:0,nd:0,lgn:0,room:0,r3:0,op:0,pub:0,dur:0};
+  // 空集没有可比基数：直接返回全 null，避免被当成“真实 0”算出假环比
+  if(!rows.length) return {cost:null,new_dev:null,cac:null,ctr:null,login_r:null,room_r:null,
+    r3_r:null,open_r:null,pub_r:null,dur_r:null};
   rows.forEach(r=>{
     a.cost+=n(r.cost_usd)||0; a.imp+=n(r.impressions)||0; a.clk+=n(r.clicks)||0;
     a.nd+=n(r.new_dev)||0; a.lgn+=n(r.login_dev)||0; a.room+=n(r.room_dev)||0;
