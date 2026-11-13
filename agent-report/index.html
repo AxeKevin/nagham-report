@@ -236,7 +236,15 @@ const DATE_RAW = DATES.includes(String(DATA_DATE).replace(/-/g,''))
 // ── 状态 ──
 let S={date:DATE_RAW, tz:'', src:'', platform:''};
 
+function prevDate(d){
+  // 边界保护：首日的「前一日」不存在，返回 null（否则 DATES[-1] 为 undefined，
+  // 会被 filt 当作“不过滤日期”，前日指标退化成全量数据）
+  const i=DATES.indexOf(d);
+  return i>0 ? DATES[i-1] : null;
+}
 function filt(rows,f){
+  // f.date===null 表示明确“无前一日”，返回空集而不是全量
+  if(f.date===null) return [];
   return rows.filter(r=>
     (!f.date||r.p_date===f.date) &&
     (!f.tz||r.tz===f.tz) &&
@@ -313,10 +321,10 @@ function lineChart(el,series,opt){
 }
 function legend(el,series){ if(el) el.innerHTML=series.map(s=>`<span><i style="background:${s.color}"></i>${s.label}</span>`).join(''); }
 
-// ===== 渲染：KPI / 时区表 / 趋势 =====
+// ===== 渲染：KPI / 国家归属表 / 趋势 =====
 function renderKPI(){
   const cur=agg(filt(SUMMARY,S));
-  const idx=DATES.indexOf(S.date), pd=DATES[idx-1];
+  const pd=prevDate(S.date);
   const prev=agg(filt(SUMMARY,{...S,date:pd}));
   const d=(c,p)=> (c==null||p==null)?null:(c-p);
   const it=[];
@@ -355,7 +363,7 @@ function renderKPI(){
 
 function renderTzTable(){
   const wrap=document.getElementById('tzWrap');
-  const idx=DATES.indexOf(S.date), pd=DATES[idx-1];
+  const pd=prevDate(S.date);
   const tzs=[...new Set(SUMMARY.map(r=>r.tz))].filter(Boolean).filter(t=>!S.tz||t===S.tz);
   const list=tzs.map(t=>({t,a:agg(filt(SUMMARY,{...S,tz:t})),p:agg(filt(SUMMARY,{...S,tz:t,date:pd}))}))
     .filter(x=>x.a.new_dev>0||x.a.cost>0)
@@ -374,9 +382,9 @@ function renderTzTable(){
   let tc=0,tn=0;
   list.forEach(({t,a,p})=>{
     tc+=a.cost; tn+=a.new_dev;
-    html+=`<tr><td class="tz">${t}</td>
+    html+=`<tr><td class="tz">${tzLabel(t)}</td>
       <td>$${a.cost.toFixed(2)}</td><td>${a.new_dev.toLocaleString()}</td>
-      <td class="${a.cac>3?'warn':'good'}">${a.cac==null?'—':'$'+a.cac.toFixed(2)}</td>
+      <td class="${a.cac==null?'':(a.cac>3?'warn':'good')}">${a.cac==null?'—':'$'+a.cac.toFixed(2)}</td>
       <td>${cell(a.ctr,p.ctr,v=>v.toFixed(2)+'%')}</td>
       <td>${cell(a.login_r,p.login_r,v=>v.toFixed(1)+'%')}</td>
       <td>${cell(a.room_r,p.room_r,v=>v.toFixed(1)+'%')}</td>
@@ -429,7 +437,7 @@ function renderCharts(){
 function renderYtd(){
   const wrap=document.getElementById('ytdWrap');
   const rows=filt(SUMMARY,{...S});
-  const idx=DATES.indexOf(S.date), pd=DATES[idx-1];
+  const pd=prevDate(S.date);
   const prevRows=filt(SUMMARY,{...S,date:pd});
 
   const keys=[...new Set(rows.map(r=>r.account_id))];
@@ -439,17 +447,19 @@ function renderYtd(){
   })).filter(x=>x.g.new_dev>0||x.g.cost>0).sort((a,b)=>b.g.cost-a.g.cost);
 
   let html=`<table><thead><tr>
-    <th style="text-align:left">账户</th><th style="text-align:left">渠道</th><th style="text-align:left">时区</th><th style="text-align:left">端</th>
+    <th style="text-align:left">账户</th><th style="text-align:left">渠道</th><th style="text-align:left">国家归属</th><th style="text-align:left">端</th>
     <th>消耗(USD)</th><th>CTR</th><th>新增</th><th>CAC</th>
     <th>登录率</th><th>进房率</th><th>3min渗透</th><th>开口率</th><th>发布率</th><th>人均时长</th>
   </tr></thead><tbody>`;
   if(!list.length) html+=`<tr><td colspan="14" class="empty">该日期所选范围内无投放</td></tr>`;
   list.forEach(({k,g})=>{
     const a=acctMeta(k);
+    // 国家归属取该账户当日实际出现的 tz，而不是账户静态映射（同一账户可能跨多个归属）
+    const tzSet=[...new Set((rows.filter(r=>r.account_id===k).map(r=>r.tz)).filter(Boolean))];
     html+=`<tr>
       <td>${acctName(k)}</td>
       <td><span class="tag">${srcAbbr(a.src||'')}</span></td>
-      <td class="tz" style="font-size:11px">${a.tz||'—'}</td>
+      <td class="tz" style="font-size:11px">${tzSet.length?tzSet.map(t=>tzLabel(t)).join('、'):'—'}</td>
       <td>${a.plat||'—'}</td>
       <td>$${g.cost.toFixed(2)}</td>
       <td>${g.ctr==null?'—':g.ctr.toFixed(2)+'%'}</td>
