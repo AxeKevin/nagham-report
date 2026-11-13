@@ -834,18 +834,20 @@ function renderRet(){
 
   // 账户级留存表：取每个账户最近一个有成熟 1 日留存的日期
   const accts=[...new Set(rows.map(r=>r.account_id))];
-  // 统一展示日：当前筛选范围内「最新一个有成熟 1 日留存观测」的日期，
-  // 否则各账户各自取最新日，会出现一屏多个统计日（截图里的 10-31/11-08/11-06 混排）
+  // 基准日 = 最新成熟日；但并非每个账户在该日都有成熟观测
+  // （新市场 reality_zone 覆盖稀疏），所以每个账户回退到「自己最近的成熟日」，
+  // 表格里明确标出该行实际口径日期，避免既丢账户又看不到口径差异
   const matureDates=[...new Set(rows.filter(r=>(n(r.obs1_dev)||0)>=1).map(r=>r.p_date))].sort();
-  const showDate=matureDates.length? matureDates[matureDates.length-1] : null;
+  const baseDate=matureDates.length? matureDates[matureDates.length-1] : null;
   const list=accts.map(k=>{
     const rs=rows.filter(r=>r.account_id===k);
+    const mine=rs.filter(r=>(n(r.obs1_dev)||0)>=1).map(r=>r.p_date).sort();
+    const showDate=mine.length? mine[mine.length-1] : baseDate;
     const at=showDate? rs.filter(r=>r.p_date===showDate) : rs;
     const g=retAgg(at);
     const nd=at.reduce((s,r)=>s+(n(r.new_dev)||0),0);
-    // 该行真实归属（按 tz 汇总）
     const tzSet=[...new Set(at.map(r=>r.tz).filter(Boolean))];
-    return {k,g,nd,showDate,tzSet};
+    return {k,g,nd,showDate,tzSet,isBase:showDate===baseDate};
   }).filter(x=>x.nd>0||x.g['1d']!=null)
     .sort((a,b)=>b.nd-a.nd);
 
@@ -862,7 +864,7 @@ function renderRet(){
   </tr></thead><tbody>`;
   if(!list.length) html+=`<tr><td colspan="11" class="empty">暂无留存数据（reality_zone 分区尚未产出，页面会自动更新）</td></tr>`;
 
-  list.forEach(({k,g,nd,showDate,tzSet})=>{
+  list.forEach(({k,g,nd,showDate,tzSet,isBase})=>{
     const a=acctMeta(k);
     const cac=cac7[k]||null;
     let judge='<span class="null-c">样本不足</span>';
@@ -878,7 +880,7 @@ function renderRet(){
       <td>${acctName(k)}</td>
       <td><span class="tag">${srcAbbr(a.src||'')}</span></td>
       <td class="tz" style="font-size:11px">${(tzSet&&tzSet.length)?tzSet.map(t=>tzLabel(t)).join('、'):'—'}</td>
-      <td>${showDate?fmtD(showDate):'—'}</td>
+      <td style="${isBase===false?'color:#94A3B8':''}">${showDate?fmtD(showDate):'—'}</td>
       <td>${nd.toLocaleString()}</td>
       <td class="${g['1d']!=null&&g['1d']<16?'warn':''}">${rc(g['1d'])}</td>
       <td>${rc(g['3d'])}</td><td>${rc(g['7d'])}</td><td>${rc(g['14d'])}</td>
