@@ -165,8 +165,9 @@ tbody td:first-child,tbody td:nth-child(2),tbody td:nth-child(3),tbody td:nth-ch
 
 <div id="tab-ret" class="tp">
   <div class="sec">
-    <div class="sec-title">新增留存（按设备归属时区 · 账户级）</div>
-    <div class="sec-sub">留存源表 <span class="tz">nova.dws_hib_usr_device_active_daily_reality_zone_1d</span>；其 timezone 字段是分区键，语义等同行为表的 nature_timezone（国家归属），输出统一列名 nature_timezone，按 <span class="tz">device_id</span> 关联新增渠道归属 · 指标 1/3/7/14 日</div>
+    <div class="sec-title">新增留存（按设备归属 · 账户级）</div>
+    <div class="sec-sub">留存源表 <span class="tz">nova.dws_hib_usr_device_active_daily_reality_zone_1d</span>；其 timezone 字段是分区键，语义等同行为表的 nature_timezone（国家归属），输出统一列名 nature_timezone · 按 <span class="tz">device_id</span> 关联新增渠道归属 · 指标 1/3/7/14 日 · 分母为「已成熟可观测」设备数，标记未回填时显示「未就绪」而非 0%</div>
+    <div class="sec-sub">数据跟随顶部日期选择器；T-1 的留存标记次日才成熟，最新一天通常显示未就绪</div>
     <div class="cmp-note" id="retNote"></div>
     <div class="tw" id="retWrap"></div>
   </div>
@@ -234,7 +235,7 @@ const DATE_RAW = DATES.includes(String(DATA_DATE).replace(/-/g,''))
   : (DATES[DATES.length-1] || '');
 
 // ── 状态 ──
-let S={date:DATE_RAW, tz:'', src:'', platform:''};
+let S={date:DATE_RAW, tz:'', src:'', platform:'', retFallback:false};
 
 function prevDate(d){
   // 边界保护：首日的「前一日」不存在，返回 null（否则 DATES[-1] 为 undefined，
@@ -286,9 +287,11 @@ function retAgg(rows){
   [['1d','ret1_dev','obs1_dev'],['3d','ret3_dev','obs3_dev'],
    ['7d','ret7_dev','obs7_dev'],['14d','ret14_dev','obs14_dev']].forEach(([k,rk,ok])=>{
     const num=rows.reduce((s,r)=>s+(n(r[rk])||0),0);
-    // 分母用观测数；若 CSV 未给 obs 列，退化为 new_dev
+    // 分母用观测数。注意：obs 列存在但全为 0 = 标记尚未回填，
+    // 此时必须判「未就绪」，绝不能退回 new_dev 当分母——那会算出假 0%。
+    const hasObsCol=rows.length>0 && rows.some(r=>r[ok]!==undefined && r[ok]!==null && r[ok]!=='');
     let den=rows.reduce((s,r)=>s+(n(r[ok])||0),0);
-    if(den===0) den=rows.reduce((s,r)=>s+(n(r.new_dev)||0),0);
+    if(!hasObsCol) den=rows.reduce((s,r)=>s+(n(r.new_dev)||0),0); // 仅兼容无 obs 列的旧 CSV
     out[k]= den>=30? +(num/den*100).toFixed(1) : null;
     out['n_'+k]=den;
   });
@@ -385,9 +388,9 @@ function renderTzTable(){
   </tr></thead><tbody>`;
   let tc=0,tn=0;
   list.forEach(({t,a,p})=>{
-    tc+=a.cost; tn+=a.new_dev;
+    tc+=(a.cost||0); tn+=(a.new_dev||0);
     html+=`<tr><td class="tz">${tzLabel(t)}</td>
-      <td>$${a.cost.toFixed(2)}</td><td>${a.new_dev.toLocaleString()}</td>
+      <td>$${(a.cost||0).toFixed(2)}</td><td>${(a.new_dev||0).toLocaleString()}</td>
       <td class="${a.cac==null?'':(a.cac>3?'warn':'good')}">${a.cac==null?'—':'$'+a.cac.toFixed(2)}</td>
       <td>${cell(a.ctr,p.ctr,v=>v.toFixed(2)+'%')}</td>
       <td>${cell(a.login_r,p.login_r,v=>v.toFixed(1)+'%')}</td>
@@ -397,6 +400,7 @@ function renderTzTable(){
       <td>${cell(a.pub_r,p.pub_r,v=>v.toFixed(1)+'%')}</td>
       <td>${a.dur_r==null?'—':a.dur_r.toFixed(1)+'min'}</td></tr>`;
   });
+  // 合计行：只有 消耗/新增/CAC 是可加的账户级量，比率不能求和，必须留空
   html+=`<tr style="background:#F8FAFC;font-weight:700"><td>合计</td><td>$${tc.toFixed(2)}</td>
     <td>${tn.toLocaleString()}</td><td>${tn>0?'$'+(tc/tn).toFixed(2):'—'}</td><td colspan="7"></td></tr>`;
   html+='</tbody></table>';
@@ -407,7 +411,8 @@ function renderCharts(){
   const days=+document.getElementById('trendDays').value;
   const ds=DATES.slice(-days);
   const labels=ds.map(d=>d.slice(4,6)+'/'+d.slice(6,8));
-  // 趋势必须跨天，不能用 S.date 过滤
+  // 趋势必须跨天，不能用 S.date 过滤；但必须跟随 tz/src/端 筛选，
+  // 否则选了「沙特」趋势图里还是全球全部账户，与上方表格对不上
   const rows=filt(SUMMARY,{tz:S.tz,src:S.src,platform:S.platform});
 
   // 只画消耗 Top8，避免 14 条线糊在一起
@@ -564,8 +569,14 @@ function adRows(){
   const rows = (typeof DETAIL === 'undefined' ? [] : DETAIL).filter(r => {
     if (S.src && r.src !== S.src) return false;
     if (S.tz && r.nature_timezone !== S.tz) return false;
-    if (S.platform === 'iOS' && !/_ios/i.test(r.ad_name || '')) return false;
-    if (S.platform === 'Android' && !/(安卓|_android|android)/i.test(r.ad_name || '')) return false;
+    // 端筛选优先用账户元数据的 plat（成本表没有端字段，账户端的归属是稳定的）；
+    // 只有账户未登记时才退回素材名正则——原实现只靠正则，账户名不含 _ios 就会漏掉整条素材
+    if (S.platform) {
+      const plat = acctMeta(r.account_id).plat;
+      if (plat) { if (plat !== S.platform) return false; }
+      else if (S.platform === 'iOS' && !/_ios/i.test(r.ad_name || '')) return false;
+      else if (S.platform === 'Android' && !/(安卓|_android|android)/i.test(r.ad_name || '')) return false;
+    }
     return true;
   });
   return rows;
@@ -681,8 +692,22 @@ function renderAd(){
   const view = AD_VIEW;
   let list = adWindow(view).filter(r => r.cost > 0 || r.dev > 0);
 
-  list.sort((a, b) => _n(b[AD_SORT.key]) - _n(a[AD_SORT.key]));
-  if (!AD_SORT.desc) list.reverse();
+  // 排序必须是「展示前」的全局排序。原实现先 slice(0,60) 再渲染虽然也是排过序，
+  // 但比率类排序（如 open_rate）会让 0 消耗的极小样本排到最前，把真正烧钱的素材挤掉。
+  // 这里统一：比率类排序时样本不足的行沉底，再按 消耗 作为次级键。
+  const RATIO_KEYS = ['cac','ctr','login_rate','room_rate','open_rate','pub_rate'];
+  const MIN_N = 10;
+  list.sort((a, b) => {
+    if (RATIO_KEYS.includes(AD_SORT.key)) {
+      // 3 台设备的开口率可能是 0%/33%/67%/100%，纯噪声，不能排在烧 $1000 的素材前面
+      const ea = _n(a.dev) < MIN_N, eb = _n(b.dev) < MIN_N;
+      if (ea !== eb) return ea ? 1 : -1; // 样本不足恒沉底
+      if (ea && eb) return _n(b.cost) - _n(a.cost);
+    }
+    const va = _n(a[AD_SORT.key]), vb = _n(b[AD_SORT.key]);
+    if (va !== vb) return AD_SORT.desc ? vb - va : va - vb;
+    return _n(b.cost) - _n(a.cost);
+  });
 
   const note = document.getElementById('adNote');
   if (note) {
@@ -803,7 +828,10 @@ function diagAds(limit){
 const RW=[['1d','1 日'],['3d','3 日'],['7d','7 日'],['14d','14 日']];
 
 function retFiltered(){
+  // 关键：必须跟随全局日期筛选（S.date），否则日期选择器对留存表完全无效，
+  // 用户看到的是「每个账户自己最近的成熟日」而不是所选日期，表现为「日期不联动」。
   return RETENTION.filter(r=>{
+    if(S.date && String(r.p_date)!==String(S.date)) return false;
     if(S.tz && r.nature_timezone!==S.tz) return false;
     if(S.src && r.src!==S.src) return false;
     const a=acctMeta(r.account_id);
@@ -826,28 +854,29 @@ function renderRet(){
     '<b>关联方式：</b>留存表按 device_id 关联行为表拿设备的新增归属渠道（每个新用户只有一个渠道标识），不把 timezone 作为关联键，避免时区口径差异污染 join。<br>'+
     '<b>新市场覆盖提醒：</b>reality_zone 是存量留存表，只记录已新增设备的回访。新建市场（KR/MX）上线时间窗口短，留存数据自然稀少；MexicoCity 近 3 天仅 11 台、Seoul 近 3 天 0 台属正常，不是数据错误，样本不足时请勿下结论。';
   if(!rows.length){
-    noteHtml+='<br><b>数据状态：</b>当前无留存样本，表格显示「未就绪」。';
+    noteHtml+='<br><b>数据状态：</b>所选日期无留存样本（可能早于留存表起始日，或该日尚未产出）。';
   } else {
-    noteHtml+=`<br><b>数据状态：</b>覆盖 ${dates.length} 天（最新 ${fmtD(lastDate)}，当日新增 ${ndLast} 台）。`;
+    const obsSum=rows.reduce((s,r)=>s+(n(r.obs1_dev)||0),0);
+    const ndSum=rows.reduce((s,r)=>s+(n(r.new_dev)||0),0);
+    if(obsSum===0){
+      noteHtml+=`<br><b>数据状态：</b>${fmtD(S.date)} 当日新增 ${ndSum.toLocaleString()} 台，`+
+        `但 1 日留存标记尚未回填（可观测分母 0），表格显示「未就绪」——这是正常的，T-1 数据次日才成熟。`;
+    } else {
+      noteHtml+=`<br><b>数据状态：</b>${fmtD(S.date)} · 新增 ${ndSum.toLocaleString()} 台 · `+
+        `1 日留存可观测 ${obsSum.toLocaleString()} 台。`;
+    }
   }
   note.innerHTML=noteHtml;
 
-  // 账户级留存表：取每个账户最近一个有成熟 1 日留存的日期
+  // 严格按所选日期出表：每个账户只取该日一行，不再回退到「自己最近的成熟日」
+  // （回退会和全局日期筛选打架，让人以为筛选没生效）
   const accts=[...new Set(rows.map(r=>r.account_id))];
-  // 基准日 = 最新成熟日；但并非每个账户在该日都有成熟观测
-  // （新市场 reality_zone 覆盖稀疏），所以每个账户回退到「自己最近的成熟日」，
-  // 表格里明确标出该行实际口径日期，避免既丢账户又看不到口径差异
-  const matureDates=[...new Set(rows.filter(r=>(n(r.obs1_dev)||0)>=1).map(r=>r.p_date))].sort();
-  const baseDate=matureDates.length? matureDates[matureDates.length-1] : null;
   const list=accts.map(k=>{
-    const rs=rows.filter(r=>r.account_id===k);
-    const mine=rs.filter(r=>(n(r.obs1_dev)||0)>=1).map(r=>r.p_date).sort();
-    const showDate=mine.length? mine[mine.length-1] : baseDate;
-    const at=showDate? rs.filter(r=>r.p_date===showDate) : rs;
+    const at=rows.filter(r=>r.account_id===k);
     const g=retAgg(at);
     const nd=at.reduce((s,r)=>s+(n(r.new_dev)||0),0);
     const tzSet=[...new Set(at.map(r=>r.nature_timezone).filter(Boolean))];
-    return {k,g,nd,showDate,tzSet,isBase:showDate===baseDate};
+    return {k,g,nd,showDate:S.date,tzSet,isBase:true};
   }).filter(x=>x.nd>0||x.g['1d']!=null)
     .sort((a,b)=>b.nd-a.nd);
 
@@ -858,11 +887,11 @@ function renderRet(){
 
   let html=`<table><thead><tr>
     <th style="text-align:left">账户</th><th style="text-align:left">渠道</th><th style="text-align:left">国家归属</th>
-    <th>统计日</th><th>新增</th>
+    <th>日期</th><th>新增</th>
     <th>1 日留存</th><th>3 日留存</th><th>7 日留存</th><th>14 日留存</th>
     <th>近7天CAC</th><th>综合判断</th>
   </tr></thead><tbody>`;
-  if(!list.length) html+=`<tr><td colspan="11" class="empty">暂无留存数据（reality_zone 分区尚未产出，页面会自动更新）</td></tr>`;
+  if(!list.length) html+=`<tr><td colspan="11" class="empty">暂无留存数据（该日留存标记尚未回填，或所选日期早于留存表起始日）</td></tr>`;
 
   list.forEach(({k,g,nd,showDate,tzSet,isBase})=>{
     const a=acctMeta(k);
@@ -909,15 +938,24 @@ function renderRet(){
 
 // ── CSV 导出（前端生成，数据就在页面里）──
 function downloadCSV(which){
-  const rows = which==='summary'?SUMMARY:RETENTION;
-  if(!rows.length){ alert('暂无数据可导出'); return; }
+  // 导出必须跟随当前筛选，否则用户以为导的是「当前视图」其实是全量，
+  // 拿去对数会对不上（这也是留存 Tab 常被质疑的地方）
+  let rows, tag;
+  if(which==='summary'){
+    rows=filt(SUMMARY,{tz:S.tz,src:S.src,platform:S.platform});
+    tag=`${S.tz||'alltz'}_${S.src||'allsrc'}`;
+  } else {
+    rows=retFiltered();
+    tag=`${S.date||DATE_RAW}_${S.tz||'alltz'}`;
+  }
+  if(!rows.length){ alert('当前筛选范围内无数据可导出'); return; }
   const cols=Object.keys(rows[0]);
   const esc=v=>{ const s=v==null?'':String(v); return /[",\n]/.test(s)? '"'+s.replace(/"/g,'""')+'"' : s; };
   const csv='\ufeff'+[cols.join(',')].concat(rows.map(r=>cols.map(c=>esc(r[c])).join(','))).join('\n');
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download=`nagham_${which}_${DATE_RAW}.csv`;
+  a.download=`nagham_${which}_${tag}.csv`;
   a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
 }
